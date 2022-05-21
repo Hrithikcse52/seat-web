@@ -1,0 +1,28 @@
+import axios from "axios";
+import { BACKEND_URL } from "config";
+
+const instance = axios.create({
+  baseURL: BACKEND_URL,
+  headers: {
+    "Content-Type": "application/json",
+  },
+  withCredentials: true,
+});
+
+instance.interceptors.response.use(
+  response => {
+    return response;
+  },
+  async err => {
+    if (err?.response?.status === 403) {
+      const { status } = await instance.get("/user/refresh");
+      if (status !== 200) {
+        return err.response;
+      }
+      return instance(err?.config);
+    }
+    return err.response;
+  }
+);
+
+export default instance;
