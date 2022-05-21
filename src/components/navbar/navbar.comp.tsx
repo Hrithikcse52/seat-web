@@ -3,11 +3,12 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { BiUserCircle } from "react-icons/bi";
+import { getCurrentPath, getFullName } from "utils/nav.helper";
 
 const NavbarLinks = [
   { id: 1, label: "Home", path: "/" },
   { id: 2, label: "Blog", path: "/blog" },
-  { id: 3, label: "Explore", path: "/Explore" },
+  { id: 3, label: "Explore", path: "/explore" },
   { id: 4, label: "Offers", path: "/offers" },
 ];
 
@@ -18,24 +19,20 @@ export default function Navbar() {
   const { user, isAuth: auth, isFetched } = useUserQuery();
   //   const queryClient = useQueryClient();
   // console.log('new user', auth, user, isError, error);
+  const currentPath = getCurrentPath(router.pathname);
 
   const [dropdown, setDropdown] = useState(false);
   const [ham, setHam] = useState(false);
 
   return (
     <div className="w-full text-gray-700 bg-slate-200 dark-mode:text-gray-200 dark-mode:bg-gray-800">
-      <div
-        // x-data="{ open: false }"
-        className="flex flex-col max-w-screen-xl px-4 mx-auto md:items-center md:justify-between md:flex-row md:px-6 lg:px-8"
-      >
+      <div className="flex flex-col max-w-screen-xl px-4 mx-auto md:items-center md:justify-between md:flex-row md:px-6 lg:px-8">
         <div className="p-4 flex flex-row items-center justify-between">
-          <Link
-            href="/"
-            className="text-lg font-semibold tracking-widest text-gray-900 uppercase rounded-lg dark-mode:text-white focus:outline-none focus:shadow-outline"
-          >
-            LOGO
+          <Link href="/">
+            <span className="text-lg font-semibold tracking-widest text-gray-900 uppercase rounded-lg dark-mode:text-white focus:outline-none focus:shadow-outline">
+              LOGO
+            </span>
           </Link>
-          {/* <button className="md:hidden rounded-lg focus:outline-none focus:shadow-outline" @click="open = !open"> */}
           <button
             onClick={() => {
               //   setDropdown(!dropdown);
@@ -64,22 +61,22 @@ export default function Navbar() {
             </svg>
           </button>
         </div>
-        {/* <nav :className="{'flex': open, 'hidden': !open}" className="flex-col flex-grow pb-4 md:pb-0 hidden md:flex md:justify-end md:flex-row"> */}
         <nav
           className={`${
             ham ? "flex" : "hidden"
           } flex-col flex-grow pb-4 md:pb-0 mr-auto md:flex md:justify-end md:flex-row`}
         >
           {NavbarLinks.map(link => (
-            <Link
-              key={link.id}
-              // className={`${
-              //   link.path === currentPath ? "underline underline-offset-4" : ""
-              // } px-4 py-2 mt-2 text-sm  font-semibold text-gray-900 rounded-lg dark-mode:bg-gray-700 dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 hover:text-white focus:text-gray-900 hover:bg-purple focus:bg-gray-200 focus:outline-none focus:shadow-outline`}
-              className="px-4 py-2 mt-2 text-sm  font-semibold text-gray-900 rounded-lg dark-mode:bg-gray-700 dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 hover:text-white focus:text-gray-900 hover:bg-purple focus:bg-gray-200 focus:outline-none focus:shadow-outline"
-              href={link.path}
-            >
-              {link.label}
+            <Link key={link.id} href={link.path}>
+              <span
+                className={`${
+                  link.path === router.pathname
+                    ? "underline underline-offset-4"
+                    : ""
+                } px-4 py-2 mt-2 text-sm  font-semibold text-gray-900 rounded-lg dark-mode:bg-gray-700 dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 hover:text-white focus:text-gray-900 hover:bg-purple focus:bg-gray-200 focus:outline-none focus:shadow-outline`}
+              >
+                {link.label}
+              </span>
             </Link>
           ))}
 
@@ -93,8 +90,7 @@ export default function Navbar() {
                 className="flex bg-red flex-row items-center w-full px-4 py-2 mt-2 text-sm  font-semibold text-left  rounded-lg  md:w-auto md:inline md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-purple  focus:outline-none focus:shadow-outline"
               >
                 <span className="">
-                  {/* {(user && getFullName(user)) || ""}</span> */}
-                  name
+                  {(user && getFullName(user.name)) || ""}
                 </span>
                 <svg
                   fill="currentColor"
