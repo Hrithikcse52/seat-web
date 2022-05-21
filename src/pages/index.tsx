@@ -12,7 +12,7 @@ function Home() {
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>
+        <h1 className="text-red-700">
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
 
