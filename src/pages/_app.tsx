@@ -5,6 +5,7 @@ import Navbar from "components/navbar/navbar.comp";
 import Footer from "components/footer/footer.comp";
 import { QueryClientProvider, QueryClient } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
+import { Toaster } from "react-hot-toast";
 
 const queryClient = new QueryClient();
 
@@ -15,6 +16,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <Component {...pageProps} />
       <Footer />
       <ReactQueryDevtools />
+      <Toaster position="top-right" />
     </QueryClientProvider>
   );
 }

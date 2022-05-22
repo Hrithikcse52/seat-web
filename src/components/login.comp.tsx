@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import axios from "axios";
 import { BACKEND_URL } from "config";
 import { useUserQuery } from "hooks/user.hooks";
@@ -38,8 +39,6 @@ export default function LoginCard() {
     <section className="relative flex flex-wrap lg:h-screen lg:items-center">
       <div className="relative w-full h-64 sm:h-96 lg:w-1/2 lg:h-full">
         <img
-          //   width="100%"
-          //   height="100vh"
           className="absolute inset-0 object-cover w-full h-full"
           src="https://www.hyperui.dev/photos/team-1.jpeg"
           alt=""
@@ -55,7 +54,10 @@ export default function LoginCard() {
           </p>
         </div>
 
-        <form action="" className="max-w-md mx-auto mt-8 mb-0 space-y-4">
+        <form
+          onSubmit={handleLoginSubmit}
+          className="max-w-md mx-auto mt-8 mb-0 space-y-4"
+        >
           <div>
             <label htmlFor="email" className="sr-only">
               Email
@@ -64,6 +66,8 @@ export default function LoginCard() {
             <div className="relative">
               <input
                 type="email"
+                onChange={setEmail}
+                value={loginData.email}
                 className="w-full p-4 pr-12 text-sm border-gray-200 rounded-lg shadow-sm"
                 placeholder="Enter email"
               />
@@ -94,6 +98,8 @@ export default function LoginCard() {
             <div className="relative">
               <input
                 type="password"
+                onChange={setPassword}
+                value={loginData.password}
                 className="w-full p-4 pr-12 text-sm border-gray-200 rounded-lg shadow-sm"
                 placeholder="Enter password"
               />
