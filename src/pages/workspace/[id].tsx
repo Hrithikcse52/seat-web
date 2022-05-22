@@ -42,7 +42,49 @@ function WorkspaceDetails({
   return (
     <>
       <Head>
-        <meta charSet="utf-8" />
+        <title>{`${workspace && workspace.name} | Membook Profile`}</title>
+        <meta
+          name="title"
+          content={`${workspace && workspace.name} | Membook Profile`}
+        />
+        <meta
+          name="description"
+          content={`${workspace && workspace.description}`}
+        />
+
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={`${FRONTEND_URL}/workspace/${id}`} />
+        <meta
+          property="og:title"
+          content={`${workspace && workspace.name} | Membook Profile`}
+        />
+        <meta
+          property="og:description"
+          content={`${workspace && workspace.description}`}
+        />
+        <meta
+          property="og:image"
+          content="https://wxmwctiasizeoqlubrjn.supabase.co/storage/v1/object/public/seat/carousel/seat2.jpg"
+        />
+
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta
+          property="twitter:url"
+          content={`${FRONTEND_URL}/workspace/${id}`}
+        />
+        <meta
+          property="twitter:title"
+          content={`${workspace && workspace.name} | Membook Profile`}
+        />
+        <meta
+          property="twitter:description"
+          content={`${workspace && workspace.description}`}
+        />
+        <meta
+          property="twitter:image"
+          content="https://wxmwctiasizeoqlubrjn.supabase.co/storage/v1/object/public/seat/carousel/seat2.jpg"
+        />
+        {/* <meta charSet="utf-8" />
         <meta name="description" content="Find all the best quality" />
         <link rel="canonical" href={`${FRONTEND_URL}/workspace/${id}`} />
         <meta property="og:url" content={`${FRONTEND_URL}/workspace/${id}`} />
@@ -61,9 +103,7 @@ function WorkspaceDetails({
         />
         <meta
           property="og:image"
-          content={`https://ui-avatars.com/api/?name=${`${
-            workspace && workspace.name
-          }`}`}
+          content="https://wxmwctiasizeoqlubrjn.supabase.co/storage/v1/object/public/seat/carousel/seat2.jpg"
         />
         <meta property="og:description" content="Full stack developer" />
         <meta property="og:site_name" content="Peerlist" />
@@ -84,7 +124,7 @@ function WorkspaceDetails({
             workspace && workspace.name
           }`}`}
         />
-        <title>{isLoading ? "Loading..." : workspace && workspace.name}</title>
+        <title>{isLoading ? "Loading..." : workspace && workspace.name}</title> */}
       </Head>
       <div className="flex flex-initial  flex-col lg:flex-row">
         <div className="flex w-1/5 flex-col my-8 mx-4 p-4 bg-violet-300 rounded-lg">
