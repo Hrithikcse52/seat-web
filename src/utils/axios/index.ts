@@ -1,6 +1,8 @@
 import axios from "axios";
 import { BACKEND_URL } from "config";
 
+console.log("backedn ur;", BACKEND_URL);
+
 const instance = axios.create({
   baseURL: BACKEND_URL,
   headers: {

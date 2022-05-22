@@ -1,13 +1,9 @@
 import WorkSpaceHeader from "components/workspace/header.comp";
 import { FRONTEND_URL } from "config";
-import {
-  fetchWorkspace,
-  useGetWorkspace,
-  WorkspaceRes,
-} from "hooks/workspace.hooks";
-import { GetServerSidePropsContext, GetServerSidePropsResult } from "next";
+import { useGetWorkspace } from "hooks/workspace.hooks";
+import { GetServerSidePropsContext } from "next";
 import Head from "next/head";
-import { useRouter, withRouter } from "next/router";
+import { withRouter } from "next/router";
 import instance from "utils/axios";
 import { getFullName } from "utils/nav.helper";
 
