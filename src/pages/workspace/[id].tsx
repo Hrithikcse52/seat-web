@@ -1,6 +1,6 @@
 import WorkSpaceHeader from "components/workspace/header.comp";
-import { FRONTEND_URL } from "config";
-import { useGetWorkspace } from "hooks/workspace.hooks";
+import { BACKEND_URL, FRONTEND_URL } from "config";
+import { useGetWorkspace, WorkspaceRes } from "hooks/workspace.hooks";
 import { GetServerSidePropsContext } from "next";
 import Head from "next/head";
 import { withRouter } from "next/router";
@@ -12,6 +12,7 @@ export async function getServerSideProps({
   query,
 }: GetServerSidePropsContext) {
   console.log("req", query);
+  console.log("backedn", BACKEND_URL);
   const { id } = query;
   const { data, status } = await instance.get(`/workspace/${id}`, {
     headers: {
@@ -28,14 +29,23 @@ export async function getServerSideProps({
   };
 }
 
-function WorkspaceDetails({ router, data }: { router: any; data: any }) {
+function WorkspaceDetails({
+  router,
+  data,
+}: {
+  router: any;
+  data: WorkspaceRes;
+}) {
   console.log("data", data);
   const { id } = router.query;
-  const { workspace, isLoading } = useGetWorkspace(id as string, data);
+  const workspace = data;
+  const isLoading = false;
+  // const { workspace, isLoading } = useGetWorkspace(id as string, data);
 
   return (
     <>
-      <Head>
+      {JSON.stringify(workspace)}
+      {/* <Head>
         <meta charSet="utf-8" />
         <meta name="description" content="Find all the best quality" />
         <link rel="canonical" href={`${FRONTEND_URL}/workspace/${id}`} />
@@ -79,8 +89,8 @@ function WorkspaceDetails({ router, data }: { router: any; data: any }) {
           }`}`}
         />
         <title>{isLoading ? "Loading..." : workspace && workspace.name}</title>
-      </Head>
-      <div className="flex flex-initial  flex-col lg:flex-row">
+      </Head> */}
+      {/* <div className="flex flex-initial  flex-col lg:flex-row">
         <div className="flex w-1/5 flex-col my-8 mx-4 p-4 bg-violet-300 rounded-lg">
           <div>Admins</div>
           <ol>
@@ -126,103 +136,8 @@ function WorkspaceDetails({ router, data }: { router: any; data: any }) {
             )}
           </div>
           <WorkSpaceHeader />
-
-          {/* <div className="flex flex-col">
-            <div className="font-semibold">General Info</div>
-            <div className="p-4 font-sans hover:bg-slate-300 rounded-lg">
-              <div className="flex justify-between items-center ">
-                <div className="flex items-center">
-                  <HiOutlineMail className="mr-4" size="2rem" />
-                  <div className="flex flex-col">
-                    <span className="font-extralight">Email</span>
-                    <span>
-                      {isLoading ? (
-                        <div className="h-2 w-20 animate-pulse bg-green-700 rounded" />
-                      ) : (
-                        workspace && workspace.address
-                      )}
-                    </span>
-                  </div>
-                </div>
-                <div className="p-4 hover:bg-purple rounded-xl hover:cursor-pointer">
-                  <FiEdit3 />
-                </div>
-              </div>
-            </div>
-          </div> */}
-          {/* <div className="flex flex-col">
-            <span className="font-semibold">Workspaces</span>
-            <div className="p-4 font-sans">
-              <button
-                onClick={() => {
-                  navigate('/createworkspace');
-                }}
-                className="p-3 bg-purple rounded-xl"
-                type="button"
-              >
-                Create New Workspace
-              </button>
-            </div>
-          </div> */}
-          {/* {workSpaces} */}
-          {/* 
-          <div className="space-y-4">
-            {workspaces &&
-              workspaces.map((workspace) => (
-                <details
-                  // eslint-disable-next-line no-underscore-dangle
-                  key={workspace._id}
-                  className="group bg-gray-50 rounded-xl"
-                  open
-                >
-                  <summary className="flex items-center justify-between p-4 rounded-lg cursor-pointer  hover:bg-slate-300">
-                    <div className="flex justify-between items-center ">
-                      <div className="flex items-center">
-                        <MdOutlineWorkspaces className="mr-4" size="2rem" />
-                        <div className="flex flex-col">
-                          <span className="font-extralight">Name</span>
-                          <span>{workspace.name}</span>
-                        </div>
-                      </div>
-                    </div>
-                    <svg
-                      className="flex-shrink-0 ml-1.5 w-5 h-5 transition duration-300 group-open:-rotate-180"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M19 9l-7 7-7-7"
-                      />
-                    </svg>
-                  </summary>
-                  <div className="bg-inherit rounded-xl flex items-center justify-between p-4">
-                    <span>Status: {workspace.status}</span>
-                    <div>
-                      CreatedBy:{'  '}
-                      {workspace.createdBy === user?.id
-                        ? 'You'
-                        : workspace.createdBy}
-                    </div>
-                    <button
-                      disabled
-                      title="manage"
-                      className="px-4 py-2 bg-purple rounded-lg text-white disabled:cursor-not-allowed disabled:bg-blue-200"
-                      type="button"
-                    >
-                      Manage
-                    </button>
-                  </div>
-                </details>
-              ))} 
-          </div>
-              */}
         </div>
-      </div>
+      </div> */}
     </>
   );
 }
