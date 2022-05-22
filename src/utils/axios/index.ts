@@ -13,7 +13,7 @@ const instance = axios.create({
 
 instance.interceptors.response.use(
   response => {
-    return response;
+    return { status: response.status, data: response.data };
   },
   async err => {
     if (err?.response?.status === 403) {
