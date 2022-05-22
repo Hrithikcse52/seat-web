@@ -35,14 +35,13 @@ function WorkspaceDetails({
 }) {
   console.log("data", data);
   const { id } = router.query;
-  const workspace = data;
-  const isLoading = false;
-  // const { workspace, isLoading } = useGetWorkspace(id as string, data);
-
+  // const workspace = data;
+  // const isLoading = false;
+  const { workspace, isLoading } = useGetWorkspace(id as string, data);
+  console.log("workspace", data, isLoading, workspace);
   return (
     <>
-      {JSON.stringify(workspace)}
-      {/* <Head>
+      <Head>
         <meta charSet="utf-8" />
         <meta name="description" content="Find all the best quality" />
         <link rel="canonical" href={`${FRONTEND_URL}/workspace/${id}`} />
@@ -86,8 +85,8 @@ function WorkspaceDetails({
           }`}`}
         />
         <title>{isLoading ? "Loading..." : workspace && workspace.name}</title>
-      </Head> */}
-      {/* <div className="flex flex-initial  flex-col lg:flex-row">
+      </Head>
+      <div className="flex flex-initial  flex-col lg:flex-row">
         <div className="flex w-1/5 flex-col my-8 mx-4 p-4 bg-violet-300 rounded-lg">
           <div>Admins</div>
           <ol>
@@ -134,7 +133,7 @@ function WorkspaceDetails({
           </div>
           <WorkSpaceHeader />
         </div>
-      </div> */}
+      </div>
     </>
   );
 }
