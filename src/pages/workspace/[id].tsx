@@ -15,12 +15,7 @@ export async function getServerSideProps({
   console.log("backedn", BACKEND_URL);
   console.log("REq cookies", req);
   const { id } = query;
-  const data = await instance.get(`/workspace/${id}`, {
-    headers: {
-      "x-access-token": req.cookies.access,
-      "x-refresh-token": req.cookies.refresh,
-    },
-  });
+  const data = await instance.get(`/workspace/${id}`);
   console.log("iuser", data);
 
   return {
