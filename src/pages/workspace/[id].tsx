@@ -1,3 +1,4 @@
+import axios from "axios";
 import WorkSpaceHeader from "components/workspace/header.comp";
 import { BACKEND_URL, FRONTEND_URL } from "config";
 import { useGetWorkspace, WorkspaceRes } from "hooks/workspace.hooks";
@@ -15,24 +16,12 @@ export async function getServerSideProps({
   console.log("backedn", BACKEND_URL);
   console.log("REq cookies", req);
   const { id } = query;
-  if (!req.cookies.access) {
-    return {
-      redirect: {
-        destination: "/",
-      },
-    };
-  }
-  const data = await instance.get(`/workspace/${id}`, {
-    headers: {
-      "x-access-token": req.cookies.access,
-      "x-refresh-token": req.cookies.refresh,
-    },
-  });
+  const data = await axios.get(`${BACKEND_URL}/meta/workspace/${id}`);
   console.log("iuser", data);
 
   return {
     props: {
-      data,
+      data: { data: data.data, status: data.status },
     },
   };
 }
