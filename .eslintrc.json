@@ -21,6 +21,8 @@
   },
   "plugins": ["react", "@typescript-eslint", "prettier"],
   "rules": {
+    "no-underscore-dangle": "off",
+    "no-nested-ternary": "off",
     "import/extensions": 0,
     "no-console": "off",
     "prettier/prettier": "error",
