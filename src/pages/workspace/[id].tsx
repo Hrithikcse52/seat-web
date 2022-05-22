@@ -19,6 +19,7 @@ export async function getServerSideProps({
       "x-refresh-token": req.cookies.refresh,
     },
   });
+  console.log("iuser", data);
 
   return {
     props: {
