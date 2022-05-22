@@ -26,6 +26,12 @@
     "import/extensions": 0,
     "no-console": "off",
     "prettier/prettier": "error",
+    "jsx-a11y/label-has-associated-control": [
+      "error",
+      {
+        "assert": "either"
+      }
+    ],
     "react/jsx-filename-extension": [
       2,
       {

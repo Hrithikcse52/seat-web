@@ -6,6 +6,7 @@ const nextConfig = {
       "wxmwctiasizeoqlubrjn.supabase.co",
       "tuk-cdn.s3.amazonaws.com",
       "cdn.tuk.dev",
+      "www.hyperui.dev",
     ],
   },
 };
