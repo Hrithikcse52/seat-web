@@ -13,6 +13,7 @@ export async function getServerSideProps({
 }: GetServerSidePropsContext) {
   console.log("req", query);
   console.log("backedn", BACKEND_URL);
+  console.log("REq cookies", req);
   const { id } = query;
   const data = await instance.get(`/workspace/${id}`, {
     headers: {
