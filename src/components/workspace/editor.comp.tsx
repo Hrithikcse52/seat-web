@@ -6,6 +6,8 @@ import {
   DraftHandleValue,
   ContentBlock,
 } from "draft-js";
+
+import "draft-js/dist/Draft.css";
 import { useState } from "react";
 
 export default function EditorRich() {
@@ -30,7 +32,7 @@ export default function EditorRich() {
   }
   return (
     <div className="border w-full p-8 rounded-lg border-primaryBorder cursor-text">
-      <div className="h-full  min-h-[56px] max-h-36  overflow-y-auto">
+      <div className="h-full border  min-h-[56px] max-h-36  overflow-y-auto">
         <Editor
           handleKeyCommand={handleKeyCommand}
           editorState={editorState}
