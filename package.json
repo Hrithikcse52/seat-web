@@ -26,7 +26,8 @@
     "react-icons": "^4.3.1",
     "react-query": "^3.39.0",
     "styled-components": "^5.3.5",
-    "swiper": "^8.1.5"
+    "swiper": "^8.1.5",
+    "tailwind-styled-components": "^2.1.7"
   },
   "devDependencies": {
     "@types/draft-js": "^0.11.9",

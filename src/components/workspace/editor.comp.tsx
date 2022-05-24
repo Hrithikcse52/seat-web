@@ -5,14 +5,24 @@ import {
   RichUtils,
   DraftHandleValue,
   ContentBlock,
+  convertToRaw,
+  convertFromRaw,
 } from "draft-js";
 
 import "draft-js/dist/Draft.css";
-import { useState } from "react";
+import Buttonclass, { DButton, PButton, PrimartButton } from "elements/button";
+import { useRef, useState } from "react";
+import styled from "styled-components";
+
+const StyledEditor = styled(Editor)`
+  width: 300px;
+  border: 2px solid black;
+`;
 
 export default function EditorRich() {
-  const content = new ContentBlock();
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
+
+  const editorRef = useRef<Editor>(null);
 
   const onChange = (editorStatevalue: EditorState) =>
     setEditorState(editorStatevalue);
@@ -27,21 +37,37 @@ export default function EditorRich() {
   }
 
   function handleSubmit() {
-    const text = editorState.getCurrentContent().getPlainText(" \n ");
-    console.log("text", { text });
+    const text = editorState.getCurrentContent();
+    console.log("text", text, convertToRaw(text));
   }
   return (
-    <div className="border w-full p-8 rounded-lg border-primaryBorder cursor-text">
-      <div className="h-full border  min-h-[56px] max-h-36  overflow-y-auto">
-        <Editor
+    <div className="border flex flex-col w-full  rounded-lg border-primaryBorder ">
+      <div
+        className="h-full min-h-[56px] max-h-36 border-2  overflow-y-auto"
+        // onFocus={() => {
+        //   console.log("focused");
+        //   if (!editorRef) return;
+        //   editorRef.current?.focus();
+        // }}
+      >
+        <StyledEditor
+          onFocus={() => {
+            console.log("editor calle");
+          }}
+          placeholder="Write Something"
           handleKeyCommand={handleKeyCommand}
           editorState={editorState}
           onChange={onChange}
+
+          // ref={editorRef}
+          // readOnly
         />
       </div>
-      <button onClick={handleSubmit} type="button">
-        Submit
-      </button>
+      <div className="ml-auto my-2">
+        <Buttonclass accent="primary" className="ml-auto" type="submit">
+          Submit
+        </Buttonclass>
+      </div>
     </div>
   );
 }
