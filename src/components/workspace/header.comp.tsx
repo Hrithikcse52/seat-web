@@ -1,8 +1,11 @@
 import { useUserQuery } from "hooks/user.hooks";
+import { useState } from "react";
 import EditorRich from "./editor.comp";
 
-export default function WorkSpaceHeader() {
+export default function WorkSpaceHeader(props: { workspace: string }) {
+  const { workspace } = props;
   const { user } = useUserQuery();
+  const [toogleEditor, setToogle] = useState(false);
   return (
     <>
       <header>
@@ -44,6 +47,9 @@ export default function WorkSpaceHeader() {
               <button
                 className="block px-5 py-3 text-sm font-medium text-white transition bg-indigo-600 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring"
                 type="button"
+                onClick={() => {
+                  setToogle(!toogleEditor);
+                }}
               >
                 Create Post
               </button>
@@ -51,7 +57,7 @@ export default function WorkSpaceHeader() {
           </div>
         </div>
       </header>
-      <EditorRich />
+      {toogleEditor && <EditorRich workspace={workspace} />}
     </>
   );
 }
