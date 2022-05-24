@@ -1,7 +1,6 @@
 /* eslint-disable react/jsx-no-bind */
 import Button from "elements/button";
 import { useRef, useState } from "react";
-
 import ReactQuill from "@mantine/rte/node_modules/react-quill";
 import type { Delta, Sources } from "quill";
 import type { Editor } from "@mantine/rte";
