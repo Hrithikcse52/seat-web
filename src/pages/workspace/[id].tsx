@@ -43,10 +43,13 @@ function WorkspaceDetails({
     <>
       <Head>
         <title>{`${workspace && workspace.name} | Membook Profile`}</title>
+
         <meta
           name="title"
           content={`${workspace && workspace.name} | Membook Profile`}
         />
+        <meta name="author" content="Hrithik Prasad" />
+
         <meta
           name="description"
           content={`${workspace && workspace.description}`}

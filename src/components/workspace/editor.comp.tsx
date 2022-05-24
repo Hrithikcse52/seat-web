@@ -1,45 +1,51 @@
 /* eslint-disable react/jsx-no-bind */
-import {
-  Editor,
-  EditorState,
-  RichUtils,
-  DraftHandleValue,
-  ContentBlock,
-} from "draft-js";
-import { useState } from "react";
+import Button from "elements/button";
+import { useRef, useState } from "react";
+
+import ReactQuill from "@mantine/rte/node_modules/react-quill";
+import type { Delta, Sources } from "quill";
+import type { Editor } from "@mantine/rte";
+import RichEditor from "./customeditor.comp";
 
 export default function EditorRich() {
-  const content = new ContentBlock();
-  const [editorState, setEditorState] = useState(EditorState.createEmpty());
+  const [value, setValue] = useState("");
+  const editorRef = useRef<ReactQuill>(null);
 
-  const onChange = (editorStatevalue: EditorState) =>
-    setEditorState(editorStatevalue);
-
-  function handleKeyCommand(command: string): DraftHandleValue {
-    const newState = RichUtils.handleKeyCommand(editorState, command);
-    if (newState) {
-      onChange(newState);
-      return "handled";
-    }
-    return "not-handled";
+  const [editor, setEditor] = useState<Editor.UnprivilegedEditor>();
+  function onChange(
+    data: string,
+    delta: Delta,
+    sources: Sources,
+    editors: Editor.UnprivilegedEditor
+  ): void {
+    if (!editor) setEditor(editors);
+    setValue(data);
   }
-
-  function handleSubmit() {
-    const text = editorState.getCurrentContent().getPlainText(" \n ");
-    console.log("text", { text });
-  }
+  // console.log("content", editor && editor.getContents());
   return (
-    <div className="border w-full p-8 rounded-lg border-primaryBorder cursor-text">
-      <div className="h-full  min-h-[56px] max-h-36  overflow-y-auto">
-        <Editor
-          handleKeyCommand={handleKeyCommand}
-          editorState={editorState}
-          onChange={onChange}
-        />
-      </div>
-      <button onClick={handleSubmit} type="button">
+    <div className="border rounded">
+      <RichEditor
+        ref={editorRef}
+        controls={[
+          ["bold", "italic", "underline", "link"],
+          ["unorderedList", "clean", "h1", "h2", "h3"],
+          ["alignLeft", "alignCenter", "alignRight"],
+        ]}
+        value={value}
+        style={{ border: "none" }}
+        placeholder="Write Something!"
+        onChange={onChange}
+      />
+      <Button
+        className="ml-auto my-4 mr-4"
+        onClick={() => {
+          console.log("final data", value, editor);
+          if (editor && editor.getContents)
+            console.log("html", editor.getContents());
+        }}
+      >
         Submit
-      </button>
+      </Button>
     </div>
   );
 }
