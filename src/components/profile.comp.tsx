@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { useUserQuery } from "hooks/user.hooks";
 import { useWorkspacesQuery } from "hooks/workspace.hooks";
 import Link from "next/link";
@@ -10,13 +11,7 @@ import { useRouter } from "next/router";
 export default function UserProfile() {
   const router = useRouter();
   const { user, isAuth, isLoading, isFetched } = useUserQuery();
-  const {
-    workspaces,
-    // statusCode,
-
-    // isLoading: isWorkspaceLoading,
-    // isFetched: isWorkspaceFetched,
-  } = useWorkspacesQuery();
+  const { workspaces } = useWorkspacesQuery();
 
   if (isFetched && !isAuth) {
     return <Link href="/" />;

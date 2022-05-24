@@ -1,15 +1,23 @@
 /* eslint-disable react/jsx-no-bind */
 import Button from "elements/button";
-import { useRef, useState } from "react";
+import { Dispatch, SetStateAction, useRef, useState } from "react";
 import ReactQuill from "@mantine/rte/node_modules/react-quill";
 import type { Delta, DeltaOperation, Sources } from "quill";
 import type { Editor } from "@mantine/rte";
+import { useQueryClient } from "react-query";
+import toast from "react-hot-toast";
 import instance from "utils/axios";
 
 import RichEditor from "./customeditor.comp";
 
-export default function EditorRich(props: { workspace: string }) {
-  const { workspace } = props;
+export default function EditorRich(props: {
+  workspace: string;
+  toogle: Dispatch<SetStateAction<boolean>>;
+}) {
+  const { workspace, toogle } = props;
+  const [value, setValue] = useState("");
+  const queryClient = useQueryClient();
+  const editorRef = useRef<ReactQuill>(null);
   async function submitPost(payload: {
     raw: DeltaOperation[];
     html: string;
@@ -20,6 +28,9 @@ export default function EditorRich(props: { workspace: string }) {
       if (status !== 200) {
         console.log("error", status, data);
       }
+      queryClient.refetchQueries("blog");
+      toast.success("Successfully posted");
+      toogle(false);
     } catch (error) {
       console.log(
         "🚀 ~ file: editor.comp.tsx ~ line 55 ~ EditorRich ~ error",
@@ -27,8 +38,6 @@ export default function EditorRich(props: { workspace: string }) {
       );
     }
   }
-  const [value, setValue] = useState("");
-  const editorRef = useRef<ReactQuill>(null);
 
   const [editor, setEditor] = useState<Editor.UnprivilegedEditor>();
   function onChange(

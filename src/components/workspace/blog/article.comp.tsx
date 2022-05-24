@@ -1,8 +1,6 @@
 /* eslint-disable react/no-danger */
 /* eslint-disable @next/next/no-img-element */
 
-import Image from "next/image";
-import styled from "styled-components";
 import { Blog } from "types/blog.type";
 import { formatDistanceToNow } from "date-fns";
 import sanitize from "sanitize-html";
@@ -23,7 +21,7 @@ export default function Article(props: { key: string; data: Blog }) {
               <img
                 className="rounded-full w-10 h-10"
                 alt="user"
-                src="https://ui-avatars.com/api/?name=hrithikprasad"
+                src={`https://ui-avatars.com/api/?name=${`${data.createdBy.name.firstName}+${data.createdBy.name.lastName}`}`}
               />
             </span>
             <div className="flex flex-col ">

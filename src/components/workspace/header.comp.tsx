@@ -51,13 +51,13 @@ export default function WorkSpaceHeader(props: { workspace: string }) {
                   setToogle(!toogleEditor);
                 }}
               >
-                Create Post
+                {!toogleEditor ? "Create Post" : "Close Editor"}
               </button>
             </div>
           </div>
         </div>
       </header>
-      {toogleEditor && <EditorRich workspace={workspace} />}
+      {toogleEditor && <EditorRich toogle={setToogle} workspace={workspace} />}
     </>
   );
 }
