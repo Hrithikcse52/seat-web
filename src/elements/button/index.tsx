@@ -13,11 +13,15 @@ export default function Button({
 }: ButtonProps): JSX.Element {
   const { children, className } = props;
   let defCls =
-    "block px-5 py-3 text-sm font-medium text-white transition bg-indigo-600 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring";
+    "block px-5 py-3 text-sm font-medium text-white transition bg-indigo-600 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring ";
   if (className) defCls += ` ${className}`;
   return (
     // eslint-disable-next-line jsx-a11y/control-has-associated-label
-    <button type="button" {...props} className={defCls}>
+    <button
+      type="button"
+      {...props}
+      className={`${defCls}  cursor-auto disabled:cursor-not-allowed	disabled:bg-indigo-300`}
+    >
       {children}
     </button>
   );

@@ -5,13 +5,214 @@ import Link from "next/link";
 import { getFullName } from "utils/nav.helper";
 import { HiOutlineMail } from "react-icons/hi";
 import { FiEdit3 } from "react-icons/fi";
+import { Modal, Group } from "@mantine/core";
 import { MdOutlineWorkspaces } from "react-icons/md";
+import Loader from "components/loader.comp";
 import { useRouter } from "next/router";
-import Loader from "../loader.comp";
+import Button from "elements/button";
+import {
+  ChangeEvent,
+  Dispatch,
+  FormEvent,
+  SetStateAction,
+  useState,
+} from "react";
+import { User } from "types/user.type";
+import instance from "utils/axios";
+
+function EditProfileModal({
+  edit,
+  user,
+  setEdit,
+}: {
+  edit: boolean;
+  user: User;
+  setEdit: Dispatch<SetStateAction<boolean>>;
+}) {
+  const initialData = {
+    firstName: user.name.firstName,
+    lastName: user.name.lastName,
+    email: user.email,
+    image: null,
+  };
+  const [modalData, setModalData] = useState<{
+    firstName: string;
+    lastName: string;
+    email: string;
+    image: null | File;
+  }>(initialData);
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    console.log("handle change", e.target.type);
+    if (e.target.files && e.target.type === "file") {
+      setModalData({ ...modalData, image: e.target.files[0] });
+    } else {
+      setModalData({
+        ...modalData,
+        [e.target.name]: e.target.value,
+      });
+    }
+  };
+
+  const handleSubmit = async (e: FormEvent) => {
+    console.log("final Data", modalData);
+    e.preventDefault();
+    const formData = new FormData();
+    if (modalData.image) formData.append("image", modalData.image);
+    formData.append("firstName", modalData.firstName);
+    formData.append("lastName", modalData.lastName);
+    formData.append("email", modalData.email);
+    console.log("formdata", formData, formData.entries());
+    try {
+      const { data, status } = await instance.post("/user/edit", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      console.log(
+        "🚀 ~ file: profile.comp.tsx ~ line 74 ~ handleSubmit ~ data, status",
+        data,
+        status
+      );
+    } catch (error) {
+      console.log("error", JSON.stringify(error));
+    }
+  };
+  return (
+    <Modal
+      // withCloseButton={false}
+      centered
+      opened={edit}
+      title={
+        <div className="font-sans text-xl ml-4 font-medium text-gray-500">
+          Edit Profile
+        </div>
+      }
+      onClose={() => {
+        setEdit(false);
+        setModalData({
+          firstName: user.name.firstName,
+          lastName: user.name.lastName,
+          email: user.email,
+          image: null,
+        });
+      }}
+    >
+      <div className="px-4">
+        <form onSubmit={handleSubmit}>
+          <div className="">
+            <div className="flex gap-2">
+              <label
+                className="relative block p-3 border-2 border-gray-200 rounded-lg"
+                htmlFor="name"
+              >
+                <input
+                  className="w-full px-0 pt-5 pb-0 text-sm placeholder-transparent border-none outline-none peer"
+                  id="name"
+                  type="text"
+                  placeholder="First Name"
+                  name="firstName"
+                  value={modalData.firstName}
+                  onChange={handleChange}
+                  // onChange={e =>
+                  //   setModalData({ ...modalData, firstName: e.target.value })
+                  // }
+                />
+                <span className="absolute text-xs font-medium text-gray-500 transition-all left-3 peer-focus:text-xs peer-focus:top-3 peer-focus:translate-y-0 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-sm">
+                  FirstName
+                </span>
+              </label>
+
+              <label
+                className="relative block p-3 border-2 border-gray-200 rounded-lg"
+                htmlFor="lastName"
+              >
+                <input
+                  className="w-full px-0 pt-5 pb-0 text-sm placeholder-transparent border-none outline-none peer"
+                  id="lastName"
+                  type="text"
+                  placeholder="lastName"
+                  name="lastName"
+                  value={modalData.lastName}
+                  onChange={handleChange}
+                />
+                <span className="absolute text-xs font-medium text-gray-500 transition-all left-3 peer-focus:text-xs peer-focus:top-3 peer-focus:translate-y-0 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-sm">
+                  LastName
+                </span>
+              </label>
+            </div>
+          </div>
+          <div className="mt-2">
+            <label
+              className="relative block p-3 border-2 border-gray-200 rounded-lg"
+              htmlFor="email"
+            >
+              <input
+                className="w-full px-0 pt-5 pb-0 text-sm placeholder-transparent border-none outline-none peer"
+                id="email"
+                type="text"
+                name="email"
+                value={modalData.email}
+                onChange={e =>
+                  setModalData({ ...modalData, email: e.target.value })
+                }
+                placeholder="Name"
+              />
+              <span className="absolute text-xs font-medium text-gray-500 transition-all left-3 peer-focus:text-xs peer-focus:top-3 peer-focus:translate-y-0 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-sm">
+                Email
+              </span>
+            </label>
+          </div>
+          <div className="mt-2">
+            <label
+              className="block mb-2 text-sm font-medium border-gray-200 text-gray-900 dark:text-gray-300"
+              htmlFor="small_size"
+            >
+              Small file input
+              <input
+                className="block mb-5 text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer  focus:outline-none w-full px-0 pt-5 pb-0 text-sm placeholder-transparent border-none outline-none peer"
+                id="small_size"
+                type="file"
+                multiple={false}
+                onChange={handleChange}
+              />
+            </label>
+            {/* image preview */}
+            <div className="flex justify-center items-center">
+              {modalData.image && (
+                <img
+                  className="w-28 h-28"
+                  src={URL.createObjectURL(modalData.image)}
+                  alt="preview"
+                />
+              )}
+            </div>
+          </div>
+          <div className="w-full flex items-end gap-4">
+            <Button
+              type="submit"
+              disabled={
+                initialData.firstName === modalData.firstName &&
+                initialData.lastName === modalData.lastName &&
+                initialData.email === modalData.email &&
+                initialData.image === modalData.image
+              }
+              className="ml-auto mt-4"
+            >
+              Submit
+            </Button>
+          </div>
+        </form>
+      </div>
+    </Modal>
+  );
+}
 
 export default function UserProfile() {
-  const router = useRouter();
   const { user, isAuth, isLoading, isFetched } = useUserQuery();
+  const router = useRouter();
+  const [edit, setEdit] = useState(false);
+
   const {
     workspaces,
     isFetched: isWorkspaceFetched,
@@ -61,7 +262,18 @@ export default function UserProfile() {
           )}
         </div>
         <div className="flex flex-col">
-          <div className="font-semibold">General Info</div>
+          <div className="font-semibold flex justify-between items-center">
+            <span>General Info</span>
+            <button type="button" onClick={() => setEdit(true)}>
+              <div
+                className="p-4 mr-4 hover:bg-purple outline-none rounded-xl tooltip hover:cursor-pointer"
+                data-tip="Edit Profile"
+              >
+                <FiEdit3 />
+              </div>
+            </button>
+          </div>
+
           <div className="p-4 font-sans hover:bg-slate-300 rounded-lg">
             <div className="flex justify-between items-center ">
               <div className="flex items-center">
@@ -77,9 +289,6 @@ export default function UserProfile() {
                   </span>
                 </div>
               </div>
-              <div className="p-4 hover:bg-purple rounded-xl hover:cursor-pointer">
-                <FiEdit3 />
-              </div>
             </div>
           </div>
         </div>
@@ -88,7 +297,6 @@ export default function UserProfile() {
           <div className="p-4 font-sans">
             <button
               onClick={() => {
-                // navigate("/createworkspace");
                 router.push("/workspace/create");
               }}
               className="p-3 bg-purple rounded-xl"
@@ -157,6 +365,9 @@ export default function UserProfile() {
           {isWorkLoading && !isWorkspaceFetched && <Loader />}
         </div>
       </div>
+      {isAuth && user && (
+        <EditProfileModal edit={edit} user={user} setEdit={setEdit} />
+      )}
     </div>
   );
 }
