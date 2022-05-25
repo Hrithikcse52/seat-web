@@ -18,6 +18,10 @@ function Home() {
           name="description"
           content="Membook is a community of working professionals focused on building a personal brand, sharing professional content, and finding peers to collaborate with."
         />
+        <meta
+          name="google-site-verification"
+          content="scuwdYjwsQ6Dd11OtBXuPO3vN2lwPC_LBWoQDjx5Ma0"
+        />
 
         {/* <!-- Facebook Meta Tags --> */}
         <meta property="og:url" content="https://demo.membook.me/" />
