@@ -7,15 +7,16 @@ import { HiOutlineMail } from "react-icons/hi";
 import { FiEdit3 } from "react-icons/fi";
 import { MdOutlineWorkspaces } from "react-icons/md";
 import { useRouter } from "next/router";
+import Loader from "./loader.comp";
 
 export default function UserProfile() {
   const router = useRouter();
   const { user, isAuth, isLoading, isFetched } = useUserQuery();
-  const { workspaces } = useWorkspacesQuery();
-
-  if (isFetched && !isAuth) {
-    return <Link href="/" />;
-  }
+  const {
+    workspaces,
+    isFetched: isWorkspaceFetched,
+    isLoading: isWorkLoading,
+  } = useWorkspacesQuery();
 
   return (
     <div className="flex flex-initial flex-col lg:flex-row">
@@ -99,7 +100,8 @@ export default function UserProfile() {
         </div>
         <div className="space-y-4">
           {/* {workSpaces} */}
-          {workspaces &&
+          {isWorkspaceFetched &&
+            workspaces &&
             workspaces.map(workspace => (
               <details
                 // eslint-disable-next-line no-underscore-dangle
@@ -152,6 +154,7 @@ export default function UserProfile() {
                 </div>
               </details>
             ))}
+          {isWorkLoading && !isWorkspaceFetched && <Loader />}
         </div>
       </div>
     </div>

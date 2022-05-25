@@ -7,6 +7,7 @@ import { useQueryClient } from "react-query";
 import { Workspace } from "types/workspace.type";
 import instance from "utils/axios";
 import { checkUserWorkspace } from "utils/user.helper";
+import Loader from "./loader.comp";
 
 function Modal({
   space,
@@ -85,6 +86,7 @@ export default function Product() {
   const { workspaces, isFetched } = useExploreWorkQuery();
   const { user } = useUserQuery();
   const [space, setSpace] = useState<Workspace | null>(null);
+
   return (
     <>
       <div className="bg-slate-200">
@@ -142,21 +144,11 @@ export default function Product() {
                             : "Request To Join"}
                         </label>
                       </button>
-                      {/* <div>membership cost: Rs {workspace.membership.amount}</div> */}
-                      {/* <button
-                      className="text-white bg-purple_dark hover:bg-purple focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-full px-5 py-2.5 text-center "
-                      type="button"
-                      onClick={() => {
-                        navigator(`/workspace/${workspace._id}`);
-                      }}
-                    >
-                      {workspace.type === 'public' ? 'Join' : 'Ask to Join'}
-                    </button> */}
-                      {/* NOTE:add a button here or make the div click event listener */}
                     </div>
                   </div>
                 );
               })}
+            {!isFetched && <Loader />}
           </div>
         </div>
       </div>
