@@ -7,7 +7,7 @@ import { HiOutlineMail } from "react-icons/hi";
 import { FiEdit3 } from "react-icons/fi";
 import { MdOutlineWorkspaces } from "react-icons/md";
 import { useRouter } from "next/router";
-import Loader from "./loader.comp";
+import Loader from "../loader.comp";
 
 export default function UserProfile() {
   const router = useRouter();

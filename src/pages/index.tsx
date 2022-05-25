@@ -1,6 +1,6 @@
 import HomeCarausel from "components/carausel/carausel.comp";
-import FAQ from "components/faq.comp";
-import Featurepage from "components/feature.comp";
+import FAQ from "components/home/faq.comp";
+import Featurepage from "components/home/feature.comp";
 
 import Head from "next/head";
 

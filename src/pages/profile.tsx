@@ -1,5 +1,5 @@
 import Loader from "components/loader.comp";
-import UserProfile from "components/profile.comp";
+import UserProfile from "components/auth/profile.comp";
 import { useUserQuery } from "hooks/user.hooks";
 import { useRouter } from "next/router";
 

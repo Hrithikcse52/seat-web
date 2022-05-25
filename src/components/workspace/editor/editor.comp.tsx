@@ -42,8 +42,8 @@ export default function EditorRich(props: {
   const [editor, setEditor] = useState<Editor.UnprivilegedEditor>();
   function onChange(
     data: string,
-    delta: Delta,
-    sources: Sources,
+    _delta: Delta,
+    _sources: Sources,
     editors: Editor.UnprivilegedEditor
   ): void {
     if (!editor) setEditor(editors);
@@ -56,7 +56,7 @@ export default function EditorRich(props: {
         ref={editorRef}
         controls={[
           ["bold", "italic", "underline", "link"],
-          ["unorderedList", "clean", "h1", "h2", "h3"],
+          ["clean", "h1", "h2", "h3"],
           ["alignLeft", "alignCenter", "alignRight"],
         ]}
         value={value}

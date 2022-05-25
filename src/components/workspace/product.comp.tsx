@@ -7,7 +7,7 @@ import { useQueryClient } from "react-query";
 import { Workspace } from "types/workspace.type";
 import instance from "utils/axios";
 import { checkUserWorkspace } from "utils/user.helper";
-import Loader from "./loader.comp";
+import Loader from "../loader.comp";
 
 function Modal({
   space,

@@ -1,6 +1,6 @@
 import { useUserQuery } from "hooks/user.hooks";
 import { useState } from "react";
-import EditorRich from "./editor.comp";
+import EditorRich from "./editor/editor.comp";
 
 export default function WorkSpaceHeader(props: { workspace: string }) {
   const { workspace } = props;

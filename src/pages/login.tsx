@@ -1,5 +1,5 @@
 import axios from "axios";
-import LoginCard from "components/login.comp";
+import LoginCard from "components/auth/login.comp";
 import { BACKEND_URL } from "config";
 import { useUserQuery } from "hooks/user.hooks";
 import Link from "next/link";
