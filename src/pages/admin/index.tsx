@@ -2,11 +2,7 @@ import Loader from "components/loader.comp";
 import { useUserQuery } from "hooks/user.hooks";
 import { NextRouter, useRouter, withRouter } from "next/router";
 import { useEffect, useState } from "react";
-import {
-  BsFillArrowRightSquareFill,
-  BsFillArrowLeftSquareFill,
-  BsFillGearFill,
-} from "react-icons/bs";
+import { BsFillArrowRightSquareFill, BsFillArrowLeftSquareFill, BsFillGearFill } from "react-icons/bs";
 
 function Admin({ router }: { router: NextRouter }) {
   const { user, isAuth: auth, isFetched, isLoading } = useUserQuery();
@@ -15,20 +11,12 @@ function Admin({ router }: { router: NextRouter }) {
 
   useEffect(() => {
     console.log("called");
-    if (
-      (isFetched && !auth) ||
-      (user?.role !== "admin" && user?.role !== "manager")
-    ) {
+    if ((isFetched && !auth) || (user?.role !== "admin" && user?.role !== "manager")) {
       router.push("/", undefined, { shallow: true });
     }
   }, [isFetched]);
 
-  if (
-    isFetched &&
-    auth &&
-    user &&
-    (user.role === "admin" || user.role === "manager")
-  )
+  if (isFetched && auth && user && (user.role === "admin" || user.role === "manager"))
     return (
       <div className="h-screen flex">
         <div
@@ -40,9 +28,7 @@ function Admin({ router }: { router: NextRouter }) {
             <ul className="flex flex-col py-4 space-y-1">
               <li className="px-5 hidden md:block">
                 <div className="flex flex-row justify-between items-center h-8">
-                  <div className="text-sm font-light tracking-wide text-gray-400 uppercase truncate">
-                    Main
-                  </div>
+                  <div className="text-sm font-light tracking-wide text-gray-400 uppercase truncate">Main</div>
                   <div>
                     <button
                       type="button"
@@ -80,9 +66,7 @@ function Admin({ router }: { router: NextRouter }) {
                       />
                     </svg>
                   </span>
-                  <span className="ml-2 text-sm tracking-wide truncate">
-                    Dashboard
-                  </span>
+                  <span className="ml-2 text-sm tracking-wide truncate">Dashboard</span>
                 </a>
               </li>
               <li>
@@ -106,9 +90,7 @@ function Admin({ router }: { router: NextRouter }) {
                       />
                     </svg>
                   </span>
-                  <span className="ml-2 text-sm tracking-wide truncate">
-                    Board
-                  </span>
+                  <span className="ml-2 text-sm tracking-wide truncate">Board</span>
                   <span
                     className={`hidden ${
                       sidebar ? "md:block" : ""
@@ -139,9 +121,7 @@ function Admin({ router }: { router: NextRouter }) {
                       />
                     </svg>
                   </span>
-                  <span className="ml-2 text-sm tracking-wide truncate">
-                    Messages
-                  </span>
+                  <span className="ml-2 text-sm tracking-wide truncate">Messages</span>
                 </a>
               </li>
               <li>
@@ -165,9 +145,7 @@ function Admin({ router }: { router: NextRouter }) {
                       />
                     </svg>
                   </span>
-                  <span className="ml-2 text-sm tracking-wide truncate">
-                    Notifications
-                  </span>
+                  <span className="ml-2 text-sm tracking-wide truncate">Notifications</span>
                   <span
                     className={`hidden ${
                       sidebar ? "md:block" : ""
@@ -180,9 +158,7 @@ function Admin({ router }: { router: NextRouter }) {
               <hr />
               <li className="px-5 hidden md:block">
                 <div className="flex flex-row justify-between items-center mt-5 h-8">
-                  <div className="text-sm font-light tracking-wide text-gray-400 uppercase truncate">
-                    Settings
-                  </div>
+                  <div className="text-sm font-light tracking-wide text-gray-400 uppercase truncate">Settings</div>
                   <div>
                     <BsFillGearFill color="grey" />
                   </div>
@@ -209,9 +185,7 @@ function Admin({ router }: { router: NextRouter }) {
                       />
                     </svg>
                   </span>
-                  <span className="ml-2 text-sm tracking-wide truncate">
-                    Profile
-                  </span>
+                  <span className="ml-2 text-sm tracking-wide truncate">Profile</span>
                 </a>
               </li>
               <li>
@@ -241,15 +215,11 @@ function Admin({ router }: { router: NextRouter }) {
                       />
                     </svg>
                   </span>
-                  <span className="ml-2 text-sm tracking-wide truncate">
-                    Settings
-                  </span>
+                  <span className="ml-2 text-sm tracking-wide truncate">Settings</span>
                 </a>
               </li>
             </ul>
-            <p className="mb-14 px-5 py-3 hidden md:block text-center text-xs">
-              Copyright @2022
-            </p>
+            <p className="mb-14 px-5 py-3 hidden md:block text-center text-xs">Copyright @2022</p>
           </div>
         </div>
         <div className="w-full">hello </div>

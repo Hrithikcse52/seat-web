@@ -22,19 +22,13 @@ export default function Login() {
   const handleLoginSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setLoading(!loading);
-    const { status, data } = await axios.post(
-      `${BACKEND_URL}/user/login`,
-      loginData,
-      { withCredentials: true }
-    );
+    const { status, data } = await axios.post(`${BACKEND_URL}/user/login`, loginData, { withCredentials: true });
     queryClient.invalidateQueries("user");
     router.push("/");
   };
 
-  const setEmail = (e: ChangeEvent<HTMLInputElement>) =>
-    setLoginData({ ...loginData, email: e.target.value });
-  const setPassword = (e: ChangeEvent<HTMLInputElement>) =>
-    setLoginData({ ...loginData, password: e.target.value });
+  const setEmail = (e: ChangeEvent<HTMLInputElement>) => setLoginData({ ...loginData, email: e.target.value });
+  const setPassword = (e: ChangeEvent<HTMLInputElement>) => setLoginData({ ...loginData, password: e.target.value });
   // return (
   //   <div className="flex flex-row w-full h-[90vh] ">
   //     <div className="bg-slate-200 w-1/2 flex  rounded p-4 justify-center items-center">

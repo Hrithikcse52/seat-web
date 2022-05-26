@@ -16,9 +16,7 @@ export default function WorkSpaceHeader(props: { workspace: string }) {
                 Welcome Back, {user && user.name.firstName} !
               </h1>
 
-              <p className="mt-1.5 text-sm text-gray-500">
-                Les write a new blog post! 🎉
-              </p>
+              <p className="mt-1.5 text-sm text-gray-500">Les write a new blog post! 🎉</p>
             </div>
 
             <div className="flex flex-col gap-4 mt-4 sm:flex-row sm:mt-0 sm:items-center">

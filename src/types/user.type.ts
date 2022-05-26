@@ -7,6 +7,7 @@ export interface User {
   id: string;
   role: string;
   phone: number;
+  profileImg: string;
   status: string;
   workspaces: [{ _id: string; name: string }];
 }

@@ -22,12 +22,9 @@ function Modal({
   const handleJoin = async () => {
     if (space) {
       try {
-        const { data, status, ...restData } = await instance.post(
-          "/workspace/join",
-          {
-            workspace: space._id,
-          }
-        );
+        const { data, status, ...restData } = await instance.post("/workspace/join", {
+          workspace: space._id,
+        });
         if (status !== 200) {
           toast.error(data.message || "Could not Join");
           return;
@@ -44,10 +41,7 @@ function Modal({
     }
   };
   return (
-    <label
-      htmlFor="my-modal-4"
-      className={`modal ${modal ? "modal-open" : ""} cursor-pointer`}
-    >
+    <label htmlFor="my-modal-4" className={`modal ${modal ? "modal-open" : ""} cursor-pointer`}>
       <label className="modal-box relative" htmlFor="">
         <h3 className="text-xl font-bold">
           {space && space.type === "public" ? "Join " : "Request to Join "}
@@ -91,15 +85,11 @@ export default function Product() {
     <>
       <div className="bg-slate-200">
         <div className="mx-auto p-4 sm:px-6 lg:px-8 lg:text-center ">
-          <h2 className="text-base text-indigo-600 font-semibold tracking-wide uppercase">
-            Take a Look
-          </h2>
+          <h2 className="text-base text-indigo-600 font-semibold tracking-wide uppercase">Take a Look</h2>
           <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
             what we have to offer
           </p>
-          <p className="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
-            a series of places to book
-          </p>
+          <p className="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">a series of places to book</p>
         </div>
         <div className="flex flex-col  w-full lg:flex-row justify-center items-start p-4  ">
           <div className="bg-red-300 m-4 m p-4 mx-auto rounded-md w-full text-center sm:p-6 lg:p-4  lg:w-1/5">
@@ -137,11 +127,7 @@ export default function Product() {
                           htmlFor="my-modal-4"
                           className="btn modal-button text-white  focus:ring-4 focus:outline-none  bg-blue-600 font-medium hover:bg-blue-700 rounded-lg text-sm w-full sm:w-full px-5 py-2.5 text-center focus:ring-blue-800 "
                         >
-                          {member
-                            ? "View"
-                            : workspace.type === "public"
-                            ? "Join"
-                            : "Request To Join"}
+                          {member ? "View" : workspace.type === "public" ? "Join" : "Request To Join"}
                         </label>
                       </button>
                     </div>
