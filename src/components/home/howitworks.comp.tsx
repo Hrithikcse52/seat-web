@@ -29,12 +29,9 @@ export default function HowitWorks() {
                 />
               </div>
               <div className="flex mt-12 flex-col items-center lg:items-end md:w-8/12">
-                <h1 className="focus:outline-none text-xl font-bold leading-5">
-                  Create a Wallet
-                </h1>
+                <h1 className="focus:outline-none text-xl font-bold leading-5">Create a Wallet</h1>
                 <h2 className="focus:outline-none text-gray-500 mt-3 pl-3 text-center md:text-right text-base leading-6 tracking-wide">
-                  Create a wallet by linking a payment method that you’re
-                  comfortable with. Paypal, Visa and more{" "}
+                  Create a wallet by linking a payment method that you’re comfortable with. Paypal, Visa and more{" "}
                 </h2>
               </div>
               <div aria-label="transactions" role="img">
@@ -65,12 +62,9 @@ export default function HowitWorks() {
                 />
               </div>
               <div className="flex mt-6 flex-col items-center md:items-start md:w-8/12">
-                <h1 className="focus:outline-none text-xl font-bold leading-5">
-                  SignUp for an Account
-                </h1>
+                <h1 className="focus:outline-none text-xl font-bold leading-5">SignUp for an Account</h1>
                 <h2 className="focus:outline-none text-gray-500 mt-3 text-base leading-6 tracking-wide">
-                  Sign up on our website and opt for a program that suits you
-                  the best .{" "}
+                  Sign up on our website and opt for a program that suits you the best .{" "}
                 </h2>
               </div>
               <div aria-label="wallet" role="img">
@@ -92,12 +86,9 @@ export default function HowitWorks() {
                 />
               </div>
               <div className="flex mt-6 flex-col items-center md:items-start md:w-8/12">
-                <h1 className="focus:outline-none text-xl font-bold leading-5">
-                  Start your Transactions
-                </h1>
+                <h1 className="focus:outline-none text-xl font-bold leading-5">Start your Transactions</h1>
                 <h2 className="focus:outline-none text-gray-500 mt-3 text-base leading-6 tracking-wide">
-                  Start transactions right away. No more complicated process for
-                  anything else.
+                  Start transactions right away. No more complicated process for anything else.
                 </h2>
               </div>
             </div>
@@ -118,12 +109,9 @@ export default function HowitWorks() {
               alt=""
             />
             <div className="mt-10">
-              <h1 className="text-xl text-center tracking-wide leading-5 font-bold">
-                SignUp for an Account
-              </h1>
+              <h1 className="text-xl text-center tracking-wide leading-5 font-bold">SignUp for an Account</h1>
               <h2 className="text-gray-500 mt-3 text-center text-base leading-6 tracking-wide">
-                Sign up on our website and opt for a program that suits you the
-                best .
+                Sign up on our website and opt for a program that suits you the best .
               </h2>
             </div>
             <Image
@@ -140,12 +128,9 @@ export default function HowitWorks() {
               alt=""
             />
             <div className="mt-10">
-              <h1 className="text-xl tracking-wide text-center leading-5 font-bold">
-                Create a Wallet
-              </h1>
+              <h1 className="text-xl tracking-wide text-center leading-5 font-bold">Create a Wallet</h1>
               <h2 className="text-gray-500 mt-3 pl-3 text-center text-base leading-6 tracking-wide">
-                Create a wallet by linking a payment method that you’re
-                comfortable with. Paypal, Visa and more
+                Create a wallet by linking a payment method that you’re comfortable with. Paypal, Visa and more
               </h2>
             </div>
             <Image
@@ -163,12 +148,9 @@ export default function HowitWorks() {
               alt=""
             />
             <div className="flex mt-10 flex-col items-center md:items-start md:w-8/12">
-              <h1 className="text-xl text-center tracking-wide leading-5 font-bold">
-                Start your Transactions
-              </h1>
+              <h1 className="text-xl text-center tracking-wide leading-5 font-bold">Start your Transactions</h1>
               <h2 className="text-gray-500 mt-3 text-center text-base leading-6 tracking-wide">
-                Start transactions right away. No more complicated process for
-                anything else.
+                Start transactions right away. No more complicated process for anything else.
               </h2>
             </div>
           </div>

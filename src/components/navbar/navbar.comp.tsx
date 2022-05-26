@@ -65,9 +65,7 @@ export default function Navbar() {
             <Link key={link.id} href={link.path}>
               <span
                 className={`${
-                  link.path === router.pathname
-                    ? "underline underline-offset-4"
-                    : ""
+                  link.path === router.pathname ? "underline underline-offset-4" : ""
                 } px-4 py-2 mt-2 text-sm font-semibold text-gray-900 rounded-lg dark-mode:bg-gray-700 dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 hover:text-white focus:text-gray-900 hover:bg-purple focus:bg-gray-200 focus:outline-none focus:shadow-outline`}
               >
                 {link.label}
@@ -84,9 +82,7 @@ export default function Navbar() {
                 }}
                 className="flex bg-red flex-row items-center w-full px-4 py-2 mt-2 text-sm  font-semibold text-left  rounded-lg  md:w-auto md:inline md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-purple  focus:outline-none focus:shadow-outline"
               >
-                <span className="">
-                  {(user && getFullName(user.name)) || ""}
-                </span>
+                <span className="">{(user && getFullName(user.name)) || ""}</span>
                 <svg
                   fill="currentColor"
                   viewBox="0 0 20 20"
@@ -106,9 +102,7 @@ export default function Navbar() {
                 <button
                   type="button"
                   onClick={() => {
-                    router.push(
-                      `${router.pathname === "/login" ? "/register" : "/login"}`
-                    );
+                    router.push(`${router.pathname === "/login" ? "/register" : "/login"}`);
                   }}
                   className="w-full bg-purple text-white px-4 py-2 mt-2 text-sm font-semibold text-left  rounded-lg dark-mode:bg-transparent dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:focus:bg-gray-600 dark-mode:hover:bg-gray-600 md:w-auto md:inline md:mt-0 md:ml-4 hover:text-slate-200 focus:text-slate-200 hover:bg-purple_dark  focus:outline-none focus:shadow-outline"
                 >
@@ -148,20 +142,17 @@ export default function Navbar() {
                   >
                     settings
                   </button>
-                  {isFetched &&
-                    auth &&
-                    user &&
-                    (user.role === "admin" || user.role === "manager") && (
-                      <button
-                        onClick={() => {
-                          // navigateClose("/admin");
-                        }}
-                        type="button"
-                        className="block w-full px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
-                      >
-                        admin dash
-                      </button>
-                    )}
+                  {isFetched && auth && user && (user.role === "admin" || user.role === "manager") && (
+                    <button
+                      onClick={() => {
+                        // navigateClose("/admin");
+                      }}
+                      type="button"
+                      className="block w-full px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
+                    >
+                      admin dash
+                    </button>
+                  )}
                   <button
                     onClick={async () => {
                       try {

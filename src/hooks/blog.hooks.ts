@@ -12,19 +12,12 @@ export const fetchBlog = async (id: string) => {
 export const useBlogQuery = (id: string) => {
   const { user, isFetched } = useUserQuery();
 
-  const blogRes = useQuery<{ data: Blog[]; status: number }>(
-    ["blog", id],
-    () => fetchBlog(id),
-    {
-      refetchOnMount: false,
-      refetchOnWindowFocus: false,
-      enabled: isFetched && !!user,
-    }
-  );
-  console.log(
-    "🚀 ~ file: blog.hooks.ts ~ line 18 ~ blogRes ~ blogRes",
-    blogRes
-  );
+  const blogRes = useQuery<{ data: Blog[]; status: number }>(["blog", id], () => fetchBlog(id), {
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+    enabled: isFetched && !!user,
+  });
+  console.log("🚀 ~ file: blog.hooks.ts ~ line 18 ~ blogRes ~ blogRes", blogRes);
 
   let blogs: Blog[] | null = null;
   let statusCode = 400;

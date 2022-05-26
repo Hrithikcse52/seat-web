@@ -9,7 +9,6 @@ export async function logOutAxios() {
 export function checkUserWorkspace(user: User | null, id: string) {
   if (!user) return false;
   console.log("called check", user, id);
-  if (user.workspaces && user.workspaces.find(work => work._id === id))
-    return true;
+  if (user.workspaces && user.workspaces.find(work => work._id === id)) return true;
   return false;
 }

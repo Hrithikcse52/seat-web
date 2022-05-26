@@ -21,9 +21,7 @@ export default function CreateWorkspace() {
   const router = useRouter();
 
   const navigate = (path: string | UrlObject) => router.push(path);
-  const handleChange = ({
-    target: { name, value },
-  }: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleChange = ({ target: { name, value } }: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setData({
       ...data,
       [name]: value,
@@ -58,25 +56,18 @@ export default function CreateWorkspace() {
   return (
     <div className="flex flex-col lg:flex-row">
       <div className="flex flex-col my-8 mx-4 p-4 bg-violet-300 rounded-lg">
-        <div className="whitespace-pre-wrap">
-          Things to keep in mind while creating workspace
-        </div>
+        <div className="whitespace-pre-wrap">Things to keep in mind while creating workspace</div>
         <br />
         <div>Subscribed </div>
         <div>Subscription</div>
       </div>
       <div className="flex  flex-col lg:w-full my-2 lg:my-8 mx-4 ">
         <div className="flex flex-col">
-          <div className="font-semibold text-xl mb-12">
-            Create New Workspace
-          </div>
+          <div className="font-semibold text-xl mb-12">Create New Workspace</div>
           <form onSubmit={handleSubmit}>
             <div className="w-full">
               <div className="flex m-4 ">
-                <label
-                  htmlFor="name"
-                  className="flex w-full flex-col items-start"
-                >
+                <label htmlFor="name" className="flex w-full flex-col items-start">
                   Name
                   <input
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  focus:outline-none  focus:border-purple block w-full p-2.5 "
@@ -88,10 +79,7 @@ export default function CreateWorkspace() {
                 </label>
               </div>
               <div className="flex m-4 ">
-                <label
-                  htmlFor="desc"
-                  className="flex w-full flex-col items-start"
-                >
+                <label htmlFor="desc" className="flex w-full flex-col items-start">
                   Description
                   <input
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  focus:outline-none  focus:border-purple block w-full p-2.5 "
@@ -103,10 +91,7 @@ export default function CreateWorkspace() {
                 </label>
               </div>
               <div className="flex m-4 ">
-                <label
-                  htmlFor="loc"
-                  className="flex w-full flex-col items-start"
-                >
+                <label htmlFor="loc" className="flex w-full flex-col items-start">
                   Location
                   <input
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  focus:outline-none  focus:border-purple block w-full p-2.5 "
@@ -132,10 +117,7 @@ export default function CreateWorkspace() {
                       type="number"
                     />
                   </label> */}
-                <label
-                  htmlFor="type"
-                  className="flex flex-col items-start w-full justify-between"
-                >
+                <label htmlFor="type" className="flex flex-col items-start w-full justify-between">
                   {/* TODO://Change this to a radio button */}
                   Type
                   <select
@@ -170,10 +152,7 @@ export default function CreateWorkspace() {
                   </label> */}
               </div>
               <div className="flex">
-                <button
-                  className="px-4 py-2 ml-auto my-4 rounded-xl bg-purple"
-                  type="submit"
-                >
+                <button className="px-4 py-2 ml-auto my-4 rounded-xl bg-purple" type="submit">
                   Submit
                 </button>
               </div>

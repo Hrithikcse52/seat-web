@@ -1,6 +1,7 @@
 {
   "endOfLine": "auto",
   "arrowParens": "avoid",
+  "printWidth": 120,
   "trailingComma": "es5",
   "semi": true,
   "useTabs": false,

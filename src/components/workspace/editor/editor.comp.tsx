@@ -10,19 +10,12 @@ import instance from "utils/axios";
 
 import RichEditor from "./customeditor.comp";
 
-export default function EditorRich(props: {
-  workspace: string;
-  toogle: Dispatch<SetStateAction<boolean>>;
-}) {
+export default function EditorRich(props: { workspace: string; toogle: Dispatch<SetStateAction<boolean>> }) {
   const { workspace, toogle } = props;
   const [value, setValue] = useState("");
   const queryClient = useQueryClient();
   const editorRef = useRef<ReactQuill>(null);
-  async function submitPost(payload: {
-    raw: DeltaOperation[];
-    html: string;
-    workspace: string;
-  }) {
+  async function submitPost(payload: { raw: DeltaOperation[]; html: string; workspace: string }) {
     try {
       const { data, status } = await instance.post("/blog/create", payload);
       if (status !== 200) {
@@ -32,20 +25,12 @@ export default function EditorRich(props: {
       toast.success("Successfully posted");
       toogle(false);
     } catch (error) {
-      console.log(
-        "🚀 ~ file: editor.comp.tsx ~ line 55 ~ EditorRich ~ error",
-        error
-      );
+      console.log("🚀 ~ file: editor.comp.tsx ~ line 55 ~ EditorRich ~ error", error);
     }
   }
 
   const [editor, setEditor] = useState<Editor.UnprivilegedEditor>();
-  function onChange(
-    data: string,
-    _delta: Delta,
-    _sources: Sources,
-    editors: Editor.UnprivilegedEditor
-  ): void {
+  function onChange(data: string, _delta: Delta, _sources: Sources, editors: Editor.UnprivilegedEditor): void {
     if (!editor) setEditor(editors);
     setValue(data);
   }

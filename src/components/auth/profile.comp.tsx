@@ -4,21 +4,19 @@ import { useWorkspacesQuery } from "hooks/workspace.hooks";
 import Link from "next/link";
 import { getFullName } from "utils/nav.helper";
 import { HiOutlineMail } from "react-icons/hi";
+
+import toast from "react-hot-toast";
+
 import { FiEdit3 } from "react-icons/fi";
 import { Modal, Group } from "@mantine/core";
 import { MdOutlineWorkspaces } from "react-icons/md";
 import Loader from "components/loader.comp";
 import { useRouter } from "next/router";
 import Button from "elements/button";
-import {
-  ChangeEvent,
-  Dispatch,
-  FormEvent,
-  SetStateAction,
-  useState,
-} from "react";
+import { ChangeEvent, Dispatch, FormEvent, SetStateAction, useState } from "react";
 import { User } from "types/user.type";
 import instance from "utils/axios";
+import { useQueryClient } from "react-query";
 
 function EditProfileModal({
   edit,
@@ -41,7 +39,7 @@ function EditProfileModal({
     email: string;
     image: null | File;
   }>(initialData);
-
+  const queryClient = useQueryClient();
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     console.log("handle change", e.target.type);
     if (e.target.files && e.target.type === "file") {
@@ -69,13 +67,17 @@ function EditProfileModal({
           "Content-Type": "multipart/form-data",
         },
       });
-      console.log(
-        "🚀 ~ file: profile.comp.tsx ~ line 74 ~ handleSubmit ~ data, status",
-        data,
-        status
-      );
+      console.log("🚀 ~ file: profile.comp.tsx ~ line 74 ~ handleSubmit ~ data, status", data, status);
+      if (status !== 200) {
+        toast.error(data.message || "Something Went Wrong!");
+      } else {
+        queryClient.invalidateQueries("user");
+        toast.success("Update Success full");
+      }
     } catch (error) {
       console.log("error", JSON.stringify(error));
+    } finally {
+      setEdit(false);
     }
   };
   return (
@@ -83,11 +85,7 @@ function EditProfileModal({
       // withCloseButton={false}
       centered
       opened={edit}
-      title={
-        <div className="font-sans text-xl ml-4 font-medium text-gray-500">
-          Edit Profile
-        </div>
-      }
+      title={<div className="font-sans text-xl ml-4 font-medium text-gray-500">Edit Profile</div>}
       onClose={() => {
         setEdit(false);
         setModalData({
@@ -102,10 +100,7 @@ function EditProfileModal({
         <form onSubmit={handleSubmit}>
           <div className="">
             <div className="flex gap-2">
-              <label
-                className="relative block p-3 border-2 border-gray-200 rounded-lg"
-                htmlFor="name"
-              >
+              <label className="relative block p-3 border-2 border-gray-200 rounded-lg" htmlFor="name">
                 <input
                   className="w-full px-0 pt-5 pb-0 text-sm placeholder-transparent border-none outline-none peer"
                   id="name"
@@ -123,10 +118,7 @@ function EditProfileModal({
                 </span>
               </label>
 
-              <label
-                className="relative block p-3 border-2 border-gray-200 rounded-lg"
-                htmlFor="lastName"
-              >
+              <label className="relative block p-3 border-2 border-gray-200 rounded-lg" htmlFor="lastName">
                 <input
                   className="w-full px-0 pt-5 pb-0 text-sm placeholder-transparent border-none outline-none peer"
                   id="lastName"
@@ -143,19 +135,14 @@ function EditProfileModal({
             </div>
           </div>
           <div className="mt-2">
-            <label
-              className="relative block p-3 border-2 border-gray-200 rounded-lg"
-              htmlFor="email"
-            >
+            <label className="relative block p-3 border-2 border-gray-200 rounded-lg" htmlFor="email">
               <input
                 className="w-full px-0 pt-5 pb-0 text-sm placeholder-transparent border-none outline-none peer"
                 id="email"
                 type="text"
                 name="email"
                 value={modalData.email}
-                onChange={e =>
-                  setModalData({ ...modalData, email: e.target.value })
-                }
+                onChange={e => setModalData({ ...modalData, email: e.target.value })}
                 placeholder="Name"
               />
               <span className="absolute text-xs font-medium text-gray-500 transition-all left-3 peer-focus:text-xs peer-focus:top-3 peer-focus:translate-y-0 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-sm">
@@ -180,11 +167,7 @@ function EditProfileModal({
             {/* image preview */}
             <div className="flex justify-center items-center">
               {modalData.image && (
-                <img
-                  className="w-28 h-28"
-                  src={URL.createObjectURL(modalData.image)}
-                  alt="preview"
-                />
+                <img className="w-28 h-28" src={URL.createObjectURL(modalData.image)} alt="preview" />
               )}
             </div>
           </div>
@@ -213,11 +196,7 @@ export default function UserProfile() {
   const router = useRouter();
   const [edit, setEdit] = useState(false);
 
-  const {
-    workspaces,
-    isFetched: isWorkspaceFetched,
-    isLoading: isWorkLoading,
-  } = useWorkspacesQuery();
+  const { workspaces, isFetched: isWorkspaceFetched, isLoading: isWorkLoading } = useWorkspacesQuery();
 
   return (
     <div className="flex flex-initial flex-col lg:flex-row">
@@ -228,10 +207,7 @@ export default function UserProfile() {
             user.workspaces &&
             user.workspaces.map(workspace => (
               <Link key={workspace._id} href={`/workspace/${workspace._id}`}>
-                <li
-                  className=" p-2 text-lg hover:underline"
-                  key={workspace._id}
-                >
+                <li className=" p-2 text-lg hover:underline" key={workspace._id}>
                   {workspace.name}
                 </li>
               </Link>
@@ -247,7 +223,11 @@ export default function UserProfile() {
           ) : (
             user && (
               <img
-                src={`https://ui-avatars.com/api/?name=${`${user.name.firstName}+${user.name.lastName}`}`}
+                src={
+                  user.profileImg
+                    ? user.profileImg
+                    : `https://ui-avatars.com/api/?name=${`${user.name.firstName}+${user.name.lastName}`}`
+                }
                 alt="user"
                 className="w-28  h-28 relative top-20 rounded-full"
               />
@@ -255,11 +235,7 @@ export default function UserProfile() {
           )}
         </div>
         <div className="text-lg flex justify-center font-sans font-semibold ">
-          {isLoading ? (
-            <div className="h-2 w-20 animate-pulse bg-green-700 rounded" />
-          ) : (
-            user && getFullName(user.name)
-          )}
+          {isLoading ? <div className="h-2 w-20 animate-pulse bg-green-700 rounded" /> : user && getFullName(user.name)}
         </div>
         <div className="flex flex-col">
           <div className="font-semibold flex justify-between items-center">
@@ -281,11 +257,7 @@ export default function UserProfile() {
                 <div className="flex flex-col">
                   <span className="font-extralight">Email</span>
                   <span>
-                    {isLoading ? (
-                      <div className="h-2 w-20 animate-pulse bg-green-700 rounded" />
-                    ) : (
-                      user && user.email
-                    )}
+                    {isLoading ? <div className="h-2 w-20 animate-pulse bg-green-700 rounded" /> : user && user.email}
                   </span>
                 </div>
               </div>
@@ -334,12 +306,7 @@ export default function UserProfile() {
                     viewBox="0 0 24 24"
                     stroke="currentColor"
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M19 9l-7 7-7-7"
-                    />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
                   </svg>
                 </summary>
                 <div className="bg-inherit rounded-xl flex items-center justify-between p-4">
@@ -347,9 +314,7 @@ export default function UserProfile() {
                   {/* Create auto populate doc user */}
                   <div>
                     CreatedBy:{"  "}
-                    {workspace.createdBy === user?.id
-                      ? "You"
-                      : workspace.createdBy}
+                    {workspace.createdBy === user?.id ? "You" : workspace.createdBy}
                   </div>
                   <button
                     disabled
@@ -365,9 +330,7 @@ export default function UserProfile() {
           {isWorkLoading && !isWorkspaceFetched && <Loader />}
         </div>
       </div>
-      {isAuth && user && (
-        <EditProfileModal edit={edit} user={user} setEdit={setEdit} />
-      )}
+      {isAuth && user && <EditProfileModal edit={edit} user={user} setEdit={setEdit} />}
     </div>
   );
 }

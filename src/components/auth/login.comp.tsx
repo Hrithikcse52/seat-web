@@ -22,19 +22,13 @@ export default function LoginCard() {
   const handleLoginSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setLoading(!loading);
-    const { status, data } = await axios.post(
-      `${BACKEND_URL}/user/login`,
-      loginData,
-      { withCredentials: true }
-    );
+    const { status, data } = await axios.post(`${BACKEND_URL}/user/login`, loginData, { withCredentials: true });
     queryClient.invalidateQueries("user");
     router.push("/");
   };
 
-  const setEmail = (e: ChangeEvent<HTMLInputElement>) =>
-    setLoginData({ ...loginData, email: e.target.value });
-  const setPassword = (e: ChangeEvent<HTMLInputElement>) =>
-    setLoginData({ ...loginData, password: e.target.value });
+  const setEmail = (e: ChangeEvent<HTMLInputElement>) => setLoginData({ ...loginData, email: e.target.value });
+  const setPassword = (e: ChangeEvent<HTMLInputElement>) => setLoginData({ ...loginData, password: e.target.value });
   return (
     <section className="relative flex flex-wrap lg:h-screen lg:items-center">
       <div className="relative w-full h-64 sm:h-96 lg:w-1/2 lg:h-full">
@@ -49,15 +43,12 @@ export default function LoginCard() {
           <h1 className="text-2xl font-bold sm:text-3xl">Get started today!</h1>
 
           <p className="mt-4 text-gray-500">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Et libero
-            nulla eaque error neque ipsa culpa autem, at itaque nostrum!
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Et libero nulla eaque error neque ipsa culpa autem,
+            at itaque nostrum!
           </p>
         </div>
 
-        <form
-          onSubmit={handleLoginSubmit}
-          className="max-w-md mx-auto mt-8 mb-0 space-y-4"
-        >
+        <form onSubmit={handleLoginSubmit} className="max-w-md mx-auto mt-8 mb-0 space-y-4">
           <div>
             <label htmlFor="email" className="sr-only">
               Email

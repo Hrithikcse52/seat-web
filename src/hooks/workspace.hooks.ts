@@ -32,15 +32,11 @@ export const fetchWorkspace = async (id: string) => {
 
 export const useWorkspacesQuery = () => {
   const { user, isFetched } = useUserQuery();
-  const workspaceResponse = useQuery<WorkSpaceQueryRes>(
-    ["managed_workspaces", user?.id],
-    fetchWorkspaces,
-    {
-      refetchOnMount: false,
-      refetchOnWindowFocus: false,
-      enabled: isFetched && !!user,
-    }
-  );
+  const workspaceResponse = useQuery<WorkSpaceQueryRes>(["managed_workspaces", user?.id], fetchWorkspaces, {
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+    enabled: isFetched && !!user,
+  });
   let workspaces = null;
   let statusCode = 400;
   if (workspaceResponse.data && workspaceResponse.data.status === 200) {
@@ -53,15 +49,11 @@ export const useWorkspacesQuery = () => {
 };
 
 export const useExploreWorkQuery = () => {
-  const workspaceResponse = useQuery<WorkSpaceQueryRes>(
-    "explore_workspaces",
-    exploreWorkspaces,
-    {
-      refetchOnMount: false,
-      refetchOnWindowFocus: false,
-      // refetchInterval: 1000 * 60,
-    }
-  );
+  const workspaceResponse = useQuery<WorkSpaceQueryRes>("explore_workspaces", exploreWorkspaces, {
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+    // refetchInterval: 1000 * 60,
+  });
   let workspaces = null;
   let statusCode = 400;
   if (workspaceResponse.data && workspaceResponse.data.status === 200) {
@@ -76,17 +68,13 @@ export const useExploreWorkQuery = () => {
 export const useGetWorkspace = (id: string, data: WorkspaceRes) => {
   const { user, isFetched } = useUserQuery();
 
-  const workspaceResponse = useQuery<WorkspaceRes>(
-    ["explore_workspaces", id],
-    () => fetchWorkspace(id),
-    {
-      refetchOnMount: false,
-      refetchOnWindowFocus: false,
-      enabled: isFetched && !!user,
-      initialData: data || undefined,
-      // refetchInterval: 1000 * 60,
-    }
-  );
+  const workspaceResponse = useQuery<WorkspaceRes>(["explore_workspaces", id], () => fetchWorkspace(id), {
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+    enabled: isFetched && !!user,
+    initialData: data || undefined,
+    // refetchInterval: 1000 * 60,
+  });
   let workspace = null;
   let statusCode = 400;
   if (workspaceResponse.data && workspaceResponse.data.status === 200) {

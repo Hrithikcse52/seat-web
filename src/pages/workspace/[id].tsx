@@ -21,23 +21,12 @@ export async function getServerSideProps({ query }: GetServerSidePropsContext) {
   };
 }
 
-function WorkspaceDetails({
-  router,
-  data,
-}: {
-  router: any;
-  data: WorkspaceRes;
-}) {
+function WorkspaceDetails({ router, data }: { router: any; data: WorkspaceRes }) {
   console.log("data", data);
   const { id } = router.query;
   const { workspace, isLoading } = useGetWorkspace(id as string, data);
   const { blogs, statusCode, isFetched } = useBlogQuery(id);
-  console.log(
-    "🚀 ~ file: [id].tsx ~ line 34 ~ blogs, isFetched",
-    blogs,
-    statusCode,
-    isFetched
-  );
+  console.log("🚀 ~ file: [id].tsx ~ line 34 ~ blogs, isFetched", blogs, statusCode, isFetched);
 
   console.log("workspace", data, isLoading, workspace);
   return (
@@ -45,45 +34,24 @@ function WorkspaceDetails({
       <Head>
         <title>{`${workspace && workspace.name} | Membook Profile`}</title>
 
-        <meta
-          name="title"
-          content={`${workspace && workspace.name} | Membook Profile`}
-        />
+        <meta name="title" content={`${workspace && workspace.name} | Membook Profile`} />
         <meta name="author" content="Hrithik Prasad" />
 
-        <meta
-          name="description"
-          content={`${workspace && workspace.description}`}
-        />
+        <meta name="description" content={`${workspace && workspace.description}`} />
 
         <meta property="og:type" content="website" />
         <meta property="og:url" content={`${FRONTEND_URL}/workspace/${id}`} />
-        <meta
-          property="og:title"
-          content={`${workspace && workspace.name} | Membook Profile`}
-        />
-        <meta
-          property="og:description"
-          content={`${workspace && workspace.description}`}
-        />
+        <meta property="og:title" content={`${workspace && workspace.name} | Membook Profile`} />
+        <meta property="og:description" content={`${workspace && workspace.description}`} />
         <meta
           property="og:image"
           content="https://wxmwctiasizeoqlubrjn.supabase.co/storage/v1/object/public/seat/carousel/seat2.jpg"
         />
 
         <meta property="twitter:card" content="summary_large_image" />
-        <meta
-          property="twitter:url"
-          content={`${FRONTEND_URL}/workspace/${id}`}
-        />
-        <meta
-          property="twitter:title"
-          content={`${workspace && workspace.name} | Membook Profile`}
-        />
-        <meta
-          property="twitter:description"
-          content={`${workspace && workspace.description}`}
-        />
+        <meta property="twitter:url" content={`${FRONTEND_URL}/workspace/${id}`} />
+        <meta property="twitter:title" content={`${workspace && workspace.name} | Membook Profile`} />
+        <meta property="twitter:description" content={`${workspace && workspace.description}`} />
         <meta
           property="twitter:image"
           content="https://wxmwctiasizeoqlubrjn.supabase.co/storage/v1/object/public/seat/carousel/seat2.jpg"
@@ -95,11 +63,7 @@ function WorkspaceDetails({
           <ol>
             {workspace &&
               workspace.permission.map(admins => (
-                <li key={admins.role}>
-                  {typeof admins.user === "object"
-                    ? getFullName(admins.user.name)
-                    : ""}
-                </li>
+                <li key={admins.role}>{typeof admins.user === "object" ? getFullName(admins.user.name) : ""}</li>
               ))}
           </ol>
           <div>Description</div>
@@ -129,16 +93,10 @@ function WorkspaceDetails({
             )}
           </div>
           <div className="text-lg flex justify-center font-sans font-semibold ">
-            {isLoading ? (
-              <div className="h-2 w-20 animate-pulse bg-green-700 rounded" />
-            ) : (
-              workspace && workspace.name
-            )}
+            {isLoading ? <div className="h-2 w-20 animate-pulse bg-green-700 rounded" /> : workspace && workspace.name}
           </div>
           <WorkSpaceHeader workspace={id as string} />
-          <div>
-            {blogs && blogs.map(blog => <Article data={blog} key={blog._id} />)}
-          </div>
+          <div>{blogs && blogs.map(blog => <Article data={blog} key={blog._id} />)}</div>
         </div>
       </div>
     </>
