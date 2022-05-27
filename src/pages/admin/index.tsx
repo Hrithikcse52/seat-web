@@ -1,20 +1,19 @@
 import Loader from "components/loader.comp";
 import { useUserQuery } from "hooks/user.hooks";
-import { NextRouter, useRouter, withRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { NextRouter, withRouter } from "next/router";
+import { useState } from "react";
 import { BsFillArrowRightSquareFill, BsFillArrowLeftSquareFill, BsFillGearFill } from "react-icons/bs";
+import { adminAccess } from "utils/user.helper";
 
 function Admin({ router }: { router: NextRouter }) {
   const { user, isAuth: auth, isFetched, isLoading } = useUserQuery();
   const [sidebar, setSidebar] = useState(true);
   console.log("loading", isLoading, isFetched, auth, user);
+  console.log("admin access check", adminAccess(user?.role as string));
 
-  useEffect(() => {
-    console.log("called");
-    if ((isFetched && !auth) || (user?.role !== "admin" && user?.role !== "manager")) {
-      router.push("/", undefined, { shallow: true });
-    }
-  }, [isFetched]);
+  if ((isFetched && !auth) || (isFetched && user?.role !== "admin" && user?.role !== "manager")) {
+    router.push("/", undefined, { shallow: true });
+  }
 
   if (isFetched && auth && user && (user.role === "admin" || user.role === "manager"))
     return (
