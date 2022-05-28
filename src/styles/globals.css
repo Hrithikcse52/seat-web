@@ -12,7 +12,7 @@
   --accent-shade: #ffb4a2;
 }
 
-.no-scroolbar::-webkit-scrollbar {
+.no-scrollbar::-webkit-scrollbar {
   display: none;
 }
 .no-scrollbar {

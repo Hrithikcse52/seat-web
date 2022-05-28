@@ -316,7 +316,7 @@ export default function UserProfile() {
   const { workspaces, isFetched: isWorkspaceFetched, isLoading: isWorkLoading } = useWorkspacesQuery();
 
   return (
-    <div className="flex flex-initial w-full overflow-auto no-scroolbar ">
+    <div className="flex flex-initial w-full overflow-auto no-scrollbar ">
       {/* <div className="flex flex-col my-8 mx-4 p-4 bg-violet-300 rounded-lg">
         <h3 className="font-bold text-xl">Workspace Subscription</h3>
         <ul className="mx-4 my-2 list-disc">
