@@ -21,7 +21,7 @@ function Admin({ router }: { router: NextRouter }) {
       <div className="h-screen flex">
         <div
           className={` ${
-            sidebar ? "w-64" : "w-14"
+            sidebar ? "w-56" : "w-14"
           } flex flex-col top-14 left-0 bg-purple  h-full text-white transition-all duration-300 border-none z-10 sidebar`}
         >
           <div className="overflow-y-auto overflow-x-hidden flex flex-col justify-between flex-grow">
