@@ -63,7 +63,7 @@ export default function LoginCard() {
 
             <div className="relative">
               <input
-                type="email"
+                type="text"
                 onChange={setEmail}
                 value={loginData.email}
                 className="w-full p-4 pr-12 text-sm border-gray-200 rounded-lg shadow-sm"
