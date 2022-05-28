@@ -199,8 +199,8 @@ export default function UserProfile() {
   const { workspaces, isFetched: isWorkspaceFetched, isLoading: isWorkLoading } = useWorkspacesQuery();
 
   return (
-    <div className="flex flex-initial flex-col lg:flex-row">
-      <div className="flex flex-col my-8 mx-4 p-4 bg-violet-300 rounded-lg">
+    <div className="flex flex-initial w-full overflow-auto no-scroolbar ">
+      {/* <div className="flex flex-col my-8 mx-4 p-4 bg-violet-300 rounded-lg">
         <h3 className="font-bold text-xl">Workspace Subscription</h3>
         <ul className="mx-4 my-2 list-disc">
           {user &&
@@ -215,8 +215,8 @@ export default function UserProfile() {
         </ul>
         <div>Subscribed </div>
         <div>Subscription</div>
-      </div>
-      <div className="flex flex-1 flex-col lg:w-full my-2 lg:my-8 mx-4 ">
+      </div> */}
+      <div className="flex flex-1 flex-col w-full my-2 lg:my-8 mx-4 ">
         <div className="bg-green-600 min-h-[10rem] rounded-lg shadow-lg flex justify-center items-center mb-20">
           {isLoading ? (
             <div className="w-28  h-28 relative top-20 rounded-full animate-pulse bg-slate-600" />

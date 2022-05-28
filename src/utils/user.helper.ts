@@ -12,3 +12,8 @@ export function checkUserWorkspace(user: User | null, id: string) {
   if (user.workspaces && user.workspaces.find(work => work._id === id)) return true;
   return false;
 }
+const adminAccessRoles = ["manager", "admin"];
+
+export function adminAccess(role: string) {
+  return role in adminAccessRoles;
+}

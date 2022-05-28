@@ -8,7 +8,7 @@ export default function Document() {
         <script
           async
           defer
-          data-website-id="ff7f7cbc-5f7f-4669-a1ec-fca956437b21"
+          data-website-id="ccf915e6-8cea-4e99-b0f8-ecce7039fa40"
           src="https://umami-production-716c.up.railway.app/umami.js"
         />
       </Head>
