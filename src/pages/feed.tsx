@@ -1,5 +1,4 @@
-import FeedNav from "components/feed/feed.comp";
-
+import FeedPosts from "components/feed/feed.comp";
 /*
 
     <meta property="og:description" content="OPEN_GRAPH_DESCRIPTION" />
@@ -18,5 +17,5 @@ import FeedNav from "components/feed/feed.comp";
 */
 
 export default function FeedPage() {
-  return <FeedNav />;
+  return <FeedPosts />;
 }

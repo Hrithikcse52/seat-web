@@ -11,7 +11,7 @@ export default function LoginCard() {
   const router = useRouter();
   const queryClient = useQueryClient();
   const [loginData, setLoginData] = useState({
-    email: "",
+    emailOrusername: "",
     password: "",
   });
 
@@ -24,7 +24,7 @@ export default function LoginCard() {
     if (status !== 200) {
       toast.error("Username/Email Or Password is Wrong");
       setLoginData({
-        email: "",
+        emailOrusername: "",
         password: "",
       });
     } else {
@@ -34,7 +34,8 @@ export default function LoginCard() {
     }
   };
 
-  const setEmail = (e: ChangeEvent<HTMLInputElement>) => setLoginData({ ...loginData, email: e.target.value });
+  const setEmailOrusername = (e: ChangeEvent<HTMLInputElement>) =>
+    setLoginData({ ...loginData, emailOrusername: e.target.value });
   const setPassword = (e: ChangeEvent<HTMLInputElement>) => setLoginData({ ...loginData, password: e.target.value });
   return (
     <section className="relative flex flex-wrap lg:h-screen lg:items-center">
@@ -63,9 +64,9 @@ export default function LoginCard() {
 
             <div className="relative">
               <input
-                type="email"
-                onChange={setEmail}
-                value={loginData.email}
+                type="text"
+                onChange={setEmailOrusername}
+                value={loginData.emailOrusername}
                 className="w-full p-4 pr-12 text-sm border-gray-200 rounded-lg shadow-sm"
                 placeholder="Enter email"
               />
