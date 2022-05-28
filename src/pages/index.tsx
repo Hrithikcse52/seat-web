@@ -1,4 +1,3 @@
-import HomeCarausel from "components/carausel/carausel.comp";
 import FAQ from "components/home/faq.comp";
 import Featurepage from "components/home/feature.comp";
 import { projectDesc } from "config";
@@ -24,7 +23,7 @@ function Home() {
         <meta name="twitter:description" content={projectDesc.desc} />
         <meta name="twitter:image" content="https://ui-avatars.com/api/?name=demomembook" />
       </Head>
-      <HomeCarausel />
+      {/* <HomeCarausel /> */}
       <Featurepage />
       <FAQ />
     </>

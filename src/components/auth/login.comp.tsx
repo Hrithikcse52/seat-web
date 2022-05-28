@@ -1,8 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import axios from "axios";
 import { BACKEND_URL } from "config";
-import { useUserQuery } from "hooks/user.hooks";
-import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState, FormEvent, ChangeEvent } from "react";
@@ -10,7 +8,6 @@ import toast from "react-hot-toast";
 import { useQueryClient } from "react-query";
 
 export default function LoginCard() {
-  const { isAuth: auth, isFetched } = useUserQuery();
   const router = useRouter();
   const queryClient = useQueryClient();
   const [loginData, setLoginData] = useState({

@@ -13,7 +13,6 @@ export default function Button({ accent = "pri", ...props }: ButtonProps): JSX.E
     "block px-5 py-3 text-sm font-medium text-white transition bg-indigo-600 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring ";
   if (className) defCls += ` ${className}`;
   return (
-    // eslint-disable-next-line jsx-a11y/control-has-associated-label
     <button
       type="button"
       {...props}

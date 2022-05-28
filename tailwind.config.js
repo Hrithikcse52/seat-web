@@ -6,6 +6,11 @@ module.exports = {
         light_grey: "#f1f2f6",
         purple: "#786fa6",
         purple_dark: "#574b90",
+        primary: "#006d77",
+        "primary-shade": "#83c5be",
+        foreground: "#edf6f9",
+        accent: "#e29578",
+        "accent-shade": "#ffb4a2",
       },
       boxShadow: {
         login: "0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)",
