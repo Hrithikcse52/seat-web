@@ -7,7 +7,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   accent?: string;
 }
 
-export default function Button({ accent = "pri", ...props }: ButtonProps): JSX.Element {
+export default function Button({ ...props }: ButtonProps): JSX.Element {
   const { children, className } = props;
   let defCls =
     "block px-5 py-3 text-sm font-medium text-white transition bg-indigo-600 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring ";

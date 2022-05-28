@@ -12,6 +12,7 @@ export default function Login() {
       console.log("login reirec called");
       router.push("/feed");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <>
