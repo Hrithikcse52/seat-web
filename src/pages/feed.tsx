@@ -1,4 +1,5 @@
 import Feed from "components/feed/feed.comp";
+import FeedNav from "components/feed/feed.nav";
 
 /*
 
@@ -18,5 +19,5 @@ import Feed from "components/feed/feed.comp";
 */
 
 export default function FeedPage() {
-  return <Feed />;
+  return <FeedNav />;
 }

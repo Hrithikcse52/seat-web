@@ -25,6 +25,7 @@
     "no-nested-ternary": "off",
     "import/extensions": 0,
     "no-console": "off",
+    "jsx-a11y/anchor-is-valid": "off",
     "prettier/prettier": "error",
     "jsx-a11y/label-has-associated-control": [
       "error",

@@ -6,7 +6,7 @@ const ImageLoader = styled.img`
 
 export default function Loader() {
   return (
-    <div className=" flex justify-center items-center ">
+    <div className="flex w-full h-full justify-center items-center ">
       <ImageLoader alt="loader" className="w-64" src="/loader.svg" />
     </div>
   );

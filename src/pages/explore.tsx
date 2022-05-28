@@ -8,7 +8,7 @@ export default function Explore() {
       <Head>
         <title>Explore Workspace</title>
       </Head>
-      <HomeCarausel />
+      {/* <HomeCarausel /> */}
       <Product />
     </>
   );

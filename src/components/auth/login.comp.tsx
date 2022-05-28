@@ -6,25 +6,35 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState, FormEvent, ChangeEvent } from "react";
+import toast from "react-hot-toast";
 import { useQueryClient } from "react-query";
 
 export default function LoginCard() {
   const { isAuth: auth, isFetched } = useUserQuery();
   const router = useRouter();
-  if (isFetched && auth) router.push("/");
-
   const queryClient = useQueryClient();
   const [loginData, setLoginData] = useState({
     email: "",
     password: "",
   });
+
   const [loading, setLoading] = useState(false);
   const handleLoginSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setLoading(!loading);
     const { status, data } = await axios.post(`${BACKEND_URL}/user/login`, loginData, { withCredentials: true });
-    queryClient.invalidateQueries("user");
-    router.push("/");
+    console.log("stats", status, data);
+    if (status !== 200) {
+      toast.error("Username/Email Or Password is Wrong");
+      setLoginData({
+        email: "",
+        password: "",
+      });
+    } else {
+      await queryClient.invalidateQueries("user");
+      console.log("called this invalidate");
+      await router.push("/feed");
+    }
   };
 
   const setEmail = (e: ChangeEvent<HTMLInputElement>) => setLoginData({ ...loginData, email: e.target.value });
