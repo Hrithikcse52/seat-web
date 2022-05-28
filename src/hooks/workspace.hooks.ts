@@ -1,4 +1,4 @@
-import { QueryOptions, useQuery } from "react-query";
+import { useQuery } from "react-query";
 import { Workspace } from "types/workspace.type";
 import instance from "utils/axios";
 import { useUserQuery } from "./user.hooks";

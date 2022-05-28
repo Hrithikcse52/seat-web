@@ -2,10 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --purple: #786fa6;
+  --primary: #006d77;
+  --primary-shade: #83c5be;
+  --foreground: #edf6f9;
+  --foreground-strong: #edf6f9c7;
+  --accent: #e29578;
+  --accent-shade: #ffb4a2;
+}
+
 .no-scroolbar::-webkit-scrollbar {
   display: none;
 }
 .no-scrollbar {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
+}
+
+body {
+  background-color: #fff;
 }

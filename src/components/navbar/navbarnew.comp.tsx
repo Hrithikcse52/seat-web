@@ -2,7 +2,6 @@ import { Avatar } from "@mantine/core";
 import { clearAllCache, useUserQuery } from "hooks/user.hooks";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useState } from "react";
 import { useQueryClient } from "react-query";
 import { getFullName } from "utils/nav.helper";
 import { logOutAxios } from "utils/user.helper";
@@ -13,11 +12,9 @@ export default function NavBarNew() {
   const { user, isAuth, isFetched } = useUserQuery();
   const queryClient = useQueryClient();
 
-  const [dropdown, setDropdown] = useState(false);
-  const [ham, setHam] = useState(false);
   return (
-    <nav className="border-b border-gray-100">
-      <div className="flex items-center justify-between h-16 mx-auto max-w-screen-2xl sm:px-6 lg:px-8">
+    <nav className="border-b  w-screen">
+      <div className="flex items-center justify-between h-16 mx-auto max-w-screen-2xl px-8">
         <div className="flex items-center justify-center ">
           <Link href="/" passHref>
             <a className="flex items-center">membook</a>
@@ -25,7 +22,7 @@ export default function NavBarNew() {
         </div>
 
         <div className="flex items-center justify-end flex-1">
-          <div className="flex items-center ml-8">
+          <div className="flex items-center">
             {isFetched && isAuth && user && (
               <div className="flex items-center border-gray-100">
                 <div className="dropdown dropdown-end">
@@ -78,7 +75,7 @@ export default function NavBarNew() {
             )}
 
             {isFetched && !isAuth && (
-              <div className="items-center justify-end flex-1 hidden space-x-4 sm:flex">
+              <div className="items-center justify-end flex-1 space-x-4 flex">
                 <Link href="/login" passHref>
                   <a className="px-5 py-2 text-sm font-medium text-gray-500 bg-gray-100 rounded-lg" href="">
                     Log in

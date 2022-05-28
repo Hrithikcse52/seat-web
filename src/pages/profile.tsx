@@ -4,14 +4,6 @@ import { useUserQuery } from "hooks/user.hooks";
 import { useRouter } from "next/router";
 import Head from "next/head";
 
-function MetaWrapper() {
-  return (
-    <Head>
-      <title>Membook</title>
-    </Head>
-  );
-}
-
 export default function Profile() {
   const { isAuth, isFetched } = useUserQuery();
   const router = useRouter();

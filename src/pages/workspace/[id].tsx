@@ -6,7 +6,7 @@ import { useBlogQuery } from "hooks/blog.hooks";
 import { useGetWorkspace, WorkspaceRes } from "hooks/workspace.hooks";
 import { GetServerSidePropsContext } from "next";
 import Head from "next/head";
-import { withRouter } from "next/router";
+import { NextRouter, withRouter } from "next/router";
 
 import { getFullName } from "utils/nav.helper";
 
@@ -21,11 +21,11 @@ export async function getServerSideProps({ query }: GetServerSidePropsContext) {
   };
 }
 
-function WorkspaceDetails({ router, data }: { router: any; data: WorkspaceRes }) {
+function WorkspaceDetails({ router, data }: { router: NextRouter; data: WorkspaceRes }) {
   console.log("data", data);
   const { id } = router.query;
   const { workspace, isLoading } = useGetWorkspace(id as string, data);
-  const { blogs, statusCode, isFetched } = useBlogQuery(id);
+  const { blogs, statusCode, isFetched } = useBlogQuery(id as string);
   console.log("🚀 ~ file: [id].tsx ~ line 34 ~ blogs, isFetched", blogs, statusCode, isFetched);
 
   console.log("workspace", data, isLoading, workspace);

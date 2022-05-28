@@ -1,6 +1,5 @@
 import { useQuery } from "react-query";
 import { Blog } from "types/blog.type";
-import { User } from "types/user.type";
 import instance from "utils/axios";
 import { useUserQuery } from "./user.hooks";
 

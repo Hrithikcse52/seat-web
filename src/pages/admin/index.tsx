@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-html-link-for-pages */
 import Loader from "components/loader.comp";
 import { useUserQuery } from "hooks/user.hooks";
 import { NextRouter, withRouter } from "next/router";

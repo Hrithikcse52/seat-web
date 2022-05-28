@@ -1,5 +1,4 @@
-import Feed from "components/feed/feed.comp";
-import FeedNav from "components/feed/feed.nav";
+import FeedNav from "components/feed/feed.comp";
 
 /*
 
