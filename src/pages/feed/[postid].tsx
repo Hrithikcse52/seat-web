@@ -1,9 +1,17 @@
 import PostDetails from "components/feed/postDetails.comp";
+import Head from "next/head";
 import { useRouter } from "next/router";
 
 export default function FeedPostDetails() {
   const router = useRouter();
   console.log(router);
   const { postid } = router.query;
-  return <PostDetails post={postid as string} />;
+  return (
+    <>
+      <Head>
+        <title>post | membook </title>
+      </Head>
+      <PostDetails post={postid as string} />
+    </>
+  );
 }

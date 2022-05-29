@@ -1,4 +1,6 @@
 import FeedPosts from "components/feed/feed.comp";
+import Head from "next/head";
+import { projectDesc } from "config";
 /*
 
     <meta property="og:description" content="OPEN_GRAPH_DESCRIPTION" />
@@ -17,5 +19,24 @@ import FeedPosts from "components/feed/feed.comp";
 */
 
 export default function FeedPage() {
-  return <FeedPosts />;
+  return (
+    <>
+      <Head>
+        <link rel="icon" href="/favicon.svg" />
+        <title>Feed Page | membook</title>
+        <meta name="description" content={projectDesc.desc} />
+        <meta property="og:url" content={projectDesc.site} />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Feed Page | membook" />
+        <meta property="og:description" content={projectDesc.desc} />
+        <meta property="og:image" content="https://ui-avatars.com/api/?name=demomembook" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta property="twitter:url" content={projectDesc.site} />
+        <meta name="twitter:title" content="Feed Page | membook" />
+        <meta name="twitter:description" content={projectDesc.desc} />
+        <meta name="twitter:image" content="https://ui-avatars.com/api/?name=demomembook" />
+      </Head>
+      <FeedPosts />
+    </>
+  );
 }

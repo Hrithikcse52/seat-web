@@ -197,8 +197,14 @@ export default function ScrollFeed() {
               <div className="flex flex-col flex-grow ml-4">
                 <div className="flex items-center">
                   <div className="flex flex-col">
-                    <span className="font-semibold">{getFullName(post.createdBy.name)}</span>
-                    <span className="ml-1 text-sm">@{post.createdBy.username}</span>
+                    <Link href={`/profile/${post.createdBy.username}`} passHref>
+                      <a className=" hover:underline hover:cursor-pointer font-semibold">
+                        {getFullName(post.createdBy.name)}
+                      </a>
+                    </Link>
+                    <Link href={`/profile/${post.createdBy.username}`} passHref>
+                      <a className="hover:underline hover:cursor-pointer ml-1 text-sm">@{post.createdBy.username}</a>
+                    </Link>
                   </div>
                   <span className="ml-auto text-sm">{formatDistanceToNow(new Date(post.createdAt))}</span>
                 </div>
@@ -210,9 +216,6 @@ export default function ScrollFeed() {
                       dangerouslySetInnerHTML={{ __html: sanitize(post.postDataHTML) }}
                     />
                   </div>
-                  {/* <a className="underline" href="#">
-                   
-                 </a> */}
                 </div>
 
                 <div className="mt-4 w-full flex items-center justify-between">
