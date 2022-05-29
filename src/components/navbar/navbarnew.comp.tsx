@@ -13,7 +13,7 @@ export default function NavBarNew() {
   const queryClient = useQueryClient();
 
   return (
-    <nav className="border-b  w-screen">
+    <nav className="border-b  max-w-screen">
       <div className="flex items-center justify-between h-16 mx-auto max-w-screen-2xl px-8">
         <div className="flex items-center justify-center ">
           <Link href="/" passHref>
