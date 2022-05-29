@@ -46,9 +46,3 @@ echo '🤔🤔🤔🤔... Alright.... Code looks good to me... Trying to build n
 
 # If everything passes... Now we can commit
 echo '✅✅✅✅ You win this time... I am committing this now. ✅✅✅✅'
-
-npm run cm ||
-(
-    echo '❌👷🔨❌ Better call Bob... Because your commit failed ❌👷🔨❌'
-    false;
-)
