@@ -38,7 +38,7 @@ function Details({ id }: { id: string }) {
       if (status !== 200) {
         toast.error(data.message || "something went wrong!");
       } else {
-        queryClient.refetchQueries("post");
+        queryClient.refetchQueries(["post", postId]);
       }
     } catch (err) {
       console.log(err);
