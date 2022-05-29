@@ -10,6 +10,9 @@ export default function Feed({ children }: { children: ReactNode }) {
   const router = useRouter();
   const publicAccess = publicAccessURL.includes(router.pathname);
   const { user, isAuth, isFetched } = useUserQuery();
+  if (isFetched && !isAuth && publicAccess) {
+    return <div>{children}</div>;
+  }
   if (isFetched && !isAuth && !publicAccess) router.push("/login");
   if (isFetched && isAuth && user)
     return (
@@ -187,14 +190,8 @@ export default function Feed({ children }: { children: ReactNode }) {
         </div>
       </div>
     );
-  if (isFetched && !isAuth && publicAccess) {
-    console.log("public view");
-    return <div>{children}</div>;
-  }
-
-  return (
-    <div className="w-full h-[90vh] flex justify-center items-center">
-      <Loader />
-    </div>
-  );
+  // if (isFetched && !isAuth && publicAccess) {
+  // }
+  console.log("public view");
+  return <div>{children}</div>;
 }

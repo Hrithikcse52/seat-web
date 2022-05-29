@@ -21,10 +21,8 @@ export async function getServerSideProps({ query }: GetServerSidePropsContext) {
 
 export default function Profile({ meta }: { meta: { data: User; status: number } }) {
   const { data } = meta;
+  console.log("data", data);
   const fullName = getFullName(data.name);
-
-  const { isFetched } = useUserQuery();
-
   return (
     <>
       <Head>
@@ -45,7 +43,7 @@ export default function Profile({ meta }: { meta: { data: User; status: number }
         <meta property="twitter:description" content={`${data && data.username}`} />
         <meta property="twitter:image" content={data && data.profileImg} />
       </Head>
-      {isFetched ? <UserProfile /> : <Loader />}
+      <UserProfile user={data} />
     </>
   );
 }

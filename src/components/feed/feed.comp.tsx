@@ -168,9 +168,11 @@ export default function FeedPosts() {
                 </Avatar>
 
                 <div className="flex flex-col flex-grow ml-4">
-                  <div className="flex">
-                    <span className="font-semibold">{post.createdBy.username}</span>
-                    <span className="ml-1">@{post.createdBy.username}</span>
+                  <div className="flex items-center">
+                    <div className="flex flex-col">
+                      <span className="font-semibold">{getFullName(post.createdBy.name)}</span>
+                      <span className="ml-1 text-sm">@{post.createdBy.username}</span>
+                    </div>
                     <span className="ml-auto text-sm">{formatDistanceToNow(new Date(post.created))}</span>
                   </div>
                   <div className="mt-1">
@@ -256,11 +258,26 @@ export default function FeedPosts() {
         </div>
       </div>
       <div className="flex flex-col flex-shrink-0 w-1/4 py-4 pl-4">
-        <h3 className="mt-6 font-semibold">Trending</h3>
+        <h3 className="mt-6 w-full font-semibold">Trending</h3>
         <div className="flex w-full py-4 border-b border-gray-300">
           <span className="flex-shrink-0 w-10 h-10 bg-gray-400 rounded-full" />
           <div className="flex flex-col flex-grow ml-2">
-            <div className="flex text-sm">
+            <div className="flex flex-col text-sm">
+              <span className="font-semibold">Username</span>
+              <span className="">@username</span>
+            </div>
+            <p className="mt-1 text-sm">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, et dolore magna aliqua.{" "}
+              <a className="underline" href="#">
+                #hashtag
+              </a>
+            </p>
+          </div>
+        </div>
+        <div className="flex w-full py-4 border-b border-gray-300">
+          <span className="flex-shrink-0 w-10 h-10 bg-gray-400 rounded-full" />
+          <div className="flex flex-col flex-grow ml-2">
+            <div className="flex flex-col text-sm">
               <span className="font-semibold">Username</span>
               <span className="ml-1">@username</span>
             </div>
@@ -275,22 +292,7 @@ export default function FeedPosts() {
         <div className="flex w-full py-4 border-b border-gray-300">
           <span className="flex-shrink-0 w-10 h-10 bg-gray-400 rounded-full" />
           <div className="flex flex-col flex-grow ml-2">
-            <div className="flex text-sm">
-              <span className="font-semibold">Username</span>
-              <span className="ml-1">@username</span>
-            </div>
-            <p className="mt-1 text-sm">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, et dolore magna aliqua.{" "}
-              <a className="underline" href="#">
-                #hashtag
-              </a>
-            </p>
-          </div>
-        </div>
-        <div className="flex w-full py-4 border-b border-gray-300">
-          <span className="flex-shrink-0 w-10 h-10 bg-gray-400 rounded-full" />
-          <div className="flex flex-col flex-grow ml-2">
-            <div className="flex text-sm">
+            <div className="flex flex-col text-sm">
               <span className="font-semibold">Username</span>
               <span className="ml-1">@username</span>
             </div>
