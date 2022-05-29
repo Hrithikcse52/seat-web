@@ -13,7 +13,7 @@ export default function NavBarNew() {
   const queryClient = useQueryClient();
 
   return (
-    <nav className="border-b  w-screen">
+    <nav className="border-b  max-w-screen">
       <div className="flex items-center justify-between h-16 mx-auto max-w-screen-2xl px-8">
         <div className="flex items-center justify-center ">
           <Link href="/" passHref>
@@ -45,7 +45,7 @@ export default function NavBarNew() {
                   </button>
                   <ul className="dropdown-content z-50 menu p-2 shadow bg-base-100 rounded-box w-52">
                     <li>
-                      <Link href="/profile" passHref>
+                      <Link href={`/profile/${user.username}`} passHref>
                         <a>Profile</a>
                       </Link>
                     </li>
