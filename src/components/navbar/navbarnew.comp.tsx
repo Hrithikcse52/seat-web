@@ -45,7 +45,7 @@ export default function NavBarNew() {
                   </button>
                   <ul className="dropdown-content z-50 menu p-2 shadow bg-base-100 rounded-box w-52">
                     <li>
-                      <Link href="/profile" passHref>
+                      <Link href={`/profile/${user.username}`} passHref>
                         <a>Profile</a>
                       </Link>
                     </li>
