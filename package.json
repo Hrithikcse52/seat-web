@@ -1,6 +1,6 @@
 {
   "name": "seat-web",
-  "version": "0.1.5",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -13,6 +13,7 @@
     "check-format": "prettier --check .",
     "check-lint": "eslint . --ext ts --ext tsx --ext js",
     "auto-fix": "eslint .  --fix --ext ts --ext tsx --ext js ",
+    "cm": "cz",
     "format": "prettier --write .",
     "test-all": "npm run check-format && npm run check-lint && npm run check-types && npm run build",
     "prepare": "husky install"
