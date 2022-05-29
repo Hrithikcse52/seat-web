@@ -200,7 +200,7 @@ export default function ScrollFeed() {
                     <span className="font-semibold">{getFullName(post.createdBy.name)}</span>
                     <span className="ml-1 text-sm">@{post.createdBy.username}</span>
                   </div>
-                  <span className="ml-auto text-sm">{formatDistanceToNow(new Date(post.created))}</span>
+                  <span className="ml-auto text-sm">{formatDistanceToNow(new Date(post.createdAt))}</span>
                 </div>
                 <div className="mt-1">
                   <div className="mt-4">

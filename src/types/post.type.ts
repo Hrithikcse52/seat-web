@@ -36,5 +36,6 @@ export interface Post {
       message: string;
     }
   ];
-  created: Date;
+  createdAt: Date;
+  updatedAt: Date;
 }
