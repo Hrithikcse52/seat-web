@@ -363,14 +363,16 @@ export default function UserProfile({ user }: { user: User }) {
         <div className="flex flex-col">
           <div className="font-semibold flex justify-between items-center">
             <span>General Info</span>
-            <button type="button" onClick={() => setEdit(true)}>
-              <div
-                className="p-4 mr-4 hover:bg-purple outline-none rounded-xl tooltip hover:cursor-pointer"
-                data-tip="Edit Profile"
-              >
-                <FiEdit3 />
-              </div>
-            </button>
+            {isFetched && isAuth && (
+              <button type="button" onClick={() => setEdit(true)}>
+                <div
+                  className="p-4 mr-4 hover:bg-purple outline-none rounded-xl tooltip hover:cursor-pointer"
+                  data-tip="Edit Profile"
+                >
+                  <FiEdit3 />
+                </div>
+              </button>
+            )}
           </div>
 
           <div className="p-4 font-sans hover:bg-slate-300 rounded-lg">
