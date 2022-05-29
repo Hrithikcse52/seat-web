@@ -8,7 +8,6 @@ import toast from "react-hot-toast";
 import { FiEdit3 } from "react-icons/fi";
 import { Modal } from "@mantine/core";
 import { MdOutlineWorkspaces } from "react-icons/md";
-import Loader from "components/loader.comp";
 import { useRouter } from "next/router";
 import Button from "elements/button";
 import { ChangeEvent, Dispatch, FormEvent, SetStateAction, useCallback, useState } from "react";
@@ -308,8 +307,8 @@ function EditProfileModal({
   );
 }
 
-export default function UserProfile() {
-  const { user, isAuth, isLoading } = useUserQuery();
+export default function UserProfile({ user }: { user: User }) {
+  const { isAuth, isLoading, isFetched } = useUserQuery();
   const router = useRouter();
   const [edit, setEdit] = useState(false);
 
@@ -335,31 +334,31 @@ export default function UserProfile() {
       </div> */}
       <div className="flex flex-1 flex-col w-full my-2 lg:my-8 mx-4 ">
         <div className="bg-green-600 min-h-[10rem] rounded-lg shadow-lg flex justify-center items-center mb-20">
-          {isLoading ? (
+          {/* {isLoading ? (
             <div className="w-28  h-28 relative top-20 rounded-full animate-pulse bg-slate-600" />
-          ) : (
-            user && (
-              <img
-                src={
-                  user.profileImg
-                    ? user.profileImg
-                    : `https://ui-avatars.com/api/?name=${`${user.name.firstName}+${user.name.lastName}`}`
-                }
-                alt="user"
-                className="w-28  h-28 relative top-20 rounded-full"
-              />
-            )
-          )}
+          ) : ( 
+          user && (
+            */}
+          <img
+            src={
+              user.profileImg
+                ? user.profileImg
+                : `https://ui-avatars.com/api/?name=${`${user.name.firstName}+${user.name.lastName}`}`
+            }
+            alt="user"
+            className="w-28  h-28 relative top-20 rounded-full"
+          />
+          {/* ) )} */}
         </div>
         <div className="text-lg flex justify-center font-sans font-semibold ">
-          {isLoading ? (
+          {/* {isLoading ? (
             <div className="h-2 w-20 animate-pulse bg-green-700 rounded" />
-          ) : (
-            <div className="flex flex-col justify-center items-center">
-              <span>{user && getFullName(user.name)}</span>
-              <span className="text-sm font-light">@{user && user.username}</span>
-            </div>
-          )}
+          ) : ( */}
+          <div className="flex flex-col justify-center items-center">
+            <span>{user && getFullName(user.name)}</span>
+            <span className="text-sm font-light">@{user && user.username}</span>
+          </div>
+          {/* )} */}
         </div>
         <div className="flex flex-col">
           <div className="font-semibold flex justify-between items-center">
@@ -381,27 +380,31 @@ export default function UserProfile() {
                 <div className="flex flex-col">
                   <span className="font-extralight">Email</span>
                   <span>
-                    {isLoading ? <div className="h-2 w-20 animate-pulse bg-green-700 rounded" /> : user && user.email}
+                    {/* {isLoading ? <div className="h-2 w-20 animate-pulse bg-green-700 rounded" /> : */}
+                    {user && user.email}
+                    {/* } */}
                   </span>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div className="flex flex-col">
-          <span className="font-semibold">Workspaces</span>
-          <div className="p-4 font-sans">
-            <button
-              onClick={() => {
-                router.push("/workspace/create");
-              }}
-              className="p-3 bg-purple rounded-xl"
-              type="button"
-            >
-              Create New Workspace
-            </button>
+        {isFetched && isAuth && (
+          <div className="flex flex-col">
+            <span className="font-semibold">Workspaces</span>
+            <div className="p-4 font-sans">
+              <button
+                onClick={() => {
+                  router.push("/workspace/create");
+                }}
+                className="p-3 bg-purple rounded-xl"
+                type="button"
+              >
+                Create New Workspace
+              </button>
+            </div>
           </div>
-        </div>
+        )}
         <div className="space-y-4">
           {/* {workSpaces} */}
           {isWorkspaceFetched &&
@@ -451,10 +454,9 @@ export default function UserProfile() {
                 </div>
               </details>
             ))}
-          {isWorkLoading && !isWorkspaceFetched && <Loader />}
         </div>
       </div>
-      {isAuth && user && <EditProfileModal edit={edit} user={user} setEdit={setEdit} />}
+      {isFetched && isAuth && user && <EditProfileModal edit={edit} user={user} setEdit={setEdit} />}
     </div>
   );
 }
