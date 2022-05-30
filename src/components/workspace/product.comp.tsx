@@ -92,9 +92,9 @@ export default function Product() {
           <p className="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">a series of places to book</p>
         </div>
         <div className="flex flex-col  w-full lg:flex-row justify-center items-start p-4  ">
-          <div className="bg-red-300 m-4 m p-4 mx-auto rounded-md w-full text-center sm:p-6 lg:p-4  lg:w-1/5">
+          {/* <div className="bg-red-300 m-4 m p-4 mx-auto rounded-md w-full text-center sm:p-6 lg:p-4  lg:w-1/5">
             Filters
-          </div>
+          </div> */}
           <div className="w-full ">
             {isFetched &&
               workspaces &&
@@ -104,7 +104,7 @@ export default function Product() {
                   <div
                     // eslint-disable-next-line no-underscore-dangle
                     key={workspace._id}
-                    className=" my-4 lg:ml-4 h-32 flex hover:cursor-pointer text-white justify-between bg-gradient-to-r from-purple_dark to-[#5e60ce]  p-2 bg-white  hover:drop-shadow-xl	  border-gray-200 rounded-lg shadow-md sm:p-6 lg:p-4  "
+                    className=" my-4 lg:ml-4 h-32 flex hover:cursor-pointer justify-between p-2  hover:drop-shadow-xl border-gray-200 rounded-lg shadow-md sm:p-6 lg:p-4 bg-[#83c5be]"
                   >
                     <div className="flex flex-col justify-between">
                       <div className="">{workspace.name}</div>
@@ -125,7 +125,7 @@ export default function Product() {
                       >
                         <label
                           htmlFor="my-modal-4"
-                          className="btn modal-button text-white  focus:ring-4 focus:outline-none  bg-blue-600 font-medium hover:bg-blue-700 rounded-lg text-sm w-full sm:w-full px-5 py-2.5 text-center focus:ring-blue-800 "
+                          className=" bg-slate-300 text-black modal-button  focus:ring-4 focus:outline-none   font-medium  rounded-lg text-sm w-full sm:w-full px-5 py-2.5 text-center focus:ring-blue-800 "
                         >
                           {member ? "View" : workspace.type === "public" ? "Join" : "Request To Join"}
                         </label>

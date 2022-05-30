@@ -139,7 +139,7 @@ export default function Feed({ children }: { children: ReactNode }) {
     menuItems[menuItems.length - 1].route = `/profile/${user.username}`;
     const activePath = router.pathname === "/profile/[username]" ? `/profile/${user.username}` : router.pathname;
     return (
-      <div className="flex justify-center w-full h-[89vh] text-gray-700">
+      <div className="flex justify-center w-full h-[89vh]  text-gray-700">
         <div className="flex w-full h-full">
           <div className="flex flex-col  border-r pl-4 h-full py-4  pr-4">
             {menuItems.map(menu => (
