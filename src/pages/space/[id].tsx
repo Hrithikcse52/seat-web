@@ -6,6 +6,7 @@ import { useBlogQuery } from "hooks/blog.hooks";
 import { useGetWorkspace, WorkspaceRes } from "hooks/workspace.hooks";
 import { GetServerSidePropsContext } from "next";
 import Head from "next/head";
+import Image from "next/image";
 import { NextRouter, withRouter } from "next/router";
 
 import { getFullName } from "utils/nav.helper";
@@ -57,8 +58,8 @@ function WorkspaceDetails({ router, data }: { router: NextRouter; data: Workspac
           content="https://wxmwctiasizeoqlubrjn.supabase.co/storage/v1/object/public/seat/carousel/seat2.jpg"
         />
       </Head>
-      <div className="flex flex-initial  flex-col lg:flex-row">
-        <div className="flex w-1/5 flex-col my-8 mx-4 p-4 bg-violet-300 rounded-lg">
+      <div className="flex flex-initial w-full overflow-x-auto no-scrollbar mb-7  flex-col lg:flex-row">
+        {/* <div className="flex w-1/5 flex-col my-8 mx-4 p-4 bg-violet-300 rounded-lg">
           <div>Admins</div>
           <ol>
             {workspace &&
@@ -76,19 +77,22 @@ function WorkspaceDetails({ router, data }: { router: NextRouter; data: Workspac
             <p>Address</p>
             {workspace && workspace.address}
           </div>
-        </div>
-        <div className="flex flex-1 flex-col lg:w-full my-2 lg:my-8 mx-4 ">
+        </div> */}
+        <div className="flex flex-1 flex-col w-full my-2 lg:my-8 mx-4 ">
           <div className="bg-green-600 min-h-[10rem] rounded-lg shadow-lg flex justify-center items-center mb-20">
             {isLoading ? (
               <div className="w-28  h-28 relative top-20 rounded-full animate-pulse bg-slate-600" />
             ) : (
               workspace && (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={`https://ui-avatars.com/api/?name=${`${workspace.name}`}`}
-                  alt="user"
-                  className="w-28  h-28 relative top-20 rounded-full"
-                />
+                <span className="w-28  h-28 relative top-20 rounded-full">
+                  <Image
+                    width="100%"
+                    height="100%"
+                    src={`https://ui-avatars.com/api/?name=${`${workspace.name}`}`}
+                    alt="user"
+                    className="rounded-full"
+                  />
+                </span>
               )
             )}
           </div>
@@ -96,7 +100,7 @@ function WorkspaceDetails({ router, data }: { router: NextRouter; data: Workspac
             {isLoading ? <div className="h-2 w-20 animate-pulse bg-green-700 rounded" /> : workspace && workspace.name}
           </div>
           <WorkSpaceHeader workspace={id as string} />
-          <div>{blogs && blogs.map(blog => <Article data={blog} key={blog._id} />)}</div>
+          <div>{blogs && blogs.map(blog => <Article key={blog._id} data={blog} id={blog._id} />)}</div>
         </div>
       </div>
     </>

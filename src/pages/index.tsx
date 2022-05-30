@@ -1,3 +1,4 @@
+import Footer from "components/footer/footer.comp";
 import FAQ from "components/home/faq.comp";
 import Featurepage from "components/home/feature.comp";
 import { projectDesc } from "config";
@@ -26,6 +27,7 @@ function Home() {
       {/* <HomeCarausel /> */}
       <Featurepage />
       <FAQ />
+      <Footer />
     </>
   );
 }

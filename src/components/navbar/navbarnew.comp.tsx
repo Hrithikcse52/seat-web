@@ -14,7 +14,7 @@ export default function NavBarNew() {
 
   return (
     <nav className="border-b w-full ">
-      <div className="flex items-center justify-between h-16 mx-auto w-full px-8">
+      <div className="flex items-center justify-between h-[10vh] bg-slate-100 mx-auto w-full px-8">
         <div className="flex items-center justify-center ">
           <Link href="/" passHref>
             <a className="flex items-center">membook</a>

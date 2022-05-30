@@ -35,13 +35,13 @@ export default function Profile({ meta }: { meta: { data: User; status: number }
         <meta property="og:url" content={`${FRONTEND_URL}/profile/${data.username}`} />
         <meta property="og:title" content={`${data && fullName} | membook Profile`} />
         <meta property="og:description" content={`${data && data.username}`} />
-        <meta property="og:image" content={data && data.profileImg} />
+        <meta property="og:image" content={data && data.ogImage} />
 
         <meta property="twitter:card" content="summary_large_image" />
         <meta property="twitter:url" content={`${FRONTEND_URL}/data/${data.username}`} />
         <meta property="twitter:title" content={`${data && fullName} | membook Profile`} />
         <meta property="twitter:description" content={`${data && data.username}`} />
-        <meta property="twitter:image" content={data && data.profileImg} />
+        <meta property="twitter:image" content={data && data.ogImage} />
       </Head>
       <UserProfile user={data} />
     </>

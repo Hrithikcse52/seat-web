@@ -51,6 +51,29 @@ function Details({ id }: { id: string }) {
   if (post)
     return (
       <div className="w-full">
+        <div className="mt-4  w-8 h-8 rounded-full flex items-center justify-center hover:border-2 hover:cursor-pointer ml-4">
+          <Link href="/feed" passHref>
+            <a>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="icon icon-tabler icon-tabler-arrow-left"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                strokeWidth="2"
+                stroke="currentColor"
+                fill="none"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <line x1="5" y1="12" x2="19" y2="12" />
+                <line x1="5" y1="12" x2="11" y2="18" />
+                <line x1="5" y1="12" x2="11" y2="6" />
+              </svg>
+            </a>
+          </Link>
+        </div>
         <div className="flex w-full p-8 border-b border-gray-300">
           <Avatar
             className="flex-shrink-0 w-12 h-12 rounded-full"

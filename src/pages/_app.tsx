@@ -23,6 +23,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           <Component {...pageProps} />
         </Feed>
       )}
+
       {/* <Footer /> */}
       <ReactQueryDevtools />
       <Toaster position="top-right" />

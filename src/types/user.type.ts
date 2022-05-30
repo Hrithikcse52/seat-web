@@ -10,5 +10,6 @@ export interface User {
   phone: number;
   profileImg: string;
   status: string;
+  ogImage: string;
   workspaces: [{ _id: string; name: string }];
 }

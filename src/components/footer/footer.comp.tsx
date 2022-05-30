@@ -1,3 +1,4 @@
+import { packageVer } from "config";
 import Link from "next/link";
 
 export default function Footer() {
@@ -37,11 +38,10 @@ export default function Footer() {
       </div>
       <hr className="my-6 border-gray-200 sm:mx-auto  lg:my-8" />
       <span className="block text-sm text-gray-500 sm:text-center ">
-        © 2022{" "}
         <Link href="/">
           <span className="hover:underline">Take Your Seat™</span>
         </Link>
-        . All Rights Reserved.
+        <span> Version: {packageVer.version} </span>. All Rights Reserved. © 2022
       </span>
     </footer>
   );
