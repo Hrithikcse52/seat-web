@@ -116,7 +116,7 @@ export default function Product() {
                         type="button"
                         onClick={() => {
                           if (member) {
-                            router.push(`/workspace/${workspace._id}`);
+                            router.push(`/space/${workspace._id}`);
                           } else {
                             setModal(true);
                             setSpace(workspaces[idx]);

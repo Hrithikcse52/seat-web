@@ -14,6 +14,8 @@ import { ChangeEvent, Dispatch, FormEvent, SetStateAction, useCallback, useState
 import { User } from "types/user.type";
 import instance from "utils/axios";
 import { useQueryClient } from "react-query";
+import Link from "next/link";
+import Image from "next/image";
 
 function EditProfileModal({
   edit,
@@ -333,32 +335,32 @@ export default function UserProfile({ user }: { user: User }) {
         <div>Subscription</div>
       </div> */}
       <div className="flex flex-1 flex-col w-full my-2 lg:my-8 mx-4 ">
-        <div className="bg-green-600 min-h-[10rem] rounded-lg shadow-lg flex justify-center items-center mb-20">
+        <div className="bg-green-600 min-h-[10rem] rounded-lg shadow-lg flex justify-center items-center mb-16">
           {/* {isLoading ? (
             <div className="w-28  h-28 relative top-20 rounded-full animate-pulse bg-slate-600" />
           ) : ( 
           user && (
             */}
-          <img
-            src={
-              user.profileImg
-                ? user.profileImg
-                : `https://ui-avatars.com/api/?name=${`${user.name.firstName}+${user.name.lastName}`}`
-            }
-            alt="user"
-            className="w-28  h-28 relative top-20 rounded-full"
-          />
+          <span className="w-28  h-28 relative top-20 rounded-full">
+            <Image
+              width="100%"
+              className="rounded-full"
+              height="100%"
+              src={
+                user.profileImg
+                  ? user.profileImg
+                  : `https://ui-avatars.com/api/?name=${`${user.name.firstName}+${user.name.lastName}`}`
+              }
+              alt="user"
+            />
+          </span>
           {/* ) )} */}
         </div>
         <div className="text-lg flex justify-center font-sans font-semibold ">
-          {/* {isLoading ? (
-            <div className="h-2 w-20 animate-pulse bg-green-700 rounded" />
-          ) : ( */}
           <div className="flex flex-col justify-center items-center">
             <span>{user && getFullName(user.name)}</span>
             <span className="text-sm font-light">@{user && user.username}</span>
           </div>
-          {/* )} */}
         </div>
         <div className="flex flex-col">
           <div className="font-semibold flex justify-between items-center">
@@ -395,15 +397,9 @@ export default function UserProfile({ user }: { user: User }) {
           <div className="flex flex-col">
             <span className="font-semibold">Workspaces</span>
             <div className="p-4 font-sans">
-              <button
-                onClick={() => {
-                  router.push("/workspace/create");
-                }}
-                className="p-3 bg-purple rounded-xl"
-                type="button"
-              >
-                Create New Workspace
-              </button>
+              <Link href="/space/create" passHref>
+                <a className="p-3 bg-purple rounded-xl">Create New Workspace</a>
+              </Link>
             </div>
           </div>
         )}

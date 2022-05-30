@@ -6,11 +6,12 @@ import { formatDistanceToNow } from "date-fns";
 import sanitize from "sanitize-html";
 import { getFullName } from "utils/nav.helper";
 
-export default function Article(props: { key: string; data: Blog }) {
-  const { key, data } = props;
+export default function Article(props: { id: string; data: Blog }) {
+  const { id, data } = props;
+  console.log(props);
 
   return (
-    <article key={key} className="bg-white p-4 md:p-8 lg:p-10 lg:px-8 border-b border hover:bg-gray-50">
+    <article key={data._id as string} className="bg-white p-4 md:p-8 lg:p-10 lg:px-8 border-b border hover:bg-gray-50">
       <div>
         <div className="flex items-center justify-between">
           <div className="flex gap-2">
