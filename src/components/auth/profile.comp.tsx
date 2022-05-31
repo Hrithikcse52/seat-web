@@ -42,7 +42,7 @@ function EditProfileModal({
   }>(initialData);
   const queryClient = useQueryClient();
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log("handle change", e.target.type);
+    // console.log("handle change", e.target.type);
     if (e.target.files && e.target.type === "file") {
       setModalData({ ...modalData, image: e.target.files[0] });
     } else {
@@ -76,7 +76,7 @@ function EditProfileModal({
         valid: false,
         msg: "field is empty",
       });
-    console.log("usernam", saniUsr);
+    // console.log("usernam", saniUsr);
   }
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -87,10 +87,10 @@ function EditProfileModal({
     []
   );
 
-  console.log("modal Data", modalData);
+  // console.log("modal Data", modalData);
 
   const handleSubmit = async (e: FormEvent) => {
-    console.log("final Data", modalData);
+    // console.log("final Data", modalData);
     e.preventDefault();
 
     // TODO:// add only if changed
@@ -101,14 +101,13 @@ function EditProfileModal({
       formData.append("lastName", modalData.lastName);
       formData.append("email", modalData.email);
       formData.append("username", modalData.username);
-      console.log("formdata", formData, formData.entries());
+
       try {
         const { data, status } = await instance.post("/user/edit", formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
         });
-        console.log("🚀 ~ file: profile.comp.tsx ~ line 74 ~ handleSubmit ~ data, status", data, status);
         if (status !== 200) {
           toast.error(data.message || "Something Went Wrong!");
         } else {

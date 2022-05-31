@@ -9,8 +9,6 @@ import { adminAccess } from "utils/user.helper";
 function Admin({ router }: { router: NextRouter }) {
   const { user, isAuth: auth, isFetched, isLoading } = useUserQuery();
   const [sidebar, setSidebar] = useState(true);
-  console.log("loading", isLoading, isFetched, auth, user);
-  console.log("admin access check", adminAccess(user?.role as string));
 
   if ((isFetched && !auth) || (isFetched && user?.role !== "admin" && user?.role !== "manager")) {
     router.push("/", undefined, { shallow: true });

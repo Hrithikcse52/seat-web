@@ -20,7 +20,7 @@ export default function LoginCard() {
     e.preventDefault();
     setLoading(!loading);
     const { status, data } = await axios.post(`${BACKEND_URL}/user/login`, loginData, { withCredentials: true });
-    console.log("stats", status, data);
+    // console.log("stats", status, data);
     if (status !== 200) {
       toast.error("Username/Email Or Password is Wrong");
       setLoginData({
@@ -29,7 +29,7 @@ export default function LoginCard() {
       });
     } else {
       await queryClient.invalidateQueries("user");
-      console.log("called this invalidate");
+      // console.log("called this invalidate");
       await router.push("/feed");
     }
   };

@@ -23,7 +23,7 @@ export const useUserQuery = () => {
 export const clearAllCache = () => {
   const queryClient = new QueryClient();
   const queryCache = new QueryCache();
-  console.log("cache", { queryCache }, { queryClient });
+
   queryClient.refetchQueries("user");
   queryClient.clear();
   queryCache.clear();

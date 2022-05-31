@@ -12,7 +12,7 @@ const queryClient = new QueryClient();
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
-  console.log({ pageProps }, router.pathname);
+
   return (
     <QueryClientProvider client={queryClient}>
       <NavBarNew />

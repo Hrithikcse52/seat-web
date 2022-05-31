@@ -25,7 +25,7 @@ function Details({ id }: { id: string }) {
     try {
       if (action === "like") {
         const idx = post?.likes.findIndex(likeId => likeId._id === user?.id);
-        console.log("idx", idx);
+
         if (idx !== -1) {
           return;
         }
@@ -47,7 +47,7 @@ function Details({ id }: { id: string }) {
       setMessage("");
     }
   }
-  console.log("post", post);
+
   if (post)
     return (
       <div className="w-full">

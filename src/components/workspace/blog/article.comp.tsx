@@ -8,7 +8,6 @@ import { getFullName } from "utils/nav.helper";
 
 export default function Article(props: { id: string; data: Blog }) {
   const { id, data } = props;
-  console.log(props);
 
   return (
     <article key={data._id as string} className="bg-white p-4 md:p-8 lg:p-10 lg:px-8 border-b border hover:bg-gray-50">

@@ -16,7 +16,6 @@ export const useBlogQuery = (id: string) => {
     refetchOnWindowFocus: false,
     enabled: isFetched && !!user,
   });
-  console.log("🚀 ~ file: blog.hooks.ts ~ line 18 ~ blogRes ~ blogRes", blogRes);
 
   let blogs: Blog[] | null = null;
   let statusCode = 400;

@@ -21,12 +21,11 @@ export async function getServerSideProps({ query }: GetServerSidePropsContext) {
 
 export default function Profile({ meta }: { meta: { data: User; status: number } }) {
   const { data } = meta;
-  console.log("data", data);
   const fullName = getFullName(data.name);
   return (
     <>
       <Head>
-        <title>{`${data && fullName} | Membook Profile`}</title>
+        <title>{`${data && fullName} | membook profile`}</title>
         <meta name="title" content={`${data && fullName} | membook profile`} />
         <meta name="author" content="Hrithik Prasad" />
         <meta name="description" content={`${data && data.username} | membook profile`} />

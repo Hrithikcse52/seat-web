@@ -23,13 +23,10 @@ export async function getServerSideProps({ query }: GetServerSidePropsContext) {
 }
 
 function WorkspaceDetails({ router, data }: { router: NextRouter; data: WorkspaceRes }) {
-  console.log("data", data);
   const { id } = router.query;
   const { workspace, isLoading } = useGetWorkspace(id as string, data);
   const { blogs, statusCode, isFetched } = useBlogQuery(id as string);
-  console.log("🚀 ~ file: [id].tsx ~ line 34 ~ blogs, isFetched", blogs, statusCode, isFetched);
 
-  console.log("workspace", data, isLoading, workspace);
   return (
     <>
       <Head>

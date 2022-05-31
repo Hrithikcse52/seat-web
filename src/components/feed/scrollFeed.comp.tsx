@@ -19,7 +19,6 @@ export default function ScrollFeed() {
   const [value, setValue] = useState("");
   const queryClient = useQueryClient();
   const { posts, isFetched: isPostFetched, isLoading } = usePostsQuery();
-  console.log("posts", posts);
 
   const [editor, setEditor] = useState<Editor.UnprivilegedEditor>();
   const [editorOpen, setEditorOpen] = useState(false);
@@ -44,7 +43,7 @@ export default function ScrollFeed() {
     try {
       if (action === "like") {
         const idx = posts?.[index].likes.findIndex(id => id._id === user?.id);
-        console.log("idx", idx);
+
         if (idx !== -1) {
           return;
         }
