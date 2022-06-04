@@ -1,6 +1,8 @@
 import { useQuery } from "react-query";
 import { Blog } from "types/blog.type";
+import { Workspace } from "types/workspace.type";
 import instance from "utils/axios";
+import { isSpaceMember } from "utils/user.helper";
 import { useUserQuery } from "./user.hooks";
 
 export const fetchBlog = async (id: string) => {
@@ -8,13 +10,13 @@ export const fetchBlog = async (id: string) => {
   return { data, status };
 };
 
-export const useBlogQuery = (id: string) => {
+export const useBlogQuery = (id: string, workspace: Workspace | undefined) => {
   const { user, isFetched } = useUserQuery();
 
   const blogRes = useQuery<{ data: Blog[]; status: number }>(["blog", id], () => fetchBlog(id), {
     refetchOnMount: false,
     refetchOnWindowFocus: false,
-    enabled: isFetched && !!user,
+    enabled: isFetched && !!user && isSpaceMember(workspace, user._id),
   });
 
   let blogs: Blog[] | null = null;

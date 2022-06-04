@@ -3,6 +3,7 @@ import Article from "components/workspace/blog/article.comp";
 import WorkSpaceHeader from "components/workspace/header.comp";
 import { BACKEND_URL, FRONTEND_URL } from "config";
 import { useBlogQuery } from "hooks/blog.hooks";
+import { useUserQuery } from "hooks/user.hooks";
 import { useGetWorkspace, WorkspaceRes } from "hooks/workspace.hooks";
 import { GetServerSidePropsContext } from "next";
 import Head from "next/head";
@@ -10,6 +11,7 @@ import Image from "next/image";
 import { NextRouter, withRouter } from "next/router";
 
 import { getFullName } from "utils/nav.helper";
+import { isSpaceMember } from "utils/user.helper";
 
 export async function getServerSideProps({ query }: GetServerSidePropsContext) {
   const { id } = query;
@@ -24,8 +26,9 @@ export async function getServerSideProps({ query }: GetServerSidePropsContext) {
 
 function WorkspaceDetails({ router, data }: { router: NextRouter; data: WorkspaceRes }) {
   const { id } = router.query;
-  const { workspace, isLoading } = useGetWorkspace(id as string, data);
-  const { blogs, statusCode, isFetched } = useBlogQuery(id as string);
+  const { workspace, isLoading, isFetched: isWorkspaceFetched } = useGetWorkspace(id as string, data);
+  const { blogs, statusCode, isFetched } = useBlogQuery(id as string, data.data);
+  const { isFetched: isUserFetched, user } = useUserQuery();
 
   return (
     <>
@@ -96,7 +99,7 @@ function WorkspaceDetails({ router, data }: { router: NextRouter; data: Workspac
           <div className="text-lg flex justify-center font-sans font-semibold ">
             {isLoading ? <div className="h-2 w-20 animate-pulse bg-green-700 rounded" /> : workspace && workspace.name}
           </div>
-          <WorkSpaceHeader workspace={id as string} />
+          {isFetched && user && isSpaceMember(data.data, user._id) && <WorkSpaceHeader workspace={id as string} />}
           <div>{blogs && blogs.map(blog => <Article key={blog._id} data={blog} id={blog._id} />)}</div>
         </div>
       </div>
