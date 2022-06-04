@@ -1,5 +1,6 @@
 import axios from "axios";
 import { BACKEND_URL } from "config";
+import { Post } from "types/post.type";
 import { User } from "types/user.type";
 
 export async function logOutAxios() {
@@ -15,4 +16,8 @@ const adminAccessRoles = ["manager", "admin"];
 
 export function adminAccess(role: string) {
   return role in adminAccessRoles;
+}
+
+export function isPostLiked(user: string | null, post: Post) {
+  return !!post.likes.find(like => like._id === user);
 }
