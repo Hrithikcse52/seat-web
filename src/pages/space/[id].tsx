@@ -10,7 +10,6 @@ import Head from "next/head";
 import Image from "next/image";
 import { NextRouter, withRouter } from "next/router";
 
-import { getFullName } from "utils/nav.helper";
 import { isSpaceMember } from "utils/user.helper";
 
 export async function getServerSideProps({ query }: GetServerSidePropsContext) {
@@ -26,9 +25,9 @@ export async function getServerSideProps({ query }: GetServerSidePropsContext) {
 
 function WorkspaceDetails({ router, data }: { router: NextRouter; data: WorkspaceRes }) {
   const { id } = router.query;
-  const { workspace, isLoading, isFetched: isWorkspaceFetched } = useGetWorkspace(id as string, data);
-  const { blogs, statusCode, isFetched } = useBlogQuery(id as string, data.data);
-  const { isFetched: isUserFetched, user } = useUserQuery();
+  const { workspace, isLoading } = useGetWorkspace(id as string, data);
+  const { blogs, isFetched } = useBlogQuery(id as string, data.data);
+  const { user } = useUserQuery();
 
   return (
     <>
@@ -100,7 +99,7 @@ function WorkspaceDetails({ router, data }: { router: NextRouter; data: Workspac
             {isLoading ? <div className="h-2 w-20 animate-pulse bg-green-700 rounded" /> : workspace && workspace.name}
           </div>
           {isFetched && user && isSpaceMember(data.data, user._id) && <WorkSpaceHeader workspace={id as string} />}
-          <div>{blogs && blogs.map(blog => <Article key={blog._id} data={blog} id={blog._id} />)}</div>
+          <div>{blogs && blogs.map(blog => <Article key={blog._id} data={blog} workspace={id as string} />)}</div>
         </div>
       </div>
     </>

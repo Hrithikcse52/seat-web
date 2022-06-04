@@ -219,7 +219,7 @@ export default function UserProfile({ user }: { user: User }) {
   const { isAuth, user: curUser, isLoading, isFetched } = useUserQuery();
   const router = useRouter();
   const [edit, setEdit] = useState(false);
-
+  const selfPage = ownPage(curUser && curUser._id, user._id);
   const { workspaces, isFetched: isWorkspaceFetched, isLoading: isWorkLoading } = useWorkspacesQuery();
 
   return (
@@ -271,7 +271,7 @@ export default function UserProfile({ user }: { user: User }) {
         <div className="flex flex-col">
           <div className="font-semibold flex justify-between items-center">
             <span>General Info</span>
-            {isFetched && isAuth && ownPage(curUser && curUser._id, user._id) && (
+            {isFetched && isAuth && selfPage && (
               <button type="button" onClick={() => setEdit(true)}>
                 <div
                   className="p-4 mr-4 hover:bg-purple outline-none rounded-xl tooltip hover:cursor-pointer"
@@ -299,7 +299,7 @@ export default function UserProfile({ user }: { user: User }) {
             </div>
           </div>
         </div>
-        {isFetched && isAuth && (
+        {isFetched && isAuth && selfPage && (
           <div className="flex flex-col">
             <span className="font-semibold">Workspaces</span>
             <div className="p-4 font-sans">
@@ -309,9 +309,11 @@ export default function UserProfile({ user }: { user: User }) {
             </div>
           </div>
         )}
+
         <div className="space-y-4">
           {/* {workSpaces} */}
-          {isWorkspaceFetched &&
+          {selfPage &&
+            isWorkspaceFetched &&
             workspaces &&
             workspaces.map(workspace => (
               <details
@@ -360,7 +362,7 @@ export default function UserProfile({ user }: { user: User }) {
             ))}
         </div>
       </div>
-      {isFetched && isAuth && user && <EditProfileModal edit={edit} user={user} setEdit={setEdit} />}
+      {isFetched && isAuth && user && selfPage && <EditProfileModal edit={edit} user={user} setEdit={setEdit} />}
     </div>
   );
 }

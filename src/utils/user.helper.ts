@@ -1,5 +1,6 @@
 import axios from "axios";
 import { BACKEND_URL } from "config";
+import { Blog } from "types/blog.type";
 import { Post } from "types/post.type";
 import { User } from "types/user.type";
 import { Workspace } from "types/workspace.type";
@@ -23,6 +24,10 @@ export function adminAccess(role: string) {
 export function isPostLiked(user: string | null, post: Post) {
   if (!user) return false;
   return !!post.likes.find(like => like._id === user);
+}
+export function isBlogLiked(user: string | undefined, blog: Blog) {
+  if (!user) return false;
+  return !!blog.likes.find(like => like._id === user);
 }
 
 export function ownPage(curUser: string | null, usrPage: string) {
