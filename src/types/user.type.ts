@@ -10,5 +10,4 @@ export interface User {
   profileImg: string;
   status: string;
   ogImage: string;
-  workspaces: [{ _id: string; name: string }];
 }

@@ -65,14 +65,14 @@ export const useExploreWorkQuery = () => {
   return { workspaces, statusCode, ...workspaceResponse };
 };
 
-export const useGetWorkspace = (id: string, data: WorkspaceRes) => {
+export const useGetWorkspace = (id: string, data: WorkspaceRes | undefined) => {
   const { user, isFetched } = useUserQuery();
 
   const workspaceResponse = useQuery<WorkspaceRes>(["explore_workspaces", id], () => fetchWorkspace(id), {
     refetchOnMount: false,
     refetchOnWindowFocus: false,
     enabled: isFetched && !!user,
-    initialData: data || undefined,
+    initialData: data,
     // refetchInterval: 1000 * 60,
   });
   let workspace = null;
