@@ -16,9 +16,12 @@ const initialState = {
 
 export default function CreateWorkspace() {
   const [data, setData] = useState(initialState);
-  const { isAuth, isFetched } = useUserQuery();
+  const { isAuth, user, isFetched } = useUserQuery();
   const queryClient = useQueryClient();
   const router = useRouter();
+  if (isFetched && !(isAuth && user)) {
+    router.push("/login");
+  }
 
   const navigate = (path: string | UrlObject) => router.push(path);
   const handleChange = ({ target: { name, value } }: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -29,28 +32,29 @@ export default function CreateWorkspace() {
   };
 
   const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    const payload = {
-      name: data.name,
-      description: data.description,
-      location: data.location,
-      type: data.type,
-      // membership: {
-      //   currency: data.currency,
-      //   amount: data.amount,
-      // },
-    };
-    const { status } = await instance.post("/workspace", payload);
-    if (status !== 200) {
-      console.log("something went wrong");
+    if (user) {
+      e.preventDefault();
+      const payload = {
+        name: data.name,
+        description: data.description,
+        location: data.location,
+        type: data.type,
+        // membership: {
+        //   currency: data.currency,
+        //   amount: data.amount,
+        // },
+      };
+      const { status } = await instance.post("/workspace", payload);
+      if (status !== 200) {
+        console.log("something went wrong");
+      } else {
+        await queryClient.refetchQueries("managed_workspaces");
+        navigate(`/profile/${user.username}`);
+      }
     } else {
-      await queryClient.refetchQueries("managed_workspaces");
-      navigate("/profile");
+      console.log("user not fetched");
     }
   };
-  if (isFetched && !isAuth) {
-    console.log("retuern ");
-  }
 
   return (
     <div className="flex flex-col lg:flex-row">

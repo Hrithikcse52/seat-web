@@ -1,5 +1,6 @@
 import { useUserQuery } from "hooks/user.hooks";
 import { useExploreWorkQuery } from "hooks/workspace.hooks";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { Dispatch, SetStateAction, useState } from "react";
 import toast from "react-hot-toast";
@@ -18,6 +19,7 @@ function Modal({
   modal: boolean;
   setModal: Dispatch<SetStateAction<boolean>>;
 }) {
+  const router = useRouter();
   const quertClient = useQueryClient();
   const handleJoin = async () => {
     if (space) {
@@ -29,9 +31,9 @@ function Modal({
           toast.error(data.message || "Could not Join");
           return;
         }
-
         toast.success(data.message);
-        quertClient.invalidateQueries("user");
+        router.push(`/space/${space._id}`);
+        quertClient.invalidateQueries("explore_workspaces");
       } catch (err) {
         console.log(err, "errir on joining");
         toast.error("Could not Join");
@@ -99,12 +101,11 @@ export default function Product() {
             {isFetched &&
               workspaces &&
               workspaces.map((workspace, idx) => {
-                const member = checkUserWorkspace(user, workspace._id);
+                const member = checkUserWorkspace(workspace, user && user._id);
                 return (
                   <div
-                    // eslint-disable-next-line no-underscore-dangle
                     key={workspace._id}
-                    className=" my-4 lg:ml-4 h-32 flex hover:cursor-pointer justify-between p-2  hover:drop-shadow-xl border-gray-200 rounded-lg shadow-md sm:p-6 lg:p-4 bg-[#83c5be]"
+                    className=" my-4 lg:ml-4 h-32 flex justify-between p-2  hover:drop-shadow-xl border-gray-200 rounded-lg shadow-md sm:p-6 lg:p-4 bg-[#83c5be]"
                   >
                     <div className="flex flex-col justify-between">
                       <div className="">{workspace.name}</div>
@@ -112,24 +113,38 @@ export default function Product() {
                     </div>
                     <div className="flex flex-col items-end justify-between">
                       <div className="">LOGO/Impression/rating</div>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          if (member) {
-                            router.push(`/space/${workspace._id}`);
-                          } else {
-                            setModal(true);
-                            setSpace(workspaces[idx]);
-                          }
-                        }}
-                      >
-                        <label
-                          htmlFor="my-modal-4"
-                          className=" bg-slate-300 text-black modal-button  focus:ring-4 focus:outline-none   font-medium  rounded-lg text-sm w-full sm:w-full px-5 py-2.5 text-center focus:ring-blue-800 "
+                      <div className="flex gap-2">
+                        {!member && (
+                          <Link href={`/space/${workspace._id}`} passHref>
+                            <a className="hover:cursor-pointer">
+                              <label
+                                htmlFor="my-modal-4"
+                                className=" hover:cursor-pointer bg-slate-300 text-black modal-button  focus:ring-4 focus:outline-none   font-medium  rounded-lg text-sm w-full sm:w-full px-5 py-2.5 text-center focus:ring-blue-800 "
+                              >
+                                Peak-in
+                              </label>
+                            </a>
+                          </Link>
+                        )}
+                        <button
+                          type="button"
+                          onClick={() => {
+                            if (member) {
+                              router.push(`/space/${workspace._id}`);
+                            } else {
+                              setModal(true);
+                              setSpace(workspaces[idx]);
+                            }
+                          }}
                         >
-                          {member ? "View" : workspace.type === "public" ? "Join" : "Request To Join"}
-                        </label>
-                      </button>
+                          <label
+                            htmlFor="my-modal-4"
+                            className=" bg-slate-300  hover:cursor-pointer text-black modal-button  focus:ring-4 focus:outline-none   font-medium  rounded-lg text-sm w-full sm:w-full px-5 py-2.5 text-center focus:ring-blue-800 "
+                          >
+                            {member ? "View" : workspace.type === "public" ? "Join" : "Request To Join"}
+                          </label>
+                        </button>
+                      </div>
                     </div>
                   </div>
                 );

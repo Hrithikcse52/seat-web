@@ -1,16 +1,4 @@
-interface PermType {
-  user:
-    | {
-        name: {
-          firstName: string;
-          lastName: string;
-        };
-        email: string;
-        id: string;
-      }
-    | string;
-  role: string;
-}
+import { User } from "./user.type";
 
 export interface Workspace {
   _id: string;
@@ -22,7 +10,7 @@ export interface Workspace {
     currenct: string;
   };
   type: string;
-  permission: PermType[];
+  members: User[];
   createdBy: string;
   modifiedBy: string;
   status: string;
