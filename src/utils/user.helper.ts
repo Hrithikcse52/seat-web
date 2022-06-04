@@ -15,9 +15,17 @@ export function checkUserWorkspace(user: User | null, id: string) {
 const adminAccessRoles = ["manager", "admin"];
 
 export function adminAccess(role: string) {
-  return role in adminAccessRoles;
+  return adminAccessRoles.includes(role);
 }
 
 export function isPostLiked(user: string | null, post: Post) {
+  if (!user) return false;
   return !!post.likes.find(like => like._id === user);
+}
+
+export function ownPage(curUser: string | null, usrPage: string) {
+  if (!curUser) return false;
+  console.log("user", curUser, usrPage);
+  if (curUser === usrPage) return true;
+  return false;
 }

@@ -16,6 +16,7 @@ import instance from "utils/axios";
 import { useQueryClient } from "react-query";
 import Link from "next/link";
 import Image from "next/image";
+import { ownPage } from "utils/user.helper";
 
 function EditProfileModal({
   edit,
@@ -215,7 +216,7 @@ function EditProfileModal({
 }
 
 export default function UserProfile({ user }: { user: User }) {
-  const { isAuth, isLoading, isFetched } = useUserQuery();
+  const { isAuth, user: curUser, isLoading, isFetched } = useUserQuery();
   const router = useRouter();
   const [edit, setEdit] = useState(false);
 
@@ -270,7 +271,7 @@ export default function UserProfile({ user }: { user: User }) {
         <div className="flex flex-col">
           <div className="font-semibold flex justify-between items-center">
             <span>General Info</span>
-            {isFetched && isAuth && (
+            {isFetched && isAuth && ownPage(curUser && curUser._id, user._id) && (
               <button type="button" onClick={() => setEdit(true)}>
                 <div
                   className="p-4 mr-4 hover:bg-purple outline-none rounded-xl tooltip hover:cursor-pointer"
@@ -344,7 +345,7 @@ export default function UserProfile({ user }: { user: User }) {
                   {/* Create auto populate doc user */}
                   <div>
                     CreatedBy:{"  "}
-                    {workspace.createdBy === user?.id ? "You" : workspace.createdBy}
+                    {workspace.createdBy === user?._id ? "You" : workspace.createdBy}
                   </div>
                   <button
                     disabled

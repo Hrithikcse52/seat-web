@@ -24,7 +24,7 @@ function Details({ id }: { id: string }) {
   async function handleReaction(action: "like" | "comment", postId: string, messageStr = "") {
     try {
       if (action === "like") {
-        const idx = post?.likes.findIndex(likeId => likeId._id === user?.id);
+        const idx = post?.likes.findIndex(likeId => likeId._id === user?._id);
 
         if (idx !== -1) {
           return;

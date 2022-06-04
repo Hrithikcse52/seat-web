@@ -42,13 +42,13 @@ export default function ScrollFeed() {
 
   async function handleReaction(action: "like" | "comment", postId: string, index: number, message = "") {
     try {
-      if (action === "like") {
-        const idx = posts?.[index].likes.findIndex(id => id._id === user?.id);
+      // if (action === "like") {
+      //   const idx = posts?.[index].likes.findIndex(id => id._id === user?._id);
 
-        if (idx !== -1) {
-          return;
-        }
-      }
+      //   if (idx !== -1) {
+      //     return;
+      //   }
+      // }
       const { data, status } = await instance.post("/post/reaction", {
         action,
         postId,
@@ -185,7 +185,8 @@ export default function ScrollFeed() {
         {isPostFetched &&
           posts &&
           posts.map((post, idx) => {
-            const like = isPostLiked(user && user.id, post) ? "blue" : "currentColor";
+            const like = isPostLiked(user && user._id, post);
+            const likeColor = like ? "blue" : "currentColor";
             return (
               <div key={post._id} className="flex w-full p-8 border-b border-gray-300">
                 <Avatar
@@ -225,7 +226,7 @@ export default function ScrollFeed() {
                       <button
                         type="button"
                         onClick={() => {
-                          handleReaction("like", post._id, idx);
+                          if (!like) handleReaction("like", post._id, idx);
                         }}
                         className="flex items-center group mr-8"
                       >
@@ -235,7 +236,7 @@ export default function ScrollFeed() {
                             width="18"
                             height="18"
                             viewBox="0 0 24 24"
-                            fill={like}
+                            fill={likeColor}
                           >
                             <path d="M21.3,10.08A3,3,0,0,0,19,9H14.44L15,7.57A4.13,4.13,0,0,0,11.11,2a1,1,0,0,0-.91.59L7.35,9H5a3,3,0,0,0-3,3v7a3,3,0,0,0,3,3H17.73a3,3,0,0,0,2.95-2.46l1.27-7A3,3,0,0,0,21.3,10.08ZM7,20H5a1,1,0,0,1-1-1V12a1,1,0,0,1,1-1H7Zm13-7.82-1.27,7a1,1,0,0,1-1,.82H9V10.21l2.72-6.12A2.11,2.11,0,0,1,13.1,6.87L12.57,8.3A2,2,0,0,0,14.44,11H19a1,1,0,0,1,.77.36A1,1,0,0,1,20,12.18Z" />
                           </svg>

@@ -5,7 +5,7 @@ export interface User {
   };
   email: string;
   username: string;
-  id: string;
+  _id: string;
   role: string;
   profileImg: string;
   status: string;
