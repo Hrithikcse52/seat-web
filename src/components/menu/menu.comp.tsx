@@ -133,6 +133,7 @@ export default function Feed({ children }: { children: ReactNode }) {
   if (isFetched && !isAuth && publicAccess) {
     return <div>{children}</div>;
   }
+  console.log("public access url check", router.pathname);
 
   if (isFetched && !isAuth && !publicAccess) router.push("/login");
   if (isFetched && isAuth && user) {

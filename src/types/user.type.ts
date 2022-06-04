@@ -7,7 +7,6 @@ export interface User {
   username: string;
   id: string;
   role: string;
-  phone: number;
   profileImg: string;
   status: string;
   ogImage: string;

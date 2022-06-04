@@ -20,6 +20,13 @@
   scrollbar-width: none; /* Firefox */
 }
 
+html,
 body {
   background-color: #fff;
+  /* width: 100vw;
+  height: 100vh; */
+}
+
+.without-ring {
+  @apply focus:ring-0 focus:ring-offset-0;
 }

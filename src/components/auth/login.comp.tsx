@@ -130,9 +130,9 @@ export default function LoginCard() {
 
           <div className="flex items-center justify-between">
             <p className="text-sm text-gray-500">
-              No account?
-              <Link className="underline" href="/">
-                Sign up
+              No account?{" "}
+              <Link href="/register" passHref>
+                <a className="underline">Sign up</a>
               </Link>
             </p>
 
