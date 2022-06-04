@@ -30,10 +30,16 @@ export default function Profile({ meta }: { meta: { data: User; status: number }
         <meta name="author" content="Hrithik Prasad" />
         <meta name="description" content={`${data && data.username} | membook profile`} />
 
+        <meta property="og:image:alt" content="Website icon" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:secure_url" content={data && data.ogImage} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:locale" content="en_GB" />
+
         <meta property="og:type" content="website" />
         <meta property="og:url" content={`${FRONTEND_URL}/profile/${data.username}`} />
         <meta property="og:title" content={`${data && fullName} | membook Profile`} />
-        <meta property="og:description" content={`${data && data.username}`} />
+        <meta property="og:description" content={`${data.username}`} />
         <meta property="og:image" content={data && data.ogImage} />
 
         <meta property="twitter:card" content="summary_large_image" />
@@ -41,6 +47,7 @@ export default function Profile({ meta }: { meta: { data: User; status: number }
         <meta property="twitter:title" content={`${data && fullName} | membook Profile`} />
         <meta property="twitter:description" content={`${data && data.username}`} />
         <meta property="twitter:image" content={data && data.ogImage} />
+        <meta property="twitter:image:src" content={data && data.ogImage} />
       </Head>
       <UserProfile user={data} />
     </>
