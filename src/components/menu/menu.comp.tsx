@@ -133,7 +133,8 @@ export default function Feed({ children }: { children: ReactNode }) {
   if (isFetched && !isAuth && publicAccess) {
     return <div>{children}</div>;
   }
-  console.log(router.pathname);
+  console.log("public access url check", router.pathname);
+
   if (isFetched && !isAuth && !publicAccess) router.push("/login");
   if (isFetched && isAuth && user) {
     menuItems[menuItems.length - 1].route = `/profile/${user.username}`;
@@ -169,6 +170,6 @@ export default function Feed({ children }: { children: ReactNode }) {
       </div>
     );
   }
-  console.log("public view");
+
   return <div>{children}</div>;
 }

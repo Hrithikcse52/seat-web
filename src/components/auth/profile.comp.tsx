@@ -16,6 +16,7 @@ import instance from "utils/axios";
 import { useQueryClient } from "react-query";
 import Link from "next/link";
 import Image from "next/image";
+import { ownPage } from "utils/user.helper";
 
 function EditProfileModal({
   edit,
@@ -30,19 +31,18 @@ function EditProfileModal({
     firstName: user.name.firstName,
     lastName: user.name.lastName,
     email: user.email,
-    username: user.username,
+
     image: null,
   };
   const [modalData, setModalData] = useState<{
     firstName: string;
     lastName: string;
     email: string;
-    username: string;
     image: null | File;
   }>(initialData);
   const queryClient = useQueryClient();
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log("handle change", e.target.type);
+    // console.log("handle change", e.target.type);
     if (e.target.files && e.target.type === "file") {
       setModalData({ ...modalData, image: e.target.files[0] });
     } else {
@@ -53,73 +53,44 @@ function EditProfileModal({
     }
   };
 
-  const [usrValid, setValid] = useState({
-    valid: false,
-    msg: "",
-  });
-  async function handleUsernameValidityCheck(username: string) {
-    const saniUsr = username.replaceAll(" ", "");
-    if (saniUsr.length !== 0) {
-      const { status, data } = await instance.post("/user/username", { username: saniUsr });
-      if (status !== 200)
-        setValid({
-          valid: false,
-          msg: data.message || "Username is taken",
-        });
-      else
-        setValid({
-          valid: true,
-          msg: data.message || "avialiable",
-        });
-    } else
-      setValid({
-        valid: false,
-        msg: "field is empty",
-      });
-    console.log("usernam", saniUsr);
-  }
+  // // eslint-disable-next-line react-hooks/exhaustive-deps
+  // const debouncedFilter = useCallback(
+  //   debounce((event: ChangeEvent<HTMLInputElement>) => {
+  //     handleUsernameValidityCheck(event.target.value);
+  //   }, 1000),
+  //   []
+  // );
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const debouncedFilter = useCallback(
-    debounce((event: ChangeEvent<HTMLInputElement>) => {
-      handleUsernameValidityCheck(event.target.value);
-    }, 1000),
-    []
-  );
-
-  console.log("modal Data", modalData);
+  // console.log("modal Data", modalData);
 
   const handleSubmit = async (e: FormEvent) => {
-    console.log("final Data", modalData);
+    // console.log("final Data", modalData);
     e.preventDefault();
 
     // TODO:// add only if changed
-    if (usrValid.valid === true) {
-      const formData = new FormData();
-      if (modalData.image) formData.append("image", modalData.image);
-      formData.append("firstName", modalData.firstName);
-      formData.append("lastName", modalData.lastName);
-      formData.append("email", modalData.email);
-      formData.append("username", modalData.username);
-      console.log("formdata", formData, formData.entries());
-      try {
-        const { data, status } = await instance.post("/user/edit", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        });
-        console.log("🚀 ~ file: profile.comp.tsx ~ line 74 ~ handleSubmit ~ data, status", data, status);
-        if (status !== 200) {
-          toast.error(data.message || "Something Went Wrong!");
-        } else {
-          queryClient.invalidateQueries("user");
-          toast.success("Update Success full");
-        }
-      } catch (error) {
-        console.log("error", JSON.stringify(error));
-      } finally {
-        setEdit(false);
+
+    const formData = new FormData();
+    if (modalData.image) formData.append("image", modalData.image);
+    formData.append("firstName", modalData.firstName);
+    formData.append("lastName", modalData.lastName);
+    formData.append("email", modalData.email);
+
+    try {
+      const { data, status } = await instance.post("/user/edit", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      if (status !== 200) {
+        toast.error(data.message || "Something Went Wrong!");
+      } else {
+        queryClient.invalidateQueries("user");
+        toast.success("Update Success full");
       }
+    } catch (error) {
+      console.log("error", JSON.stringify(error));
+    } finally {
+      setEdit(false);
     }
   };
   return (
@@ -134,12 +105,8 @@ function EditProfileModal({
           firstName: user.name.firstName,
           lastName: user.name.lastName,
           email: user.email,
-          username: user.username,
+
           image: null,
-        });
-        setValid({
-          valid: false,
-          msg: "",
         });
       }}
     >
@@ -181,67 +148,7 @@ function EditProfileModal({
               </label>
             </div>
           </div>
-          <div className="mt-2">
-            <label className="relative block mb-2 p-3 border-2 border-gray-200 rounded-lg" htmlFor="email">
-              <input
-                className="w-full px-0 pt-5 pb-0 text-sm placeholder-transparent border-none outline-none peer"
-                id="email"
-                type="text"
-                name="username"
-                // onBlur={debouncedFilter}
-                value={modalData.username}
-                onChange={e => {
-                  setModalData({ ...modalData, username: e.target.value });
-                  debouncedFilter(e);
-                }}
-                placeholder="Name"
-              />
-              <span className="absolute text-xs font-medium text-gray-500 transition-all left-3 peer-focus:text-xs peer-focus:top-3 peer-focus:translate-y-0 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-sm">
-                username
-              </span>
-            </label>
 
-            {modalData.username !== user.username &&
-              (usrValid.valid ? (
-                <div className="alert alert-success shadow-lg">
-                  <div>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="stroke-current flex-shrink-0 h-6 w-6"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                      />
-                    </svg>
-                    <span>{usrValid.msg}</span>
-                  </div>
-                </div>
-              ) : (
-                <div className="alert alert-error shadow-lg">
-                  <div>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="stroke-current flex-shrink-0 h-6 w-6"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-                      />
-                    </svg>
-                    <span>{usrValid.msg}</span>
-                  </div>
-                </div>
-              ))}
-          </div>
           <div className="mt-2">
             <label className="relative block p-3 border-2 border-gray-200 rounded-lg" htmlFor="email">
               <input
@@ -295,8 +202,7 @@ function EditProfileModal({
                 initialData.firstName === modalData.firstName &&
                 initialData.lastName === modalData.lastName &&
                 initialData.email === modalData.email &&
-                initialData.image === modalData.image &&
-                initialData.username === modalData.username
+                initialData.image === modalData.image
               }
               className="ml-auto mt-4"
             >
@@ -310,7 +216,7 @@ function EditProfileModal({
 }
 
 export default function UserProfile({ user }: { user: User }) {
-  const { isAuth, isLoading, isFetched } = useUserQuery();
+  const { isAuth, user: curUser, isLoading, isFetched } = useUserQuery();
   const router = useRouter();
   const [edit, setEdit] = useState(false);
 
@@ -365,7 +271,7 @@ export default function UserProfile({ user }: { user: User }) {
         <div className="flex flex-col">
           <div className="font-semibold flex justify-between items-center">
             <span>General Info</span>
-            {isFetched && isAuth && (
+            {isFetched && isAuth && ownPage(curUser && curUser._id, user._id) && (
               <button type="button" onClick={() => setEdit(true)}>
                 <div
                   className="p-4 mr-4 hover:bg-purple outline-none rounded-xl tooltip hover:cursor-pointer"
@@ -439,7 +345,7 @@ export default function UserProfile({ user }: { user: User }) {
                   {/* Create auto populate doc user */}
                   <div>
                     CreatedBy:{"  "}
-                    {workspace.createdBy === user?.id ? "You" : workspace.createdBy}
+                    {workspace.createdBy === user?._id ? "You" : workspace.createdBy}
                   </div>
                   <button
                     disabled

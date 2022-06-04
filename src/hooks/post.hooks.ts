@@ -20,7 +20,6 @@ export const usePostsQuery = () => {
     refetchOnWindowFocus: false,
     enabled: isFetched && !!user,
   });
-  console.log("🚀 ~ file: Post.hooks.ts ~ line 18 ~ postRes ~ postRes", postRes);
 
   let posts: Post[] | null = null;
   let statusCode = 400;
@@ -39,7 +38,6 @@ export const usePostDetailsQuery = (id: string) => {
     refetchOnWindowFocus: false,
     enabled: isFetched && !!user,
   });
-  console.log("🚀 ~ file: Post.hooks.ts ~ line 18 ~ postRes ~ postRes", postRes);
 
   let post: Post | null = null;
   let statusCode = postRes?.data?.status || 400;

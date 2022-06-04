@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 
 export default function FeedPostDetails() {
   const router = useRouter();
-  console.log(router);
+
   const { postid } = router.query;
   return (
     <>

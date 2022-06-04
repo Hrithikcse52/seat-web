@@ -52,7 +52,6 @@ export default function EditorRich(props: { workspace: string; toogle: Dispatch<
       <Button
         className="ml-auto my-4 mr-4"
         onClick={() => {
-          console.log("final data", value, editor);
           let raw;
           if (editor && editor.getContents) raw = editor.getContents();
           if (raw && raw.ops) {

@@ -29,7 +29,7 @@ function Modal({
           toast.error(data.message || "Could not Join");
           return;
         }
-        console.log("data on joinein", data, status, restData);
+
         toast.success(data.message);
         quertClient.invalidateQueries("user");
       } catch (err) {

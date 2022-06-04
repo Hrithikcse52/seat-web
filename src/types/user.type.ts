@@ -5,9 +5,8 @@ export interface User {
   };
   email: string;
   username: string;
-  id: string;
+  _id: string;
   role: string;
-  phone: number;
   profileImg: string;
   status: string;
   ogImage: string;

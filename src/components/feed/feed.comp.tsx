@@ -5,7 +5,6 @@ import ScrollFeed from "./scrollFeed.comp";
 export default function FeedPosts() {
   const { user, isFetched } = useUserQuery();
   const { posts } = usePostsQuery();
-  console.log("posts", posts);
   if (isFetched && !user) return <>Loading..</>;
 
   return (

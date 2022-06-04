@@ -10,13 +10,14 @@ import { useRouter } from "next/router";
 
 const queryClient = new QueryClient();
 
+const noWrap = ["/login", "/", "/register"];
+
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
-  console.log({ pageProps }, router.pathname);
   return (
     <QueryClientProvider client={queryClient}>
       <NavBarNew />
-      {router.pathname === "/login" || router.pathname === "/" ? (
+      {noWrap.includes(router.pathname) ? (
         <Component {...pageProps} />
       ) : (
         <Feed>

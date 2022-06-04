@@ -13,13 +13,13 @@ import sanitize from "sanitize-html";
 import instance from "utils/axios";
 import { getFullName } from "utils/nav.helper";
 import Link from "next/link";
+import { isPostLiked } from "utils/user.helper";
 
 export default function ScrollFeed() {
   const { user, isAuth, isFetched } = useUserQuery();
   const [value, setValue] = useState("");
   const queryClient = useQueryClient();
   const { posts, isFetched: isPostFetched, isLoading } = usePostsQuery();
-  console.log("posts", posts);
 
   const [editor, setEditor] = useState<Editor.UnprivilegedEditor>();
   const [editorOpen, setEditorOpen] = useState(false);
@@ -42,13 +42,13 @@ export default function ScrollFeed() {
 
   async function handleReaction(action: "like" | "comment", postId: string, index: number, message = "") {
     try {
-      if (action === "like") {
-        const idx = posts?.[index].likes.findIndex(id => id._id === user?.id);
-        console.log("idx", idx);
-        if (idx !== -1) {
-          return;
-        }
-      }
+      // if (action === "like") {
+      //   const idx = posts?.[index].likes.findIndex(id => id._id === user?._id);
+
+      //   if (idx !== -1) {
+      //     return;
+      //   }
+      // }
       const { data, status } = await instance.post("/post/reaction", {
         action,
         postId,
@@ -184,83 +184,87 @@ export default function ScrollFeed() {
           ))}
         {isPostFetched &&
           posts &&
-          posts.map((post, idx) => (
-            <div key={post._id} className="flex w-full p-8 border-b border-gray-300">
-              <Avatar
-                className="flex-shrink-0 w-12 h-12 rounded-full"
-                src={post.createdBy.profileImg}
-                alt={getFullName(post.createdBy.name)}
-              >
-                {post.createdBy.name.firstName[0] + post.createdBy.name.lastName[0]}
-              </Avatar>
+          posts.map((post, idx) => {
+            const like = isPostLiked(user && user._id, post);
+            const likeColor = like ? "blue" : "currentColor";
+            return (
+              <div key={post._id} className="flex w-full p-8 border-b border-gray-300">
+                <Avatar
+                  className="flex-shrink-0 w-12 h-12 rounded-full"
+                  src={post.createdBy.profileImg}
+                  alt={getFullName(post.createdBy.name)}
+                >
+                  {post.createdBy.name.firstName[0] + post.createdBy.name.lastName[0]}
+                </Avatar>
 
-              <div className="flex flex-col flex-grow ml-4">
-                <div className="flex items-center">
-                  <div className="flex flex-col">
-                    <Link href={`/profile/${post.createdBy.username}`} passHref>
-                      <a className=" hover:underline hover:cursor-pointer font-semibold">
-                        {getFullName(post.createdBy.name)}
-                      </a>
-                    </Link>
-                    <Link href={`/profile/${post.createdBy.username}`} passHref>
-                      <a className="hover:underline hover:cursor-pointer ml-1 text-sm">@{post.createdBy.username}</a>
-                    </Link>
-                  </div>
-                  <span className="ml-auto text-sm">{formatDistanceToNow(new Date(post.createdAt))}</span>
-                </div>
-                <div className="mt-1">
-                  <div className="mt-4">
-                    <div
-                      className="font-normal text-sm text-black break-words mb-2 bottom-margin-8"
-                      // eslint-disable-next-line react/no-danger
-                      dangerouslySetInnerHTML={{ __html: sanitize(post.postDataHTML) }}
-                    />
-                  </div>
-                </div>
-
-                <div className="mt-4 w-full flex items-center justify-between">
+                <div className="flex flex-col flex-grow ml-4">
                   <div className="flex items-center">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        handleReaction("like", post._id, idx);
-                      }}
-                      className="flex items-center group mr-8"
-                    >
-                      <div className="border border-gray-gray3 bg-white hover:bg-gray-gray2 cursor-pointer rounded-full flex justify-center items-center transition-all ease-in duration-75 lg:w-8 lg:h-8 w-6 h-6 border-none group-hover:bg-green-lighter group-hover:text-green-bright false">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="18"
-                          height="18"
-                          viewBox="0 0 24 24"
-                          fill="currentColor"
-                        >
-                          <path d="M21.3,10.08A3,3,0,0,0,19,9H14.44L15,7.57A4.13,4.13,0,0,0,11.11,2a1,1,0,0,0-.91.59L7.35,9H5a3,3,0,0,0-3,3v7a3,3,0,0,0,3,3H17.73a3,3,0,0,0,2.95-2.46l1.27-7A3,3,0,0,0,21.3,10.08ZM7,20H5a1,1,0,0,1-1-1V12a1,1,0,0,1,1-1H7Zm13-7.82-1.27,7a1,1,0,0,1-1,.82H9V10.21l2.72-6.12A2.11,2.11,0,0,1,13.1,6.87L12.57,8.3A2,2,0,0,0,14.44,11H19a1,1,0,0,1,.77.36A1,1,0,0,1,20,12.18Z" />
-                        </svg>
-                      </div>
-                      <span className="pl-1 text-sm font-normal">{post.likes.length}</span>
-                    </button>
-                    <Link href={`/feed/${post._id}`} passHref>
-                      <a className="flex items-center group ">
-                        <div className="border border-gray-gray3 bg-white hover:bg-gray-gray2 cursor-pointer rounded-full flex justify-center items-center transition-all ease-in duration-75 lg:w-8 lg:h-8 w-6 h-6 border-none group-hover:bg-green-lighter group-hover:text-green-bright ">
+                    <div className="flex flex-col">
+                      <Link href={`/profile/${post.createdBy.username}`} passHref>
+                        <a className=" hover:underline hover:cursor-pointer font-semibold">
+                          {getFullName(post.createdBy.name)}
+                        </a>
+                      </Link>
+                      <Link href={`/profile/${post.createdBy.username}`} passHref>
+                        <a className="hover:underline hover:cursor-pointer ml-1 text-sm">@{post.createdBy.username}</a>
+                      </Link>
+                    </div>
+                    <span className="ml-auto text-sm">{formatDistanceToNow(new Date(post.createdAt))}</span>
+                  </div>
+                  <div className="mt-1">
+                    <div className="mt-4">
+                      <div
+                        className="font-normal text-sm text-black break-words mb-2 bottom-margin-8"
+                        // eslint-disable-next-line react/no-danger
+                        dangerouslySetInnerHTML={{ __html: sanitize(post.postDataHTML) }}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="mt-4 w-full flex items-center justify-between">
+                    <div className="flex items-center">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          if (!like) handleReaction("like", post._id, idx);
+                        }}
+                        className="flex items-center group mr-8"
+                      >
+                        <div className="border  border-gray-gray3 bg-white hover:bg-gray-gray2 cursor-pointer rounded-full flex justify-center items-center transition-all ease-in duration-75 lg:w-8 lg:h-8 w-6 h-6 border-none group-hover:bg-green-lighter group-hover:text-green-bright false">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="18"
                             height="18"
                             viewBox="0 0 24 24"
-                            fill="currentColor"
+                            fill={likeColor}
                           >
-                            <path d="M13,11H7a1,1,0,0,0,0,2h6a1,1,0,0,0,0-2Zm4-4H7A1,1,0,0,0,7,9H17a1,1,0,0,0,0-2Zm2-5H5A3,3,0,0,0,2,5V15a3,3,0,0,0,3,3H16.59l3.7,3.71A1,1,0,0,0,21,22a.84.84,0,0,0,.38-.08A1,1,0,0,0,22,21V5A3,3,0,0,0,19,2Zm1,16.59-2.29-2.3A1,1,0,0,0,17,16H5a1,1,0,0,1-1-1V5A1,1,0,0,1,5,4H19a1,1,0,0,1,1,1Z" />
+                            <path d="M21.3,10.08A3,3,0,0,0,19,9H14.44L15,7.57A4.13,4.13,0,0,0,11.11,2a1,1,0,0,0-.91.59L7.35,9H5a3,3,0,0,0-3,3v7a3,3,0,0,0,3,3H17.73a3,3,0,0,0,2.95-2.46l1.27-7A3,3,0,0,0,21.3,10.08ZM7,20H5a1,1,0,0,1-1-1V12a1,1,0,0,1,1-1H7Zm13-7.82-1.27,7a1,1,0,0,1-1,.82H9V10.21l2.72-6.12A2.11,2.11,0,0,1,13.1,6.87L12.57,8.3A2,2,0,0,0,14.44,11H19a1,1,0,0,1,.77.36A1,1,0,0,1,20,12.18Z" />
                           </svg>
                         </div>
-                        <span className="pl-1 text-sm font-normal" />
-                      </a>
-                    </Link>
+                        <span className="pl-1 text-sm font-normal">{post.likes.length}</span>
+                      </button>
+                      <Link href={`/feed/${post._id}`} passHref>
+                        <a className="flex items-center group ">
+                          <div className="border border-gray-gray3 bg-white hover:bg-gray-gray2 cursor-pointer rounded-full flex justify-center items-center transition-all ease-in duration-75 lg:w-8 lg:h-8 w-6 h-6 border-none group-hover:bg-green-lighter group-hover:text-green-bright ">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="18"
+                              height="18"
+                              viewBox="0 0 24 24"
+                              fill="currentColor"
+                            >
+                              <path d="M13,11H7a1,1,0,0,0,0,2h6a1,1,0,0,0,0-2Zm4-4H7A1,1,0,0,0,7,9H17a1,1,0,0,0,0-2Zm2-5H5A3,3,0,0,0,2,5V15a3,3,0,0,0,3,3H16.59l3.7,3.71A1,1,0,0,0,21,22a.84.84,0,0,0,.38-.08A1,1,0,0,0,22,21V5A3,3,0,0,0,19,2Zm1,16.59-2.29-2.3A1,1,0,0,0,17,16H5a1,1,0,0,1-1-1V5A1,1,0,0,1,5,4H19a1,1,0,0,1,1,1Z" />
+                            </svg>
+                          </div>
+                          <span className="pl-1 text-sm font-normal" />
+                        </a>
+                      </Link>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
 
         {/* <div className="flex w-full p-8 border-b border-gray-300">
             <span className="flex-shrink-0 w-12 h-12 bg-gray-400 rounded-full" />

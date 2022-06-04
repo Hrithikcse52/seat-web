@@ -24,8 +24,8 @@ function Details({ id }: { id: string }) {
   async function handleReaction(action: "like" | "comment", postId: string, messageStr = "") {
     try {
       if (action === "like") {
-        const idx = post?.likes.findIndex(likeId => likeId._id === user?.id);
-        console.log("idx", idx);
+        const idx = post?.likes.findIndex(likeId => likeId._id === user?._id);
+
         if (idx !== -1) {
           return;
         }
@@ -47,7 +47,7 @@ function Details({ id }: { id: string }) {
       setMessage("");
     }
   }
-  console.log("post", post);
+
   if (post)
     return (
       <div className="w-full">

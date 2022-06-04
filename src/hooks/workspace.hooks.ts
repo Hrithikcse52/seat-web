@@ -32,7 +32,7 @@ export const fetchWorkspace = async (id: string) => {
 
 export const useWorkspacesQuery = () => {
   const { user, isFetched } = useUserQuery();
-  const workspaceResponse = useQuery<WorkSpaceQueryRes>(["managed_workspaces", user?.id], fetchWorkspaces, {
+  const workspaceResponse = useQuery<WorkSpaceQueryRes>(["managed_workspaces", user?._id], fetchWorkspaces, {
     refetchOnMount: false,
     refetchOnWindowFocus: false,
     enabled: isFetched && !!user,

@@ -44,7 +44,6 @@ export default function CreateWorkspace() {
     if (status !== 200) {
       console.log("something went wrong");
     } else {
-      console.log("invalidate workpsace");
       await queryClient.refetchQueries("managed_workspaces");
       navigate("/profile");
     }
@@ -52,7 +51,7 @@ export default function CreateWorkspace() {
   if (isFetched && !isAuth) {
     console.log("retuern ");
   }
-  console.log("data", data);
+
   return (
     <div className="flex flex-col lg:flex-row">
       <div className="flex flex-col my-8 mx-4 p-4 bg-violet-300 rounded-lg">
