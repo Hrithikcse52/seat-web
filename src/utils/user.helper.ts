@@ -1,6 +1,7 @@
 import axios from "axios";
 import { BACKEND_URL } from "config";
 import { Blog } from "types/blog.type";
+import { Conversation } from "types/conversation.type";
 import { Post } from "types/post.type";
 import { User } from "types/user.type";
 import { Workspace } from "types/workspace.type";
@@ -40,4 +41,8 @@ export function ownPage(curUser: string | null, usrPage: string) {
 export function isSpaceMember(workspace: Workspace | undefined, user: string) {
   if (!workspace) return false;
   return !!workspace.members.find(mem => mem._id === user);
+}
+
+export function conversationNameHandler(conversation: Conversation, user: string) {
+  return conversation.participants.findIndex(conv => conv._id !== user);
 }

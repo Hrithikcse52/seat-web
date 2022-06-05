@@ -13,10 +13,12 @@ import Button from "elements/button";
 import { ChangeEvent, Dispatch, FormEvent, SetStateAction, useCallback, useState } from "react";
 import { User } from "types/user.type";
 import instance from "utils/axios";
-import { useQueryClient } from "react-query";
+import { QueryClient, useQueryClient } from "react-query";
 import Link from "next/link";
 import Image from "next/image";
 import { ownPage } from "utils/user.helper";
+import { BACKEND_URL } from "config";
+import { Conversation } from "types/conversation.type";
 
 function EditProfileModal({
   edit,
@@ -222,6 +224,33 @@ export default function UserProfile({ user }: { user: User }) {
   const selfPage = ownPage(curUser && curUser._id, user._id);
   const { workspaces, isFetched: isWorkspaceFetched, isLoading: isWorkLoading } = useWorkspacesQuery();
 
+  const queryClient = useQueryClient();
+
+  async function handleSendMessage() {
+    if (!selfPage && curUser) {
+      const { data, status } = await instance.post(`${BACKEND_URL}/conversation/create`, {
+        user: user._id,
+      });
+      if (status !== 200) {
+        toast.error(data.message || "Something went wrong!");
+        return;
+      }
+      const cacheData = queryClient.getQueryData<{ data: Conversation[]; status: number }>([
+        "conversation",
+        curUser._id,
+      ])?.data;
+      if (!cacheData) {
+        queryClient.refetchQueries("conversation");
+      } else {
+        queryClient.setQueryData(["conversation", curUser._id], {
+          data: [...cacheData, data],
+        });
+      }
+
+      router.push("/inbox");
+    }
+  }
+
   return (
     <div className="flex flex-initial w-full overflow-auto no-scrollbar ">
       {/* <div className="flex flex-col my-8 mx-4 p-4 bg-violet-300 rounded-lg">
@@ -269,6 +298,17 @@ export default function UserProfile({ user }: { user: User }) {
           </div>
         </div>
         <div className="flex flex-col">
+          {!selfPage && (
+            <div className="ml-auto mr-4">
+              <button
+                className="block px-5 py-3 text-sm font-medium text-white transition bg-indigo-600 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring"
+                type="button"
+                onClick={handleSendMessage}
+              >
+                Send Message
+              </button>
+            </div>
+          )}
           <div className="font-semibold flex justify-between items-center">
             <span>General Info</span>
             {isFetched && isAuth && selfPage && (
