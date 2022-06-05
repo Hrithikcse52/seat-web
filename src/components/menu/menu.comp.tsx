@@ -2,7 +2,9 @@ import Loader from "components/loader.comp";
 import { useUserQuery } from "hooks/user.hooks";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { ReactNode } from "react";
+import { io, Socket } from "socket.io-client";
+import { ReactNode, useEffect, useState } from "react";
+import { BACKEND_URL } from "config";
 
 const publicAccessURL = ["/profile/[username]", "/space/[id]"];
 
@@ -79,28 +81,28 @@ const menuItems = [
   //     </svg>
   //   ),
   // },
-  // {
-  //   label: "Inbox",
-  //   route: "/inbox",
-  //   svg: (
-  //     <svg
-  //       xmlns="http://www.w3.org/2000/svg"
-  //       className="icon icon-tabler icon-tabler-inbox"
-  //       width="24"
-  //       height="24"
-  //       viewBox="0 0 24 24"
-  //       strokeWidth="2"
-  //       stroke="currentColor"
-  //       fill="none"
-  //       strokeLinecap="round"
-  //       strokeLinejoin="round"
-  //     >
-  //       <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-  //       <rect x="4" y="4" width="16" height="16" rx="2" />
-  //       <path d="M4 13h3l3 3h4l3 -3h3" />
-  //     </svg>
-  //   ),
-  // },
+  {
+    label: "Inbox",
+    route: "/inbox",
+    svg: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className="icon icon-tabler icon-tabler-inbox"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        strokeWidth="2"
+        stroke="currentColor"
+        fill="none"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+        <rect x="4" y="4" width="16" height="16" rx="2" />
+        <path d="M4 13h3l3 3h4l3 -3h3" />
+      </svg>
+    ),
+  },
   {
     label: "Profile",
     route: "/profile",
@@ -130,6 +132,41 @@ export default function Feed({ children }: { children: ReactNode }) {
   const router = useRouter();
   const publicAccess = publicAccessURL.includes(router.pathname);
   const { user, isAuth, isFetched } = useUserQuery();
+  const [msgSoc, setMsgSoc] = useState<Socket>();
+  useEffect(() => {
+    if (user) {
+      const socket = io(`${BACKEND_URL}/msg`, {
+        forceNew: false,
+        query: {
+          username: user.username,
+          id: user._id,
+        },
+      });
+      socket.on("connect_error", err => {
+        console.log("socket not worrking", err);
+      });
+      socket.on("connection", (...args) => {
+        console.log("socket connected", args);
+      });
+    }
+  }, []);
+  // useEffect(() => {
+  //   if (!msgSoc) {
+  //     const socket = io(`${BACKEND_URL}`, { forceNew: false });
+
+  //     socket.on("connect_error", err => {
+  //       console.log(`connect_error due to ${err.message}`, err);
+  //     });
+  //     socket.on("connection", (...args) => {
+  //       setMsgSoc(socket);
+  //       console.log("socket connected", args);
+  //     });
+  //   }
+  //   console.log("fire socket");
+  //   // return () => {
+  //   //   console.log("fire socket disconnect");
+  //   // };
+  // }, []);
   if (isFetched && !isAuth && publicAccess) {
     return <div>{children}</div>;
   }
