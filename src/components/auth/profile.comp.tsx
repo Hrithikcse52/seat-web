@@ -235,17 +235,8 @@ export default function UserProfile({ user }: { user: User }) {
         toast.error(data.message || "Something went wrong!");
         return;
       }
-      const cacheData = queryClient.getQueryData<{ data: Conversation[]; status: number }>([
-        "conversation",
-        curUser._id,
-      ])?.data;
-      if (!cacheData) {
-        queryClient.refetchQueries("conversation");
-      } else {
-        queryClient.setQueryData(["conversation", curUser._id], {
-          data: [...cacheData, data],
-        });
-      }
+
+      queryClient.refetchQueries("conversation");
 
       router.push("/inbox");
     }

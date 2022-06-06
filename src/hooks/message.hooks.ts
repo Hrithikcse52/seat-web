@@ -33,7 +33,6 @@ export const useConversationQuery = () => {
     }
   );
 
-  console.log("convres", { convRes });
   let conversations: Conversation[] | null = null;
   let statusCode = convRes?.data?.status || 400;
   if (convRes.data && convRes.data.data && convRes.data.status === 200) {
@@ -60,7 +59,6 @@ export const useMessagesQuery = (conversation: string | null) => {
     }
   );
 
-  console.log("mesRes", { mesRes });
   let messages: Message[] | null = null;
   let statusCode = mesRes?.data?.status || 400;
   if (mesRes.data && mesRes.data.data && mesRes.data.status === 200) {

@@ -1,15 +1,22 @@
 /* eslint-disable react/button-has-type */
 /* eslint-disable @next/next/no-img-element */
 
-import Loader from "components/loader.comp";
+import { useEffect, useRef, useState } from "react";
+import { Howl } from "howler";
 import { BACKEND_URL } from "config";
 import { useConversationQuery, useMessagesQuery } from "hooks/message.hooks";
+import { useMsgSocket } from "hooks/socket.hooks";
 import { useUserQuery } from "hooks/user.hooks";
-import { useState } from "react";
 import { useQueryClient } from "react-query";
+import { Participant } from "types/conversation.type";
 import instance from "utils/axios";
+import Loader from "components/loader.comp";
 import { getFullName } from "utils/nav.helper";
 import { conversationNameHandler } from "utils/user.helper";
+
+const howl = new Howl({
+  src: ["notification.wav"],
+});
 
 function ChatBox({ index, receiverIndex }: { index: number; receiverIndex: number }) {
   const { conversations, isFetched } = useConversationQuery();
@@ -17,15 +24,40 @@ function ChatBox({ index, receiverIndex }: { index: number; receiverIndex: numbe
   const [message, setMessage] = useState("");
   const { messages, isFetched: isMsgFetched } = useMessagesQuery(conversations && conversations[index]._id);
   const queryClient = useQueryClient();
-  async function handleSendMessage(receiver: string, conversation: string) {
-    console.log("sending to receiver and conv", conversation, receiver);
-    const { data, status } = await instance.post(`${BACKEND_URL}/conversation/send`, {
-      receiver,
+  const messageContainer = useRef<HTMLDivElement>(null);
+  const { msgSoc } = useMsgSocket();
+
+  function scrollToButtom() {
+    if (messageContainer && messageContainer.current) {
+      messageContainer.current.scrollTo({ top: messageContainer.current.scrollHeight, behavior: "smooth" });
+    }
+  }
+  useEffect(() => {
+    scrollToButtom();
+  }, [messages]);
+
+  useEffect(() => {
+    if (msgSoc && user) {
+      msgSoc.on("newMsg", newMsg => {
+        queryClient.setQueryData(["messages", newMsg.conversation, user._id], (old: any) =>
+          Array.isArray(old.data) ? { data: [...old.data, newMsg], status: old.status } : old
+        );
+        howl.play();
+      });
+    }
+  }, [msgSoc]);
+
+  async function handleSendMessage(receiver: Participant, conversation: string) {
+    const { status } = await instance.post(`${BACKEND_URL}/conversation/send`, {
+      receiver: receiver._id,
+      receiverUsername: receiver.username,
       message,
       conversation,
     });
-    setMessage("");
-    queryClient.invalidateQueries(["messages", conversation]);
+    if (status === 200) {
+      queryClient.invalidateQueries(["messages", conversation]);
+      setMessage("");
+    }
   }
 
   if (isUserFetched && user && isFetched && conversations)
@@ -43,7 +75,7 @@ function ChatBox({ index, receiverIndex }: { index: number; receiverIndex: numbe
             </span>
             <span className="absolute w-3 h-3 bg-green-600 rounded-full left-10 top-3" />
           </div>
-          <div className=" w-full h-[70vh] p-6 overflow-y-auto no-scrollbar">
+          <div ref={messageContainer} className=" w-full h-[70vh] p-6 overflow-y-auto ">
             <ul className="space-y-2">
               {isMsgFetched &&
                 messages &&
@@ -65,105 +97,60 @@ function ChatBox({ index, receiverIndex }: { index: number; receiverIndex: numbe
                     </li>
                   );
                 })}
-              {/* <li className="flex justify-end">
-                <div className="relative max-w-xl px-4 py-2 text-gray-700 bg-gray-100 rounded shadow">
-                  <span className="block">Hiiii</span>
-                </div>
-              </li>
-              <li className="flex justify-end">
-                <div className="relative max-w-xl px-4 py-2 text-gray-700 bg-gray-100 rounded shadow">
-                  <span className="block">how are you?</span>
-                </div>
-              </li>
-              <li className="flex justify-start">
-                <div className="relative max-w-xl px-4 py-2 text-gray-700 rounded shadow">
-                  <span className="block">Lorem ipsum dolor sit, amet consectetur adipisicing elit.</span>
-                </div>
-              </li>
-              <li className="flex justify-start">
-                <div className="relative max-w-xl px-4 py-2 text-gray-700 rounded shadow">
-                  <span className="block">Hi</span>
-                </div>
-              </li>
-              <li className="flex justify-end">
-                <div className="relative max-w-xl px-4 py-2 text-gray-700 bg-gray-100 rounded shadow">
-                  <span className="block">Hiiii</span>
-                </div>
-              </li>
-              <li className="flex justify-end">
-                <div className="relative max-w-xl px-4 py-2 text-gray-700 bg-gray-100 rounded shadow">
-                  <span className="block">how are you?</span>
-                </div>
-              </li>
-              <li className="flex justify-end">
-                <div className="relative max-w-xl px-4 py-2 text-gray-700 rounded shadow">
-                  <span className="block">Lorem ipsum dolor sit, amet consectetur adipisicing elit.</span>
-                </div>
-              </li>
-              <li className="flex justify-end">
-                <div className="relative max-w-xl px-4 py-2 text-gray-700 bg-gray-100 rounded shadow">
-                  <span className="block">Hiiii</span>
-                </div>
-              </li>
-              <li className="flex justify-end">
-                <div className="relative max-w-xl px-4 py-2 text-gray-700 bg-gray-100 rounded shadow">
-                  <span className="block">how are you?</span>
-                </div>
-              </li>
-              <li className="flex justify-end">
-                <div className="relative max-w-xl px-4 py-2 text-gray-700 rounded shadow">
-                  <span className="block">Lorem ipsum dolor sit, amet consectetur adipisicing elit.</span>
-                </div>
-              </li> */}
             </ul>
           </div>
+          <form
+            onSubmit={e => {
+              e.preventDefault();
+              handleSendMessage(conversations[index].participants[receiverIndex], conversations[index]._id);
+            }}
+          >
+            <div className="flex items-center justify-between w-full p-3 border-t border-gray-300">
+              {/* <button>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="w-6 h-6 text-gray-500"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+              </button>
+              <button>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="w-5 h-5 text-gray-500"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"
+                  />
+                </svg>
+              </button> */}
 
-          <div className="flex items-center justify-between w-full p-3 border-t border-gray-300">
-            <button>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-6 h-6 text-gray-500"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
-            </button>
-            <button>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-5 h-5 text-gray-500"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"
-                />
-              </svg>
-            </button>
-
-            <input
-              type="text"
-              value={message}
-              onChange={e => {
-                setMessage(e.target.value);
-              }}
-              placeholder="Message"
-              className="block w-full py-2 pl-4 mx-3 bg-gray-100 rounded-full outline-none focus:text-gray-700"
-              name="message"
-              required
-            />
-            {/* <button>
+              <input
+                type="text"
+                value={message}
+                onChange={e => {
+                  setMessage(e.target.value);
+                }}
+                placeholder="Message"
+                className="block w-full py-2 pl-4 mx-3 bg-gray-100 rounded-full outline-none focus:text-gray-700"
+                name="message"
+                required
+              />
+              {/* <button>
               <svg
               xmlns="http://www.w3.org/2000/svg"
               className="w-5 h-5 text-gray-500"
@@ -180,22 +167,18 @@ function ChatBox({ index, receiverIndex }: { index: number; receiverIndex: numbe
                 />
               </svg>
             </button> */}
-            <button
-              onClick={() => {
-                handleSendMessage(conversations[index].participants[receiverIndex]._id, conversations[index]._id);
-              }}
-              type="button"
-            >
-              <svg
-                className="w-5 h-5 text-gray-500 origin-center transform rotate-90"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
-              </svg>
-            </button>
-          </div>
+              <button type="submit">
+                <svg
+                  className="w-5 h-5 text-gray-500 origin-center transform rotate-90"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
+                </svg>
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     );
@@ -210,7 +193,6 @@ function InboxComp() {
   const [selectedConv, setSelectedCov] = useState(0);
 
   if (isUserFet && user) {
-    console.log("conversations", conversations, isFetched);
     return (
       <div className="w-full h-full">
         <div className=" border rounded lg:grid lg:grid-cols-3">
@@ -246,7 +228,6 @@ function InboxComp() {
                 conversations &&
                 conversations.map((conversation, idx) => {
                   const index = conversationNameHandler(conversation, user._id);
-                  console.log("not user", conversation, index);
                   return (
                     <li key={conversation._id}>
                       <button
