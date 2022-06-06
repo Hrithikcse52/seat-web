@@ -3,7 +3,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Howl } from "howler";
-import { BACKEND_URL } from "config";
+import { BACKEND_URL, projectDesc } from "config";
 import { useConversationQuery, useMessagesQuery } from "hooks/message.hooks";
 import { useMsgSocket } from "hooks/socket.hooks";
 import { useUserQuery } from "hooks/user.hooks";
@@ -13,6 +13,7 @@ import instance from "utils/axios";
 import Loader from "components/loader.comp";
 import { getFullName } from "utils/nav.helper";
 import { conversationNameHandler } from "utils/user.helper";
+import Head from "next/head";
 
 const howl = new Howl({
   src: ["notification.wav"],
@@ -36,13 +37,25 @@ function ChatBox({ index, receiverIndex }: { index: number; receiverIndex: numbe
     scrollToButtom();
   }, [messages]);
 
+  async function handleWebSocket(newMsg: any) {
+    await queryClient.invalidateQueries(["conversation", user?._id]);
+    queryClient.setQueryData(["messages", newMsg.conversation, user?._id], (old: any) =>
+      old && Array.isArray(old.data) ? { data: [...old.data, newMsg], status: old.status } : old
+    );
+    howl.play();
+  }
+
   useEffect(() => {
     if (msgSoc && user) {
       msgSoc.on("newMsg", newMsg => {
-        queryClient.setQueryData(["messages", newMsg.conversation, user._id], (old: any) =>
-          Array.isArray(old.data) ? { data: [...old.data, newMsg], status: old.status } : old
-        );
-        howl.play();
+        handleWebSocket(newMsg);
+        // if (!conversations?.find(conv => conv === newMsg.conversation)) {
+        //   queryClient.invalidateQueries(["messages", newMsg.conversation, user._id]);
+        // }
+        // queryClient.setQueryData(["messages", newMsg.conversation, user._id], (old: any) =>
+        //   Array.isArray(old.data) ? { data: [...old.data, newMsg], status: old.status } : old
+        // );
+        // howl.play();
       });
     }
   }, [msgSoc]);
@@ -259,7 +272,7 @@ function InboxComp() {
             </ul>
           </div>
           {/* top sould be open */}
-          {conversations && (
+          {conversations && conversations.length > 0 && (
             <ChatBox
               index={selectedConv}
               receiverIndex={conversationNameHandler(conversations[selectedConv], user._id)}
@@ -274,8 +287,26 @@ function InboxComp() {
 
 export default function InboxPage() {
   return (
-    <div className="w-full h-[89vh] ">
-      <InboxComp />
-    </div>
+    <>
+      <Head>
+        <link rel="icon" href="/favicon.svg" />
+        <title>Inbox</title>
+        <meta name="description" content={projectDesc.desc} />
+
+        <meta property="og:url" content={projectDesc.site} />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content={projectDesc.title} />
+        <meta property="og:description" content={projectDesc.desc} />
+        <meta property="og:image" content="https://ui-avatars.com/api/?name=demomembook" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta property="twitter:url" content={projectDesc.site} />
+        <meta name="twitter:title" content={projectDesc.title} />
+        <meta name="twitter:description" content={projectDesc.desc} />
+        <meta name="twitter:image" content="https://ui-avatars.com/api/?name=demomembook" />
+      </Head>
+      <div className="w-full h-[89vh] ">
+        <InboxComp />
+      </div>
+    </>
   );
 }
