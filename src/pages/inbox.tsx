@@ -3,7 +3,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Howl } from "howler";
-import { BACKEND_URL } from "config";
+import { BACKEND_URL, projectDesc } from "config";
 import { useConversationQuery, useMessagesQuery } from "hooks/message.hooks";
 import { useMsgSocket } from "hooks/socket.hooks";
 import { useUserQuery } from "hooks/user.hooks";
@@ -13,6 +13,7 @@ import instance from "utils/axios";
 import Loader from "components/loader.comp";
 import { getFullName } from "utils/nav.helper";
 import { conversationNameHandler } from "utils/user.helper";
+import Head from "next/head";
 
 const howl = new Howl({
   src: ["notification.wav"],
@@ -286,8 +287,26 @@ function InboxComp() {
 
 export default function InboxPage() {
   return (
-    <div className="w-full h-[89vh] ">
-      <InboxComp />
-    </div>
+    <>
+      <Head>
+        <link rel="icon" href="/favicon.svg" />
+        <title>Inbox</title>
+        <meta name="description" content={projectDesc.desc} />
+
+        <meta property="og:url" content={projectDesc.site} />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content={projectDesc.title} />
+        <meta property="og:description" content={projectDesc.desc} />
+        <meta property="og:image" content="https://ui-avatars.com/api/?name=demomembook" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta property="twitter:url" content={projectDesc.site} />
+        <meta name="twitter:title" content={projectDesc.title} />
+        <meta name="twitter:description" content={projectDesc.desc} />
+        <meta name="twitter:image" content="https://ui-avatars.com/api/?name=demomembook" />
+      </Head>
+      <div className="w-full h-[89vh] ">
+        <InboxComp />
+      </div>
+    </>
   );
 }
