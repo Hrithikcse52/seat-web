@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import { io, Socket } from "socket.io-client";
 import { ReactNode, useEffect, useState } from "react";
 import { BACKEND_URL } from "config";
+import { useQueryClient } from "react-query";
 
 const publicAccessURL = ["/profile/[username]", "/space/[id]"];
 
@@ -131,25 +132,36 @@ const menuItems = [
 export default function Feed({ children }: { children: ReactNode }) {
   const router = useRouter();
   const publicAccess = publicAccessURL.includes(router.pathname);
+  const queryClient = useQueryClient();
   const { user, isAuth, isFetched } = useUserQuery();
-  const [msgSoc, setMsgSoc] = useState<Socket>();
-  useEffect(() => {
-    if (user) {
-      const socket = io(`${BACKEND_URL}/msg`, {
-        forceNew: false,
-        query: {
-          username: user.username,
-          id: user._id,
-        },
-      });
-      socket.on("connect_error", err => {
-        console.log("socket not worrking", err);
-      });
-      socket.on("connection", (...args) => {
-        console.log("socket connected", args);
-      });
-    }
-  }, []);
+  // const [msgSoc, setMsgSoc] = useState<Socket>();
+  // useEffect(() => {
+  //   if (user && !msgSoc) {
+  //     const socket = io(`${BACKEND_URL}/msg`, {
+  //       forceNew: false,
+  //       query: {
+  //         username: user.username,
+  //         id: user._id,
+  //       },
+  //     });
+  //     socket.on("connect_error", err => {
+  //       console.log("socket not worrking", err);
+  //     });
+  //     socket.on("connection", (...args) => {
+  //       console.log("socket connected", args);
+  //       setMsgSoc(socket);
+  //       queryClient.setQueryData(["msgSoc", user.username], socket);
+  //     });
+  //   }
+  //   return () => {
+  //     console.log("clean up");
+  //     if (msgSoc) {
+  //       msgSoc.disconnect();
+  //       msgSoc.close();
+  //       setMsgSoc(undefined);
+  //     }
+  //   };
+  // }, []);
   // useEffect(() => {
   //   if (!msgSoc) {
   //     const socket = io(`${BACKEND_URL}`, { forceNew: false });
@@ -170,7 +182,6 @@ export default function Feed({ children }: { children: ReactNode }) {
   if (isFetched && !isAuth && publicAccess) {
     return <div>{children}</div>;
   }
-  console.log("public access url check", router.pathname);
 
   if (isFetched && !isAuth && !publicAccess) router.push("/login");
   if (isFetched && isAuth && user) {

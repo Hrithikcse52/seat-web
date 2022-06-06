@@ -1,16 +1,16 @@
+export interface Participant {
+  name: {
+    firstName: string;
+    lastName: string;
+  };
+  _id: string;
+  username: string;
+  profileImg: string;
+}
+
 export interface Conversation {
   _id: string;
-  participants: [
-    {
-      name: {
-        firstName: string;
-        lastName: string;
-      };
-      _id: string;
-      username: string;
-      profileImg: string;
-    }
-  ];
+  participants: Participant[];
 }
 
 export interface Message {
