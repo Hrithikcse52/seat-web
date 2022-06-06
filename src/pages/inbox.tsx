@@ -36,13 +36,25 @@ function ChatBox({ index, receiverIndex }: { index: number; receiverIndex: numbe
     scrollToButtom();
   }, [messages]);
 
+  async function handleWebSocket(newMsg: any) {
+    await queryClient.invalidateQueries(["conversation", user?._id]);
+    queryClient.setQueryData(["messages", newMsg.conversation, user?._id], (old: any) =>
+      old && Array.isArray(old.data) ? { data: [...old.data, newMsg], status: old.status } : old
+    );
+    howl.play();
+  }
+
   useEffect(() => {
     if (msgSoc && user) {
       msgSoc.on("newMsg", newMsg => {
-        queryClient.setQueryData(["messages", newMsg.conversation, user._id], (old: any) =>
-          Array.isArray(old.data) ? { data: [...old.data, newMsg], status: old.status } : old
-        );
-        howl.play();
+        handleWebSocket(newMsg);
+        // if (!conversations?.find(conv => conv === newMsg.conversation)) {
+        //   queryClient.invalidateQueries(["messages", newMsg.conversation, user._id]);
+        // }
+        // queryClient.setQueryData(["messages", newMsg.conversation, user._id], (old: any) =>
+        //   Array.isArray(old.data) ? { data: [...old.data, newMsg], status: old.status } : old
+        // );
+        // howl.play();
       });
     }
   }, [msgSoc]);
@@ -259,7 +271,7 @@ function InboxComp() {
             </ul>
           </div>
           {/* top sould be open */}
-          {conversations && (
+          {conversations && conversations.length > 0 && (
             <ChatBox
               index={selectedConv}
               receiverIndex={conversationNameHandler(conversations[selectedConv], user._id)}

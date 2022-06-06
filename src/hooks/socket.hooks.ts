@@ -10,7 +10,6 @@ export const useMsgSocket = () => {
     if (user && !msgSoc) {
       const socket = io(`${BACKEND_URL}/msg`, {
         transports: ["websocket"],
-        forceNew: false,
         query: {
           username: user.username,
           id: user._id,
