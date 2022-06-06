@@ -12,6 +12,7 @@ import { useRouter } from "next/router";
 import Loader from "components/loader.comp";
 import { useQueryClient } from "react-query";
 import { useState } from "react";
+import { isPostLiked } from "utils/user.helper";
 
 function Details({ id }: { id: string }) {
   const router = useRouter();
@@ -23,13 +24,6 @@ function Details({ id }: { id: string }) {
 
   async function handleReaction(action: "like" | "comment", postId: string, messageStr = "") {
     try {
-      if (action === "like") {
-        const idx = post?.likes.findIndex(likeId => likeId._id === user?._id);
-
-        if (idx !== -1) {
-          return;
-        }
-      }
       const { data, status } = await instance.post("/post/reaction", {
         action,
         postId,
@@ -48,9 +42,11 @@ function Details({ id }: { id: string }) {
     }
   }
 
-  if (post)
+  if (post) {
+    const liked = isPostLiked(user && user._id, post);
+    const likedCol = liked ? "blue" : "currentColor";
     return (
-      <div className="w-full">
+      <div className="w-full overflow-auto no-scrollbar">
         <div className="mt-4  w-8 h-8 rounded-full flex items-center justify-center hover:border-2 hover:cursor-pointer ml-4">
           <Link href="/feed" passHref>
             <a>
@@ -111,13 +107,7 @@ function Details({ id }: { id: string }) {
                   className="flex items-center group mr-8"
                 >
                   <div className="border border-gray-gray3 bg-white hover:bg-gray-gray2 cursor-pointer rounded-full flex justify-center items-center transition-all ease-in duration-75 lg:w-8 lg:h-8 w-6 h-6 border-none group-hover:bg-green-lighter group-hover:text-green-bright false">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="18"
-                      height="18"
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                    >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill={likedCol}>
                       <path d="M21.3,10.08A3,3,0,0,0,19,9H14.44L15,7.57A4.13,4.13,0,0,0,11.11,2a1,1,0,0,0-.91.59L7.35,9H5a3,3,0,0,0-3,3v7a3,3,0,0,0,3,3H17.73a3,3,0,0,0,2.95-2.46l1.27-7A3,3,0,0,0,21.3,10.08ZM7,20H5a1,1,0,0,1-1-1V12a1,1,0,0,1,1-1H7Zm13-7.82-1.27,7a1,1,0,0,1-1,.82H9V10.21l2.72-6.12A2.11,2.11,0,0,1,13.1,6.87L12.57,8.3A2,2,0,0,0,14.44,11H19a1,1,0,0,1,.77.36A1,1,0,0,1,20,12.18Z" />
                     </svg>
                   </div>
@@ -143,11 +133,11 @@ function Details({ id }: { id: string }) {
             </div>
           </div>
         </div>
-        <div className="flex w-full items-start mt-6 mx-6">
+        <div className="flex  items-start mt-6 ">
           <div className="">
             {isUserFetched && user && (
               <Avatar
-                className="flex-shrink-0 w-12 my-2 h-12 rounded-full"
+                className="flex-shrink-0 w-12 my-2 h-12 rounded-full ml-6"
                 src={user.profileImg}
                 alt={getFullName(user.name)}
               >
@@ -155,8 +145,8 @@ function Details({ id }: { id: string }) {
               </Avatar>
             )}
           </div>
-          <div className="flex w-full mx-2 flex-col">
-            <span className=" rounded-xl border-2 mr-4 min-h-12">
+          <div className="flex w-full flex-col">
+            <span className=" rounded-xl border-2 mx-2 min-h-12">
               <input
                 value={message}
                 onChange={e => setMessage(e.target.value)}
@@ -179,18 +169,18 @@ function Details({ id }: { id: string }) {
         {isFetched &&
           post &&
           post.comments.map(comment => (
-            <div key={comment.message} className="flex w-full items-start my-2 mx-6">
+            <div key={comment.message} className="flex w-full items-center my-2 ">
               <div className="">
                 <Avatar
-                  className="flex-shrink-0 w-12 my-2 h-12 rounded-full"
+                  className="flex w-12 my-2 h-12 rounded-full ml-6"
                   src={comment.user.profileImg}
                   alt={getFullName(comment.user.name)}
                 >
                   {comment.user.name.firstName[0] + comment.user.name.lastName[0]}
                 </Avatar>
               </div>
-              <div className="flex w-full mx-2 flex-col">
-                <span className="mr-4 min-h-12">{comment.message}</span>
+              <div className="flex mx-2 w-full border p-4 rounded-lg">
+                <span className="mr-4  flex items-center">{comment.message}</span>
               </div>
             </div>
           ))}
@@ -283,18 +273,15 @@ function Details({ id }: { id: string }) {
         </div>
       </div>
     );
+  }
   return <Loader />;
 }
 
 export default function PostDetails({ post }: { post: string }) {
-  const { user, isFetched } = useUserQuery();
-  const { posts } = usePostsQuery();
-  const router = useRouter();
-
   return (
     <div className="flex w-full">
       <Details id={post} />
-      <div className="flex flex-col flex-shrink-0 w-1/4 py-4 pl-4">
+      <div className="flex  flex-col border-l flex-shrink-0 w-1/4 py-4 pl-4">
         <h3 className="mt-6 w-full font-semibold">Trending</h3>
         <div className="flex w-full py-4 border-b border-gray-300">
           <span className="flex-shrink-0 w-10 h-10 bg-gray-400 rounded-full" />
