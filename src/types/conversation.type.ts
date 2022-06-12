@@ -7,12 +7,6 @@ export interface Participant {
   username: string;
   profileImg: string;
 }
-
-export interface Conversation {
-  _id: string;
-  participants: Participant[];
-}
-
 export interface Message {
   conversation: string;
   sender: string;
@@ -20,4 +14,11 @@ export interface Message {
   message: string;
   _id: string;
   createdAt: string;
+}
+
+export interface Conversation {
+  _id: string;
+  participants: Participant[];
+  createdAt: string;
+  chat: Message;
 }

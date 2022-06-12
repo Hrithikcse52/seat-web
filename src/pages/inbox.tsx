@@ -14,6 +14,7 @@ import Loader from "components/loader.comp";
 import { getFullName } from "utils/nav.helper";
 import { conversationNameHandler } from "utils/user.helper";
 import Head from "next/head";
+import { formatDistanceToNow } from "date-fns";
 
 const howl = new Howl({
   src: ["notification.wav"],
@@ -261,9 +262,13 @@ function InboxComp() {
                             <span className="block ml-2 font-semibold text-gray-600">
                               {getFullName(conversation.participants[index].name)}
                             </span>
-                            <span className="block ml-2 text-sm text-gray-600">25 minutes</span>
+                            <span className="block ml-2 text-sm text-gray-600">
+                              {formatDistanceToNow(new Date(conversation.chat.createdAt ?? conversation.createdAt))}
+                            </span>
                           </div>
-                          <span className="ml-2 self-start text-sm text-gray-600">bye</span>
+                          <span className="ml-2 self-start text-sm text-gray-600">
+                            {conversation.chat.message ?? "Send First Message.."}
+                          </span>
                         </div>
                       </button>
                     </li>
