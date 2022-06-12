@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.3](https://github.com/Hrithikcse52/seat-web/compare/v0.0.2...v0.0.3) (2022-06-12)
+
+
+### Features
+
+* chat and conversations added ([014644e](https://github.com/Hrithikcse52/seat-web/commit/014644ee2b9a9e7c9adb2429cee2a58df6c7d20f))
+* comment feature added on space blogs ([c49909b](https://github.com/Hrithikcse52/seat-web/commit/c49909b81ff5989e76f0fa72c3e18b56893b0a31))
+* index page redesign ([c216cc4](https://github.com/Hrithikcse52/seat-web/commit/c216cc43aab21b52f11436d943931940122e1ef4))
+* socket added for client msg ([9f2e704](https://github.com/Hrithikcse52/seat-web/commit/9f2e7044f13c26110011e3b967d37b69e00ea493))
+* trending algo implimented ([8515442](https://github.com/Hrithikcse52/seat-web/commit/8515442046b1f36cf6fd57c2ff8ee26352d178d7))
+* websockets integeration on chat ([f315565](https://github.com/Hrithikcse52/seat-web/commit/f315565b48d6fb36c18710df89140c1a002a9888))
+
 ### [0.0.2](https://github.com/Hrithikcse52/seat-web/compare/v0.1.5...v0.0.2) (2022-06-04)
 
 
