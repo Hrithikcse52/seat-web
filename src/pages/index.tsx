@@ -1,11 +1,22 @@
+import axios from "axios";
 import Footer from "components/footer/footer.comp";
 import FAQ from "components/home/faq.comp";
 import Featurepage from "components/home/feature.comp";
-import { projectDesc } from "config";
-
+import JoinNetwork from "components/home/joinnewtwork.comp";
+import { BACKEND_URL, projectDesc } from "config";
 import Head from "next/head";
+import { User } from "types/user.type";
 
-function Home() {
+export async function getStaticProps() {
+  const data = await axios.get(`${BACKEND_URL}/meta/users`);
+  return {
+    props: {
+      users: data.data,
+    },
+  };
+}
+
+function Home({ users }: { users: User[] }) {
   return (
     <>
       <Head>
@@ -26,6 +37,7 @@ function Home() {
       </Head>
       {/* <HomeCarausel /> */}
       <Featurepage />
+      <JoinNetwork users={users} />
       <FAQ />
       <Footer />
     </>

@@ -4,8 +4,9 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { io, Socket } from "socket.io-client";
 import { ReactNode, useEffect, useState } from "react";
-import { BACKEND_URL } from "config";
+import { BACKEND_URL, packageVer } from "config";
 import { useQueryClient } from "react-query";
+import Logo from "components/logo.comp";
 
 const publicAccessURL = ["/profile/[username]", "/space/[id]"];
 
@@ -132,53 +133,7 @@ const menuItems = [
 export default function Feed({ children }: { children: ReactNode }) {
   const router = useRouter();
   const publicAccess = publicAccessURL.includes(router.pathname);
-  const queryClient = useQueryClient();
   const { user, isAuth, isFetched } = useUserQuery();
-  // const [msgSoc, setMsgSoc] = useState<Socket>();
-  // useEffect(() => {
-  //   if (user && !msgSoc) {
-  //     const socket = io(`${BACKEND_URL}/msg`, {
-  //       forceNew: false,
-  //       query: {
-  //         username: user.username,
-  //         id: user._id,
-  //       },
-  //     });
-  //     socket.on("connect_error", err => {
-  //       console.log("socket not worrking", err);
-  //     });
-  //     socket.on("connection", (...args) => {
-  //       console.log("socket connected", args);
-  //       setMsgSoc(socket);
-  //       queryClient.setQueryData(["msgSoc", user.username], socket);
-  //     });
-  //   }
-  //   return () => {
-  //     console.log("clean up");
-  //     if (msgSoc) {
-  //       msgSoc.disconnect();
-  //       msgSoc.close();
-  //       setMsgSoc(undefined);
-  //     }
-  //   };
-  // }, []);
-  // useEffect(() => {
-  //   if (!msgSoc) {
-  //     const socket = io(`${BACKEND_URL}`, { forceNew: false });
-
-  //     socket.on("connect_error", err => {
-  //       console.log(`connect_error due to ${err.message}`, err);
-  //     });
-  //     socket.on("connection", (...args) => {
-  //       setMsgSoc(socket);
-  //       console.log("socket connected", args);
-  //     });
-  //   }
-  //   console.log("fire socket");
-  //   // return () => {
-  //   //   console.log("fire socket disconnect");
-  //   // };
-  // }, []);
   if (isFetched && !isAuth && publicAccess) {
     return <div>{children}</div>;
   }
@@ -205,13 +160,18 @@ export default function Feed({ children }: { children: ReactNode }) {
                 </a>
               </Link>
             ))}
-            <a className="flex px-3 py-2 mt-auto text-lg rounded-sm font-medium hover:bg-gray-200">
-              <span className="flex-shrink-0 w-10 h-10 bg-gray-400 rounded-full" />
-              <div className="flex flex-col ml-2">
-                <span className="mt-1 text-sm font-semibold leading-none">Username</span>
-                <span className="mt-1 text-xs leading-none">@username</span>
-              </div>
-            </a>
+            {/* <Link href="/feed" passHref>
+              <a className="flex px-3 py-2 mt-auto text-lg rounded-sm font-medium hover:bg-gray-200">
+                <span className="mt-1 w-full flex-shrink-0 break-words text-xs">
+                  Share your Thoughts in the network
+                </span>
+              </a>
+            </Link> */}
+            <div className="mt-auto text-xs px-2 py-2 rounded-sm font-medium flex flex-col items-center self-start">
+              <Logo />
+              <span> Version: {packageVer.version}</span>
+              <span>All Rights Reserved © 2022.</span>
+            </div>
           </div>
           {children}
         </div>
