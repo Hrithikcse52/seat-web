@@ -1,4 +1,5 @@
 import { Avatar } from "@mantine/core";
+import Logo from "components/logo.comp";
 import { clearAllCache, useUserQuery } from "hooks/user.hooks";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -15,11 +16,7 @@ export default function NavBarNew() {
   return (
     <nav className="border-b w-full ">
       <div className="flex items-center justify-between h-[10vh] bg-slate-100 mx-auto w-full px-8">
-        <div className="flex items-center justify-center ">
-          <Link href="/" passHref>
-            <a className="flex items-center">membook</a>
-          </Link>
-        </div>
+        <Logo />
 
         <div className="flex items-center justify-end flex-1">
           <div className="flex items-center">
