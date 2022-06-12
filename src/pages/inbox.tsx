@@ -211,7 +211,7 @@ function InboxComp() {
       <div className="w-full h-full">
         <div className=" border rounded lg:grid lg:grid-cols-3">
           <div className="border-r border-gray-300 lg:col-span-1">
-            <div className="mx-3 my-3">
+            {/* <div className="mx-3 my-3">
               <div className="relative text-gray-600">
                 <span className="absolute inset-y-0 left-0 flex items-center pl-2">
                   <svg
@@ -234,7 +234,7 @@ function InboxComp() {
                   required
                 />
               </div>
-            </div>
+            </div> */}
 
             <ul className="overflow-auto ">
               <h2 className="my-2 mb-2 ml-2 text-lg text-gray-600">Chats</h2>
