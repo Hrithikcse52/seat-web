@@ -32,6 +32,7 @@ export const useConversationQuery = () => {
       enabled: !!userId,
     }
   );
+  console.log("conv res", convRes);
 
   let conversations: Conversation[] | null = null;
   let statusCode = convRes?.data?.status || 400;
