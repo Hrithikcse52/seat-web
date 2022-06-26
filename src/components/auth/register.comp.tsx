@@ -24,10 +24,27 @@ export default function RegisterCard() {
   const handleLoginSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setLoading(!loading);
-    const { status, data } = await axios.post(`${BACKEND_URL}/user/register`, regData, { withCredentials: true });
-    // console.log("stats", status, data);
-    if (status !== 200) {
-      toast.error("Username/Email Or Password is Wrong");
+    try {
+      const { status, data } = await axios.post(`${BACKEND_URL}/user/register`, regData, { withCredentials: true });
+      if (status !== 200) {
+        toast.error(data.message ?? "something went wrong");
+        setRegData({
+          firstName: "",
+          lastName: "",
+          email: "",
+          password: "",
+          username: "",
+          phone: "",
+        });
+      } else {
+        await queryClient.invalidateQueries("user");
+        // console.log("called this invalidate");
+        await router.push("/feed");
+      }
+    } catch (error) {
+      console.log("errir", error);
+      const message = (error as any).response.data.message ?? "something went wrong";
+      toast.error(message);
       setRegData({
         firstName: "",
         lastName: "",
@@ -36,10 +53,6 @@ export default function RegisterCard() {
         username: "",
         phone: "",
       });
-    } else {
-      await queryClient.invalidateQueries("user");
-      // console.log("called this invalidate");
-      await router.push("/feed");
     }
   };
   //   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -55,7 +68,6 @@ export default function RegisterCard() {
   //   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log("files", e.target.name);
     if (e.target.files && e.target.type === "file") {
       console.log("files", e.target.name);
     } else {
@@ -76,8 +88,7 @@ export default function RegisterCard() {
           <h1 className="text-2xl font-bold sm:text-3xl">Get started today!</h1>
 
           <p className="mt-4 text-gray-500">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Et libero nulla eaque error neque ipsa culpa autem,
-            at itaque nostrum!
+            membook is the place you can get to know people, troll your friends, and more fun
           </p>
         </div>
 
@@ -194,6 +205,9 @@ export default function RegisterCard() {
               <input
                 type="text"
                 id="username"
+                onBlur={e => {
+                  console.log(e);
+                }}
                 name="username"
                 onChange={handleChange}
                 value={regData.username}
