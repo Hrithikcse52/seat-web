@@ -295,6 +295,7 @@ export default function RegisterCard() {
 
             <button
               type="submit"
+              disabled={loading}
               className="flex content-center items-center px-5 py-3 ml-3 text-sm font-medium text-white bg-blue-500 rounded-lg"
             >
               {loading && (
