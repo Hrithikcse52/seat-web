@@ -18,7 +18,7 @@ export default function LoginCard() {
   const [loading, setLoading] = useState(false);
   const handleLoginSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    setLoading(!loading);
+    setLoading(true);
     const { status, data } = await axios.post(`${BACKEND_URL}/user/login`, loginData, { withCredentials: true });
     // console.log("stats", status, data);
     if (status !== 200) {
@@ -31,6 +31,7 @@ export default function LoginCard() {
       await queryClient.invalidateQueries("user");
       // console.log("called this invalidate");
       await router.push("/feed");
+      setLoading(false);
     }
   };
 
@@ -38,15 +39,15 @@ export default function LoginCard() {
     setLoginData({ ...loginData, emailOrusername: e.target.value });
   const setPassword = (e: ChangeEvent<HTMLInputElement>) => setLoginData({ ...loginData, password: e.target.value });
   return (
-    <section className="relative flex flex-wrap lg:h-screen lg:items-center">
-      <div className="relative w-full h-64 sm:h-96 lg:w-1/2 lg:h-full">
+    <section className=" flex flex-wrap lg:h-[89vh] items-center">
+      <div className="w-full lg:w-1/2">
         <img
-          className="absolute inset-0 object-cover w-full h-full"
-          src="https://www.hyperui.dev/photos/team-1.jpeg"
+          className=" w-full h-[89vh]"
+          src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&q=100"
           alt=""
         />
       </div>
-      <div className="w-full px-4 py-12 lg:w-1/2 sm:px-6 lg:px-8 sm:py-16 lg:py-24">
+      <div className=" px-4 py-12 lg:w-1/2 sm:px-6 lg:px-8 sm:py-16 lg:py-24">
         <div className="max-w-lg mx-auto text-center">
           <h1 className="text-2xl font-bold sm:text-3xl">Get started today!</h1>
 
@@ -138,8 +139,25 @@ export default function LoginCard() {
 
             <button
               type="submit"
-              className="inline-block px-5 py-3 ml-3 text-sm font-medium text-white bg-blue-500 rounded-lg"
+              className="flex content-center items-center px-5 py-3 ml-3 text-sm font-medium text-white bg-blue-500 rounded-lg"
             >
+              {loading && (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="icon icon-tabler animate-spin mr-2 icon-tabler-loader-2"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  strokeWidth="2"
+                  stroke="currentColor"
+                  fill="none"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                  <path d="M12 3a9 9 0 1 0 9 9" />
+                </svg>
+              )}
               Sign in
             </button>
           </div>

@@ -23,7 +23,7 @@ export default function RegisterCard() {
   const [loading, setLoading] = useState(false);
   const handleLoginSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    setLoading(!loading);
+    setLoading(true);
     try {
       const { status, data } = await axios.post(`${BACKEND_URL}/user/register`, regData, { withCredentials: true });
       if (status !== 200) {
@@ -54,6 +54,7 @@ export default function RegisterCard() {
         phone: "",
       });
     }
+    setLoading(false);
   };
   //   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
   //     // console.log("handle change", e.target.type);
@@ -79,11 +80,15 @@ export default function RegisterCard() {
   };
 
   return (
-    <section className="relative flex flex-wrap h-full items-center">
-      <div className="relative w-full h-64 sm:h-96 lg:w-1/2 lg:h-full">
-        <img className="object-fill w-full h-full" src="https://www.hyperui.dev/photos/team-1.jpeg" alt="" />
+    <section className=" flex flex-wrap h-[89vh] items-center">
+      <div className=" w-full lg:w-1/2">
+        <img
+          className=" w-full h-[89vh]"
+          src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&q=100"
+          alt=""
+        />
       </div>
-      <div className="w-full px-4 py-12 lg:w-1/2 sm:px-6 lg:px-8 sm:py-16 lg:py-24">
+      <div className="w-full px-4 py-10 lg:w-1/2 sm:px-6 lg:px-8 sm:py-16 lg:py-22">
         <div className="max-w-lg mx-auto text-center">
           <h1 className="text-2xl font-bold sm:text-3xl">Get started today!</h1>
 
@@ -290,8 +295,25 @@ export default function RegisterCard() {
 
             <button
               type="submit"
-              className="inline-block px-5 py-3 ml-3 text-sm font-medium text-white bg-blue-500 rounded-lg"
+              className="flex content-center items-center px-5 py-3 ml-3 text-sm font-medium text-white bg-blue-500 rounded-lg"
             >
+              {loading && (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="icon icon-tabler animate-spin mr-2 icon-tabler-loader-2"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  strokeWidth="2"
+                  stroke="currentColor"
+                  fill="none"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                  <path d="M12 3a9 9 0 1 0 9 9" />
+                </svg>
+              )}
               Register
             </button>
           </div>
